@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Righteous Vine Missions</title>
 
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -15,78 +16,152 @@ header{background:#4A1A7A;color:#fff;padding:20px;text-align:center}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
 .card{background:#fff;padding:20px;border-radius:15px;box-shadow:0 10px 25px rgba(0,0,0,.08)}
 .btn{background:#D4A017;padding:10px 20px;border:none;border-radius:25px;cursor:pointer}
-h2{font-family:'Playfair Display'}
 input{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #ccc}
+img{width:100%;border-radius:10px}
+iframe{width:100%;height:200px;border:none;border-radius:10px}
+.hidden{display:none}
 </style>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+window.db=db;
+window.auth=auth;
+window.addDoc=addDoc;
+window.collection=collection;
+window.getDocs=getDocs;
+window.signInWithEmailAndPassword=signInWithEmailAndPassword;
+window.onAuthStateChanged=onAuthStateChanged;
+window.signOut=signOut;
+</script>
+
 </head>
 
 <body>
 
 <header>
-<h1>Righteous Vine Missions Dashboard</h1>
+<h1>Righteous Vine Missions Platform</h1>
 </header>
 
 <div class="container">
 
+<div class="card">
+<h3>Admin Login</h3>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()" class="btn">Login</button>
+<button onclick="logout()" class="btn">Logout</button>
+</div>
+
+<div id="dashboard" class="hidden">
+
 <div class="grid">
+
+<div class="card">
+<h3>Add Image</h3>
+<input id="imgUrl" placeholder="Image URL">
+<button onclick="addImage()" class="btn">Upload</button>
+</div>
+
+<div class="card">
+<h3>Add Video</h3>
+<input id="videoUrl" placeholder="YouTube Embed URL">
+<button onclick="addVideo()" class="btn">Upload</button>
+</div>
+
 <div class="card">
 <h3>Add Donation</h3>
 <input id="amount" placeholder="Amount">
 <button onclick="addDonation()" class="btn">Add</button>
 </div>
 
-<div class="card">
-<h3>Total Donations</h3>
-<h2 id="total">$0</h2>
 </div>
 
-<div class="card">
-<h3>Total Donors</h3>
-<h2 id="count">0</h2>
-</div>
 </div>
 
-<div class="card">
-<h2>Donation Analytics</h2>
+<h2>Gallery</h2>
+<div id="gallery" class="grid"></div>
+
+<h2>Videos</h2>
+<div id="videos" class="grid"></div>
+
+<h2>Analytics</h2>
 <canvas id="chart"></canvas>
-</div>
 
 </div>
 
 <script>
-let donations = [];
-
-function addDonation(){
-  let val = parseFloat(document.getElementById('amount').value);
-  if(!val) return;
-  donations.push(val);
-  updateUI();
+function login(){
+ signInWithEmailAndPassword(auth,email.value,password.value)
+ .then(()=>alert("Logged in"))
+ .catch(e=>alert(e.message));
 }
 
-function updateUI(){
-  let total = donations.reduce((a,b)=>a+b,0);
-  document.getElementById('total').innerText = "$"+total;
-  document.getElementById('count').innerText = donations.length;
+function logout(){ signOut(auth); }
 
-  renderChart();
+onAuthStateChanged(auth,user=>{
+ document.getElementById('dashboard').classList.toggle('hidden',!user);
+});
+
+let donations=[];
+
+async function addImage(){
+ await addDoc(collection(db,'images'),{url:imgUrl.value});
+ loadAll();
+}
+
+async function addVideo(){
+ await addDoc(collection(db,'videos'),{url:videoUrl.value});
+ loadAll();
+}
+
+async function addDonation(){
+ let val=parseFloat(amount.value);
+ donations.push(val);
+ await addDoc(collection(db,'donors'),{amount:val});
+ loadAll();
+ updateChart();
+}
+
+async function loadAll(){
+ const imgSnap = await getDocs(collection(db,'images'));
+ gallery.innerHTML = imgSnap.docs.map(d=>`<img src="${d.data().url}">`).join('');
+
+ const vidSnap = await getDocs(collection(db,'videos'));
+ videos.innerHTML = vidSnap.docs.map(d=>`<iframe src="${d.data().url}"></iframe>`).join('');
 }
 
 let chart;
-function renderChart(){
-  const ctx = document.getElementById('chart').getContext('2d');
+function updateChart(){
+ const ctx=document.getElementById('chart').getContext('2d');
+ if(chart) chart.destroy();
 
-  if(chart) chart.destroy();
+ chart=new Chart(ctx,{
+  type:'bar',
+  data:{
+   labels:donations.map((_,i)=>"D"+(i+1)),
+   datasets:[{label:'Donations',data:donations}]
+  }
+ });
+}
 
-  chart = new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels: donations.map((_,i)=>"Donation "+(i+1)),
-      datasets:[{
-        label:'Donations',
-        data: donations
-      }]
-    }
-  });
+loadAll();
+
+// PWA
+if('serviceWorker' in navigator){
+ navigator.serviceWorker.register('service-worker.js');
 }
 </script>
 
