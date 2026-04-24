@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin Dashboard — TRVM</title>
+<style>
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0f0f13;
+  --surface:#1a1a24;
+  --surface2:#222232;
+  --border:#2e2e42;
+  --purple:#6B2FA0;
+  --purple-light:#9B59D0;
+  --gold:#D4A017;
+  --gold-light:#f0c040;
+  --text:#e8e8f0;
+  --text-muted:#8888aa;
+  --red:#e74c3c;
+  --green:#27ae60;
+  --blue:#2980b9;
+  --radius:10px;
+  --sidebar:240px;
+}
+html,body{height:100%;font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+button{cursor:pointer;font-family:inherit;}
+input,textarea,select{font-family:inherit;font-size:14px;}
+a{color:var(--gold);text-decoration:none;}
+a:hover{color:var(--gold-light);}
+img{max-width:100%;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--surface);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ═══════════════════════════════════════
+   LOGIN SCREEN
+═══════════════════════════════════════ */
+#loginScreen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  background:linear-gradient(135deg,#0a0015 0%,#1a0a30 50%,#0d0d20 100%);
+}
+.login-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:2.5rem 2rem;
+  width:100%;max-width:380px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.login-box img{height:80px;width:auto;margin-bottom:1.2rem;}
+.login-box h1{font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.3rem;}
+.login-box p{color:var(--text-muted);font-size:0.85rem;margin-bottom:1.8rem;}
+.login-field{margin-bottom:1rem;text-align:left;}
+.login-field label{display:block;font-size:0.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;}
+.login-field input{
+  width:100%;padding:0.75rem 1rem;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius);color:var(--text);outline:none;
+  transition:border-color 0.2s;
+}
+.login-field input:focus{border-color:var(--purple);}
+.btn-login{
+  width:100%;padding:0.85rem;
+  background:linear-gradient(135deg,var(--purple),var(--purple-light));
+  color:#fff;border:none;border-radius:var(--radius);
+  font-size:1rem;font-weight:600;margin-top:0.5rem;
+  transition:opacity 0.2s;
+}
+.btn-login:hover{opacity:0.88;}
+#loginError{color:var(--red);font-size:0.82rem;margin-top:0.8rem;display:none;}
+.login-hint{color:var(--text-muted);font-size:0.75rem;margin-top:1rem;}
+
+/* ═══════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════ */
+#app{display:none;height:100vh;overflow:hidden;}
+#app.show{display:flex;}
+
+/* ── Sidebar ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+}
+.sidebar-logo{
+  padding:1.2rem 1rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:0.7rem;
+}
+.sidebar-logo img{height:36px;width:auto;}
+.sidebar-logo span{font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;line-height:1.3;}
+.sidebar-section{padding:0.8rem 0.5rem 0.3rem 1rem;font-size:0.65rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;}
+.nav-item{
+  display:flex;align-items:center;gap:0.7rem;
+  padding:0.65rem 1rem;margin:0.1rem 0.5rem;
+  border-radius:8px;cursor:pointer;
+  color:var(--text-muted);font-size:0.88rem;font-weight:500;
+  transition:all 0.15s;
+}
+.nav-item:hover{background:var(--surface2);color:var(--text);}
+.nav-item.active{background:rgba(107,47,160,0.2);color:var(--purple-light);font-weight:600;}
+.nav-item .nav-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--purple);color:#fff;font-size:0.65rem;font-weight:700;padding:0.15rem 0.45rem;border-radius:50px;}
+.sidebar-footer{margin-top:auto;padding:1rem;border-top:1px solid var(--border);}
+.sidebar-user{display:flex;align-items:center;gap:0.6rem;}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple-light));display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;color:#fff;flex-shrink:0;}
+.user-info{flex:1;min-width:0;}
+.user-name{font-size:0.82rem;font-weight:600;color:var(--text);}
+.user-role{font-size:0.72rem;color:var(--text-muted);}
+.btn-logout{background:none;border:none;color:var(--text-muted);font-size:1rem;padding:0.25rem;border-radius:6px;transition:color 0.2s;}
+.btn-logout:hover{color:var(--red);}
+
+/* ── Main content area ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.5rem;height:60px;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.topbar-title{font-size:1.05rem;font-weight:700;color:var(--text);}
+.topbar-actions{display:flex;align-items:center;gap:0.8rem;}
+.content{flex:1;overflow-y:auto;padding:1.5rem;}
+
+/* ═══════════════════════════════════════
+   SHARED COMPONENTS
+═══════════════════════════════════════ */
+.page{display:none;}
+.page.active{display:block;}
+
+/* Cards */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1rem;}
+.stat-card .stat-icon{font-size:1.6rem;margin-bottom:0.5rem;}
+.stat-card .stat-val{font-size:1.6rem;font-weight:800;color:var(--text);}
+.stat-card .stat-lbl{font-size:0.75rem;color:var(--text-muted);margin-top:0.1rem;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.55rem 1.1rem;border-radius:8px;font-size:0.85rem;font-weight:600;border:none;transition:all 0.15s;cursor:pointer;}
+.btn-primary{background:linear-gradient(135deg,var(--purple),var(--purple-light));color:#fff;}
+.btn-primary:hover{opacity:0.88;}
+.btn-gold{background:var(--gold);color:#111;}
+.btn-gold:hover{background:var(--gold-light);}
+.btn-danger{background:rgba(231,76,60,0.15);color:var(--red);border:1px solid rgba(231,76,60,0.3);}
+.btn-danger:hover{background:rgba(231,76,60,0.25);}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--purple);}
+.btn-sm{padding:0.35rem 0.7rem;font-size:0.78rem;}
+.btn-icon{padding:0.45rem;border-radius:8px;background:var(--surface2);border:1px solid var(--border);color:var(--text-muted);font-size:1rem;}
+.btn-icon:hover{color:var(--text);border-color:var(--purple);}
+
+/* Forms */
+.form-group{margin-bottom:1.1rem;}
+.form-label{display:block;font-size:0.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.4rem;}
+.form-input{width:100%;padding:0.7rem 0.9rem;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:var(--purple);}
+.form-textarea{resize:vertical;min-height:120px;}
+.form-select{width:100%;padding:0.7rem 0.9rem;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);outline:none;cursor:pointer;}
+
+/* Cards / Panels */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.panel-title{font-size:0.95rem;font-weight:700;color:var(--text);}
+.section-title{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:1rem;}
+
+/* Tables */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);}
+td{padding:0.75rem 0.8rem;border-bottom:1px solid var(--border);font-size:0.86rem;color:var(--text);vertical-align:middle;}
+tr:hover td{background:rgba(255,255,255,0.02);}
+tr:last-child td{border-bottom:none;}
+
+/* Tags / badges */
+.badge{display:inline-block;padding:0.2rem 0.6rem;border-radius:50px;font-size:0.7rem;font-weight:700;}
+.badge-purple{background:rgba(107,47,160,0.2);color:var(--purple-light);}
+.badge-green{background:rgba(39,174,96,0.15);color:var(--green);}
+.badge-gold{background:rgba(212,160,23,0.15);color:var(--gold);}
+.badge-red{background:rgba(231,76,60,0.15);color:var(--red);}
+.badge-blue{background:rgba(41,128,185,0.15);color:var(--blue);}
+
+/* Rich text editor */
+.rte-toolbar{display:flex;gap:0.3rem;flex-wrap:wrap;padding:0.5rem;background:var(--surface2);border:1px solid var(--border);border-bottom:none;border-radius:8px 8px 0 0;}
+.rte-btn{background:none;border:1px solid transparent;border-radius:5px;color:var(--text-muted);padding:0.3rem 0.5rem;font-size:0.82rem;transition:all 0.15s;font-weight:600;}
+.rte-btn:hover,.rte-btn.active{background:var(--surface);border-color:var(--border);color:var(--text);}
+.rte-sep{width:1px;background:var(--border);margin:0.2rem 0.2rem;}
+.rte-body{min-height:200px;padding:1rem;background:var(--surface2);border:1px solid var(--border);border-radius:0 0 8px 8px;color:var(--text);outline:none;line-height:1.7;font-size:0.9rem;}
+.rte-body:focus{border-color:var(--purple);}
+.rte-body h2{font-size:1.3rem;font-weight:700;margin:0.8rem 0 0.4rem;}
+.rte-body h3{font-size:1.1rem;font-weight:700;margin:0.6rem 0 0.3rem;}
+.rte-body blockquote{border-left:3px solid var(--gold);padding-left:0.8rem;color:var(--text-muted);font-style:italic;margin:0.6rem 0;}
+.rte-body p{margin-bottom:0.6rem;}
+
+/* Media grid */
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.8rem;}
+.media-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all 0.2s;position:relative;}
+.media-card:hover{border-color:var(--purple);transform:translateY(-2px);}
+.media-card.selected{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,160,23,0.3);}
+.media-thumb{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:var(--surface);}
+.media-thumb-placeholder{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:2rem;background:var(--surface);}
+.media-info{padding:0.4rem 0.5rem;}
+.media-name{font-size:0.72rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.media-size{font-size:0.65rem;color:var(--text-muted);}
+.media-check{position:absolute;top:0.4rem;right:0.4rem;width:20px;height:20px;border-radius:50%;background:var(--gold);color:#111;font-size:0.7rem;display:none;align-items:center;justify-content:center;font-weight:700;}
+.media-card.selected .media-check{display:flex;}
+
+/* Drop zone */
+.dropzone{
+  border:2px dashed var(--border);border-radius:var(--radius);padding:2.5rem 1.5rem;
+  text-align:center;cursor:pointer;transition:all 0.2s;
+}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--purple);background:rgba(107,47,160,0.05);}
+.dropzone .dz-icon{font-size:2.5rem;margin-bottom:0.5rem;}
+.dropzone p{color:var(--text-muted);font-size:0.88rem;}
+.dropzone strong{color:var(--purple-light);}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);}
+.modal-title{font-size:1rem;font-weight:700;color:var(--text);}
+.modal-close{background:none;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer;padding:0.2rem;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:1.5rem;}
+.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:0.6rem;}
+
+/* Toast */
+#toastContainer{position:fixed;bottom:1.5rem;right:1.5rem;display:flex;flex-direction:column;gap:0.5rem;z-index:2000;}
+.toast{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.8rem 1.2rem;font-size:0.85rem;color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,0.4);display:flex;align-items:center;gap:0.6rem;animation:slideIn 0.25s ease;min-width:220px;}
+.toast.success{border-color:var(--green);}
+.toast.error{border-color:var(--red);}
+.toast.info{border-color:var(--purple);}
+@keyframes slideIn{from{transform:translateX(30px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* Progress bar */
+.progress-bar{width:100%;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:0.5rem;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--purple-light));border-radius:3px;transition:width 0.3s;}
+
+/* Tabs */
+.tabs{display:flex;gap:0.2rem;border-bottom:1px solid var(--border);margin-bottom:1.2rem;}
+.tab-btn2{background:none;border:none;color:var(--text-muted);font-size:0.88rem;font-weight:600;padding:0.6rem 1rem;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;}
+.tab-btn2:hover{color:var(--text);}
+.tab-btn2.active{color:var(--purple-light);border-bottom-color:var(--purple-light);}
+.tab-content2{display:none;}
+.tab-content2.active{display:block;}
+
+/* Search / filter bar */
+.filter-bar{display:flex;align-items:center;gap:0.7rem;margin-bottom:1.2rem;flex-wrap:wrap;}
+.search-input{flex:1;min-width:180px;padding:0.6rem 0.9rem;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);outline:none;}
+.search-input:focus{border-color:var(--purple);}
+
+/* Org / folder view */
+.folder-tree{display:flex;flex-direction:column;gap:0.3rem;}
+.folder-item{display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0.7rem;border-radius:7px;cursor:pointer;font-size:0.86rem;color:var(--text-muted);transition:all 0.15s;}
+.folder-item:hover{background:var(--surface2);color:var(--text);}
+.folder-item.active{background:rgba(107,47,160,0.15);color:var(--purple-light);}
+
+/* Misc */
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--text-muted);}
+.empty-state .empty-icon{font-size:3rem;margin-bottom:0.8rem;}
+.empty-state p{font-size:0.9rem;margin-bottom:1rem;}
+.divider{border:none;border-top:1px solid var(--border);margin:1.2rem 0;}
+.text-muted{color:var(--text-muted);}
+.gap-row{display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <img src="/images/logo.png" alt="TRVM"/>
+    <h1>Admin Dashboard</h1>
+    <p>The Righteous Vine Missions</p>
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="admin" autocomplete="username"/>
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="btn-login" onclick="doLogin()">Sign In</button>
+    <p id="loginError">Incorrect username or password.</p>
+    <p class="login-hint">Default: admin / trvm2024</p>
+  </div>
+</div>
+
+<!-- ═══ APP ═══ -->
+<div id="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="/images/logo.png" alt="TRVM"/>
+      <span>Admin<br/>Dashboard</span>
+    </div>
+
+    <div class="sidebar-section">Overview</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)">
+      <span class="nav-icon">📊</span> Dashboard
+    </div>
+
+    <div class="sidebar-section">Content</div>
+    <div class="nav-item" onclick="showPage('devotions',this)">
+      <span class="nav-icon">📖</span> Devotions
+      <span class="nav-badge" id="devotBadge">0</span>
+    </div>
+    <div class="nav-item" onclick="showPage('books',this)">
+      <span class="nav-icon">📚</span> Books
+      <span class="nav-badge" id="booksBadge">0</span>
+    </div>
+    <div class="nav-item" onclick="showPage('pages',this)">
+      <span class="nav-icon">✏️</span> Edit Page Text
+    </div>
+
+    <div class="sidebar-section">Media</div>
+    <div class="nav-item" onclick="showPage('media',this)">
+      <span class="nav-icon">🖼️</span> Media Library
+      <span class="nav-badge" id="mediaBadge">0</span>
+    </div>
+    <div class="nav-item" onclick="showPage('videos',this)">
+      <span class="nav-icon">🎬</span> Videos
+      <span class="nav-badge" id="videosBadge">0</span>
+    </div>
+    <div class="nav-item" onclick="showPage('gallery_mgr',this)">
+      <span class="nav-icon">🗂️</span> Organise Gallery
+    </div>
+
+    <div class="sidebar-section">Settings</div>
+    <div class="nav-item" onclick="showPage('settings',this)">
+      <span class="nav-icon">⚙️</span> Settings
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar" id="userAvatar">A</div>
+        <div class="user-info">
+          <div class="user-name" id="userDisplayName">Admin</div>
+          <div class="user-role">Administrator</div>
+        </div>
+        <button class="btn-logout" onclick="doLogout()" title="Logout">⏻</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-sm" id="topbarCTA" onclick="topbarAction()">+ New Devotion</button>
+      </div>
+    </div>
+    <div class="content" id="mainContent">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="page active" id="page-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📖</div>
+            <div class="stat-val" id="dashDevotCount">0</div>
+            <div class="stat-lbl">Devotions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-val" id="dashBookCount">0</div>
+            <div class="stat-lbl">Books</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🖼️</div>
+            <div class="stat-val" id="dashMediaCount">0</div>
+            <div class="stat-lbl">Media Files</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎬</div>
+            <div class="stat-val" id="dashVideoCount">0</div>
+            <div class="stat-lbl">Videos</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Recent Devotions</span>
+              <button class="btn btn-ghost btn-sm" onclick="showPage('devotions')">View All</button>
+            </div>
+            <div id="dashRecentDevot"><p class="text-muted" style="font-size:0.85rem;">No devotions yet.</p></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <span class="panel-title">Recent Uploads</span>
+              <button class="btn btn-ghost btn-sm" onclick="showPage('media')">View All</button>
+            </div>
+            <div id="dashRecentMedia"><p class="text-muted" style="font-size:0.85rem;">No media yet.</p></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:1rem;">
+          <div class="panel-title" style="margin-bottom:0.8rem;">Quick Actions</div>
+          <div class="gap-row">
+            <button class="btn btn-primary" onclick="showPage('devotions');openDevotionModal()">✏️ Write Devotion</button>
+            <button class="btn btn-gold" onclick="showPage('books');openBookModal()">📚 Upload Book</button>
+            <button class="btn btn-ghost" onclick="showPage('media');triggerUpload()">🖼️ Upload Media</button>
+            <button class="btn btn-ghost" onclick="showPage('videos');openVideoModal()">🎬 Add Video</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DEVOTIONS ── -->
+      <div class="page" id="page-devotions">
+        <div class="filter-bar">
+          <input class="search-input" id="devotSearch" placeholder="🔍  Search devotions..." oninput="renderDevotions()"/>
+          <select class="form-select" style="width:auto;" id="devotFilter" onchange="renderDevotions()">
+            <option value="">All Tags</option>
+            <option>Faith</option><option>Prayer</option><option>Purpose</option><option>Healing</option><option>Words</option>
+          </select>
+        </div>
+        <div id="devotionsList"></div>
+      </div>
+
+      <!-- ── BOOKS ── -->
+      <div class="page" id="page-books">
+        <div class="filter-bar">
+          <input class="search-input" id="booksSearch" placeholder="🔍  Search books..." oninput="renderBooks()"/>
+        </div>
+        <div id="booksList"></div>
+      </div>
+
+      <!-- ── EDIT PAGE TEXT ── -->
+      <div class="page" id="page-pages">
+        <div class="tabs">
+          <button class="tab-btn2 active" onclick="switchPageTab('about',this)">About Us</button>
+          <button class="tab-btn2" onclick="switchPageTab('contact_txt',this)">Contact Info</button>
+          <button class="tab-btn2" onclick="switchPageTab('donate_txt',this)">Donate Section</button>
+          <button class="tab-btn2" onclick="switchPageTab('footer_txt',this)">Footer</button>
+        </div>
+
+        <div class="tab-content2 active" id="ptab-about">
+          <div class="panel">
+            <div class="panel-title" style="margin-bottom:1rem;">About Us Page Content</div>
+            <div class="form-group">
+              <label class="form-label">Vision Statement</label>
+              <textarea class="form-input form-textarea" id="pt-vision" rows="4"
+                placeholder="Enter the vision statement..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Paragraph 1</label>
+              <textarea class="form-input form-textarea" id="pt-p1" rows="4"
+                placeholder="First paragraph..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Paragraph 2</label>
+              <textarea class="form-input form-textarea" id="pt-p2" rows="4"
+                placeholder="Second paragraph..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Scripture Quote</label>
+              <input class="form-input" id="pt-scripture" placeholder="e.g. John 15:5"/>
+            </div>
+            <button class="btn btn-primary" onclick="savePageText()">💾 Save Changes</button>
+            <span id="pageTextSaved" style="color:var(--green);margin-left:0.8rem;font-size:0.82rem;display:none;">✅ Saved!</span>
+          </div>
+        </div>
+
+        <div class="tab-content2" id="ptab-contact_txt">
+          <div class="panel">
+            <div class="panel-title" style="margin-bottom:1rem;">Contact Information</div>
+            <div class="two-col">
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input class="form-input" id="pt-email" value="eogyakari@gmail.com"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input class="form-input" id="pt-phone" placeholder="+1 234 567 8900"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Address / Location</label>
+              <textarea class="form-input" rows="3" id="pt-address" placeholder="Physical address..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="savePageText()">💾 Save Changes</button>
+          </div>
+        </div>
+
+        <div class="tab-content2" id="ptab-donate_txt">
+          <div class="panel">
+            <div class="panel-title" style="margin-bottom:1rem;">Donate / CTA Section</div>
+            <div class="form-group">
+              <label class="form-label">Section Heading</label>
+              <input class="form-input" id="pt-donate-title" value="Partner With the Mission"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description Text</label>
+              <textarea class="form-input form-textarea" id="pt-donate-desc" rows="3"
+                placeholder="Description under the donate heading..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Button Text</label>
+              <input class="form-input" id="pt-donate-btn" value="Give Today 🌿"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Payment Link (Paystack URL)</label>
+              <input class="form-input" id="pt-paystack" value="https://paystack.shop/pay/vt_j1cmjlse"/>
+            </div>
+            <button class="btn btn-primary" onclick="savePageText()">💾 Save Changes</button>
+          </div>
+        </div>
+
+        <div class="tab-content2" id="ptab-footer_txt">
+          <div class="panel">
+            <div class="panel-title" style="margin-bottom:1rem;">Footer Text</div>
+            <div class="form-group">
+              <label class="form-label">Tagline</label>
+              <input class="form-input" id="pt-tagline" value="Rooted in Faith · Growing in Love · Bearing Fruit for All Nations"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Copyright Notice</label>
+              <input class="form-input" id="pt-copyright" value="© 2026 The Righteous Vine Missions. All rights reserved."/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Facebook URL</label>
+              <input class="form-input" id="pt-fb" value="https://www.facebook.com/therighteousvinemissions"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Instagram Handle</label>
+              <input class="form-input" id="pt-ig" value="@the_rvm"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">TikTok Handle</label>
+              <input class="form-input" id="pt-tt" value="@trvmissions"/>
+            </div>
+            <button class="btn btn-primary" onclick="savePageText()">💾 Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MEDIA LIBRARY ── -->
+      <div class="page" id="page-media">
+        <div class="filter-bar">
+          <input class="search-input" id="mediaSearch" placeholder="🔍  Search media..." oninput="renderMedia()"/>
+          <select class="form-select" style="width:auto;" id="mediaFilter" onchange="renderMedia()">
+            <option value="">All Folders</option>
+            <option>Ghana</option><option>Kenya</option><option>Indonesia</option><option>Liberia</option><option>Events</option><option>Team</option>
+          </select>
+          <button class="btn btn-primary" onclick="triggerUpload()">⬆ Upload Images</button>
+          <input type="file" id="mediaUploadInput" accept="image/*" multiple style="display:none" onchange="handleMediaUpload(event)"/>
+        </div>
+
+        <!-- Drop zone -->
+        <div class="dropzone" id="mediaDropzone" onclick="triggerUpload()"
+          ondragover="event.preventDefault();this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="handleDrop(event)">
+          <div class="dz-icon">📸</div>
+          <p><strong>Click to upload</strong> or drag & drop images here</p>
+          <p style="font-size:0.78rem;margin-top:0.3rem;">JPG, PNG, WEBP — up to 10MB each</p>
+        </div>
+        <hr class="divider"/>
+
+        <div id="mediaGallery"></div>
+
+        <!-- Selected actions bar -->
+        <div id="mediaActionsBar" style="display:none;position:sticky;bottom:1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.8rem 1.2rem;display:none;align-items:center;gap:1rem;margin-top:1rem;box-shadow:0 8px 30px rgba(0,0,0,0.4);">
+          <span id="selectedCount" style="font-size:0.85rem;color:var(--text-muted);"></span>
+          <button class="btn btn-ghost btn-sm" onclick="moveSelected()">📁 Move to Folder</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteSelected()">🗑️ Delete Selected</button>
+          <button class="btn btn-ghost btn-sm" onclick="clearSelection()">✕ Clear</button>
+        </div>
+      </div>
+
+      <!-- ── VIDEOS ── -->
+      <div class="page" id="page-videos">
+        <div id="videosList"></div>
+      </div>
+
+      <!-- ── ORGANISE GALLERY ── -->
+      <div class="page" id="page-gallery_mgr">
+        <div style="display:grid;grid-template-columns:200px 1fr;gap:1rem;">
+          <div class="panel" style="height:fit-content;">
+            <div class="panel-title" style="margin-bottom:0.8rem;">Folders</div>
+            <div class="folder-tree" id="folderTree"></div>
+            <hr class="divider"/>
+            <div class="form-group">
+              <input class="form-input" id="newFolderName" placeholder="New folder name"/>
+            </div>
+            <button class="btn btn-ghost btn-sm" style="width:100%;" onclick="createFolder()">+ Create Folder</button>
+          </div>
+          <div>
+            <div class="panel-header">
+              <span class="panel-title" id="galleryFolderTitle">All Media</span>
+              <div class="gap-row">
+                <button class="btn btn-ghost btn-sm" onclick="selectAllInFolder()">Select All</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteSelected()">Delete Selected</button>
+              </div>
+            </div>
+            <div class="media-grid" id="galleryMgrGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div class="page" id="page-settings">
+        <div class="panel" style="max-width:480px;">
+          <div class="panel-title" style="margin-bottom:1.2rem;">Account Settings</div>
+          <div class="form-group">
+            <label class="form-label">Display Name</label>
+            <input class="form-input" id="set-name" placeholder="Your name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Change Password</label>
+            <input class="form-input" type="password" id="set-oldpass" placeholder="Current password"/>
+          </div>
+          <div class="form-group">
+            <input class="form-input" type="password" id="set-newpass" placeholder="New password"/>
+          </div>
+          <div class="form-group">
+            <input class="form-input" type="password" id="set-confirmpass" placeholder="Confirm new password"/>
+          </div>
+          <button class="btn btn-primary" onclick="saveSettings()">💾 Save Settings</button>
+          <hr class="divider"/>
+          <div class="panel-title" style="margin-bottom:0.8rem;">Data Management</div>
+          <div class="gap-row">
+            <button class="btn btn-ghost btn-sm" onclick="exportData()">📤 Export All Data</button>
+            <button class="btn btn-danger btn-sm" onclick="clearAllData()">🗑️ Clear All Data</button>
+          </div>
+          <p class="text-muted" style="font-size:0.78rem;margin-top:0.7rem;">All content is stored in your browser's localStorage. Export regularly to back up your data.</p>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div><!-- /app -->
+
+<!-- ── MODALS ── -->
+
+<!-- Devotion Modal -->
+<div class="modal-overlay" id="devotionModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="devotModalTitle">New Devotion</span>
+      <button class="modal-close" onclick="closeModal('devotionModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="two-col">
+        <div class="form-group">
+          <label class="form-label">Title *</label>
+          <input class="form-input" id="d-title" placeholder="Devotion title..."/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tag / Category</label>
+          <select class="form-select" id="d-tag">
+            <option>Faith</option><option>Prayer</option><option>Purpose</option><option>Healing</option><option>Words</option><option>Worship</option><option>Missions</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Key Scripture</label>
+        <input class="form-input" id="d-scripture" placeholder="e.g. Proverbs 18:21 · Matthew 12:36"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Content *</label>
+        <div class="rte-toolbar" id="rteToolbar">
+          <button class="rte-btn" onclick="rte('bold')" title="Bold"><b>B</b></button>
+          <button class="rte-btn" onclick="rte('italic')" title="Italic"><i>I</i></button>
+          <button class="rte-btn" onclick="rte('underline')" title="Underline"><u>U</u></button>
+          <div class="rte-sep"></div>
+          <button class="rte-btn" onclick="rteHeading('h2')" title="Heading 2">H2</button>
+          <button class="rte-btn" onclick="rteHeading('h3')" title="Heading 3">H3</button>
+          <div class="rte-sep"></div>
+          <button class="rte-btn" onclick="rte('insertUnorderedList')" title="Bullet list">• List</button>
+          <button class="rte-btn" onclick="rteBlockquote()" title="Quote">❝</button>
+          <div class="rte-sep"></div>
+          <button class="rte-btn" onclick="rte('removeFormat')" title="Clear format">Tx</button>
+        </div>
+        <div class="rte-body" id="rteBody" contenteditable="true"
+          data-placeholder="Write your devotion content here..."
+          oninput="updateRTEPlaceholder()"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="d-status">
+          <option value="draft">Draft</option>
+          <option value="published">Published</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('devotionModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDevotionFromModal()">💾 Save Devotion</button>
+    </div>
+  </div>
+</div>
+
+<!-- Book Modal -->
+<div class="modal-overlay" id="bookModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="bookModalTitle">Upload Book / PDF</span>
+      <button class="modal-close" onclick="closeModal('bookModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Book Title *</label>
+        <input class="form-input" id="b-title" placeholder="e.g. Speak Life"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Author</label>
+        <input class="form-input" id="b-author" placeholder="Author name"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-input form-textarea" id="b-desc" rows="3" placeholder="Brief description of the book..."></textarea>
+      </div>
+      <div class="two-col">
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="b-cat">
+            <option>Faith</option><option>Prayer</option><option>Missions</option><option>Discipleship</option><option>Healing</option><option>Leadership</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price / Access</label>
+          <select class="form-select" id="b-price">
+            <option value="free">Free Download</option>
+            <option value="donation">Donation Required ($50+)</option>
+            <option value="coming">Coming Soon</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Upload PDF</label>
+        <div class="dropzone" onclick="document.getElementById('pdfInput').click()" style="padding:1.5rem;">
+          <div class="dz-icon">📄</div>
+          <p id="pdfLabel"><strong>Click to select PDF</strong> file</p>
+        </div>
+        <input type="file" id="pdfInput" accept=".pdf" style="display:none" onchange="handlePDFSelect(event)"/>
+        <div class="progress-bar" id="pdfProgress" style="display:none;"><div class="progress-fill" id="pdfFill" style="width:0%"></div></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cover Colour</label>
+        <select class="form-select" id="b-colour">
+          <option value="#4A1A7A">Purple (Default)</option>
+          <option value="#1A3C2A">Green</option>
+          <option value="#5a0e00">Red</option>
+          <option value="#062040">Navy</option>
+          <option value="#3a2800">Gold</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('bookModal')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveBook()">📚 Save Book</button>
+    </div>
+  </div>
+</div>
+
+<!-- Video Modal -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add Video</span>
+      <button class="modal-close" onclick="closeModal('videoModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Video Title *</label>
+        <input class="form-input" id="v-title" placeholder="e.g. Sunday Service Highlights"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">YouTube / Vimeo URL</label>
+        <input class="form-input" id="v-url" placeholder="https://www.youtube.com/watch?v=..."/>
+        <p class="text-muted" style="font-size:0.75rem;margin-top:0.3rem;">Paste a YouTube or Vimeo link. It will be embedded automatically.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-input form-textarea" id="v-desc" rows="3" placeholder="Brief description..."></textarea>
+      </div>
+      <div class="two-col">
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="v-cat">
+            <option>Service Highlights</option><option>Mission Report</option><option>Testimony</option><option>Teaching</option><option>Crusade</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="v-status">
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('videoModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveVideo()">🎬 Save Video</button>
+    </div>
+  </div>
+</div>
+
+<!-- Move Folder Modal -->
+<div class="modal-overlay" id="moveFolderModal">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <span class="modal-title">Move to Folder</span>
+      <button class="modal-close" onclick="closeModal('moveFolderModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Select Folder</label>
+        <select class="form-select" id="moveFolderSelect"></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('moveFolderModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmMove()">Move Files</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toastContainer"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  STATE & STORAGE
+// ═══════════════════════════════════════════════════
+const DB = {
+  get(key, def=[]) { try { return JSON.parse(localStorage.getItem('trvm_'+key)) ?? def; } catch { return def; } },
+  set(key, val)    { localStorage.setItem('trvm_'+key, JSON.stringify(val)); },
+};
+
+// ═══════════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════════
+function doLogin() {
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const creds = DB.get('creds', {user:'admin', pass:'trvm2024', name:'Admin'});
+  const err = document.getElementById('loginError');
+  if (user === creds.user && pass === creds.pass) {
+    err.style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').classList.add('show');
+    document.getElementById('userDisplayName').textContent = creds.name || 'Admin';
+    document.getElementById('userAvatar').textContent = (creds.name||'A')[0].toUpperCase();
+    document.getElementById('set-name').value = creds.name || 'Admin';
+    refreshDashboard();
+  } else {
+    err.style.display = 'block';
+    document.getElementById('loginPass').value = '';
+  }
+}
+function doLogout() {
+  document.getElementById('app').classList.remove('show');
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginPass').value = '';
+}
+
+// ═══════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════
+const PAGE_TITLES = {
+  dashboard:'Dashboard', devotions:'Devotions', books:'Books',
+  pages:'Edit Page Text', media:'Media Library', videos:'Videos',
+  gallery_mgr:'Organise Gallery', settings:'Settings'
+};
+const PAGE_CTA = {
+  devotions:['+ New Devotion','openDevotionModal()'],
+  books:['+ Upload Book','openBookModal()'],
+  media:['⬆ Upload','triggerUpload()'],
+  videos:['+ Add Video','openVideoModal()'],
+};
+
+function showPage(id, navEl) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg = document.getElementById('page-'+id);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+  else {
+    document.querySelectorAll('.nav-item').forEach(n=>{
+      if (n.getAttribute('onclick')?.includes("'"+id+"'")) n.classList.add('active');
+    });
+  }
+  document.getElementById('topbarTitle').textContent = PAGE_TITLES[id] || id;
+  const cta = document.getElementById('topbarCTA');
+  if (PAGE_CTA[id]) { cta.style.display=''; cta.textContent=PAGE_CTA[id][0]; cta.setAttribute('onclick',PAGE_CTA[id][1]); }
+  else cta.style.display='none';
+  // Render page content
+  if (id==='devotions') renderDevotions();
+  if (id==='books') renderBooks();
+  if (id==='media') renderMedia();
+  if (id==='videos') renderVideos();
+  if (id==='gallery_mgr') renderGalleryMgr();
+  if (id==='dashboard') refreshDashboard();
+}
+function topbarAction() {
+  const active = document.querySelector('.page.active')?.id?.replace('page-','');
+  if (!active || !PAGE_CTA[active]) return;
+  eval(PAGE_CTA[active][1]);
+}
+
+function switchPageTab(id, btn) {
+  document.querySelectorAll('.tab-btn2').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content2').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('ptab-'+id)?.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════
+//  MODALS
+// ═══════════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('open'); });
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open')); });
+
+// ═══════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════
+function toast(msg, type='success') {
+  const icons = {success:'✅', error:'❌', info:'ℹ️'};
+  const el = document.createElement('div');
+  el.className = 'toast '+type;
+  el.innerHTML = '<span>'+icons[type]+'</span><span>'+msg+'</span>';
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(()=>el.remove(), 3200);
+}
+
+// ═══════════════════════════════════════════════════
+//  DEVOTIONS
+// ═══════════════════════════════════════════════════
+let editingDevotionId = null;
+
+function openDevotionModal(id=null) {
+  editingDevotionId = id;
+  document.getElementById('devotModalTitle').textContent = id ? 'Edit Devotion' : 'New Devotion';
+  if (id) {
+    const devots = DB.get('devotions');
+    const d = devots.find(x=>x.id===id);
+    if (d) {
+      document.getElementById('d-title').value = d.title;
+      document.getElementById('d-tag').value = d.tag||'Faith';
+      document.getElementById('d-scripture').value = d.scripture||'';
+      document.getElementById('d-status').value = d.status||'draft';
+      document.getElementById('rteBody').innerHTML = d.content||'';
+    }
+  } else {
+    document.getElementById('d-title').value='';
+    document.getElementById('d-scripture').value='';
+    document.getElementById('d-status').value='draft';
+    document.getElementById('rteBody').innerHTML='';
+  }
+  openModal('devotionModal');
+}
+
+function saveDevotionFromModal() {
+  const title = document.getElementById('d-title').value.trim();
+  const content = document.getElementById('rteBody').innerHTML.trim();
+  if (!title) { toast('Title is required','error'); return; }
+  if (!content || content==='<br>') { toast('Content is required','error'); return; }
+
+  const devots = DB.get('devotions');
+  if (editingDevotionId) {
+    const i = devots.findIndex(x=>x.id===editingDevotionId);
+    if (i>-1) { devots[i] = {...devots[i], title, content, tag:document.getElementById('d-tag').value, scripture:document.getElementById('d-scripture').value, status:document.getElementById('d-status').value, updated:Date.now()}; }
+  } else {
+    devots.unshift({ id:'d'+Date.now(), title, content, tag:document.getElementById('d-tag').value, scripture:document.getElementById('d-scripture').value, status:document.getElementById('d-status').value, created:Date.now(), updated:Date.now() });
+  }
+  DB.set('devotions', devots);
+  updateBadges();
+  closeModal('devotionModal');
+  renderDevotions();
+  toast(editingDevotionId ? 'Devotion updated!' : 'Devotion saved!');
+}
+
+function deleteDevOtion(id) {
+  if (!confirm('Delete this devotion?')) return;
+  DB.set('devotions', DB.get('devotions').filter(x=>x.id!==id));
+  renderDevotions(); updateBadges(); toast('Devotion deleted','info');
+}
+
+function renderDevotions() {
+  const search = document.getElementById('devotSearch')?.value.toLowerCase()||'';
+  const filter = document.getElementById('devotFilter')?.value||'';
+  let devots = DB.get('devotions');
+  if (search) devots = devots.filter(d=>d.title.toLowerCase().includes(search)||d.tag?.toLowerCase().includes(search));
+  if (filter) devots = devots.filter(d=>d.tag===filter);
+  const el = document.getElementById('devotionsList');
+  if (!devots.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📖</div><p>No devotions yet. Write your first one!</p><button class="btn btn-primary" onclick="openDevotionModal()">+ New Devotion</button></div>';
+    return;
+  }
+  el.innerHTML = '<div class="panel"><div class="table-wrap"><table><thead><tr><th>Title</th><th>Tag</th><th>Scripture</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>' +
+    devots.map(d=>`<tr>
+      <td><strong>${escHtml(d.title)}</strong></td>
+      <td><span class="badge badge-purple">${escHtml(d.tag||'')}</span></td>
+      <td style="color:var(--text-muted);font-size:0.78rem;">${escHtml(d.scripture||'—')}</td>
+      <td><span class="badge ${d.status==='published'?'badge-green':'badge-gold'}">${d.status||'draft'}</span></td>
+      <td style="color:var(--text-muted);font-size:0.8rem;">${fmtDate(d.created)}</td>
+      <td><div class="gap-row">
+        <button class="btn-icon" onclick="openDevotionModal('${d.id}')" title="Edit">✏️</button>
+        <button class="btn-icon" onclick="toggleDevotionStatus('${d.id}')" title="Toggle status">🔄</button>
+        <button class="btn-icon" onclick="deleteDevOtion('${d.id}')" title="Delete">🗑️</button>
+      </div></td>
+    </tr>`).join('') + '</tbody></table></div></div>';
+}
+
+function toggleDevotionStatus(id) {
+  const devots = DB.get('devotions');
+  const i = devots.findIndex(x=>x.id===id);
+  if (i>-1) { devots[i].status = devots[i].status==='published'?'draft':'published'; DB.set('devotions',devots); renderDevotions(); }
+}
+
+// Rich Text Editor
+function rte(cmd) { document.getElementById('rteBody').focus(); document.execCommand(cmd,false,null); }
+function rteHeading(tag) {
+  const body = document.getElementById('rteBody');
+  body.focus();
+  document.execCommand('formatBlock',false,'<'+tag+'>');
+}
+function rteBlockquote() { document.getElementById('rteBody').focus(); document.execCommand('formatBlock',false,'<blockquote>'); }
+function updateRTEPlaceholder() {
+  const b = document.getElementById('rteBody');
+  b.dataset.empty = (!b.textContent.trim()) ? 'true' : 'false';
+}
+
+// ═══════════════════════════════════════════════════
+//  BOOKS
+// ═══════════════════════════════════════════════════
+let editingBookId = null;
+let pendingPDFData = null;
+
+function openBookModal(id=null) {
+  editingBookId = id; pendingPDFData = null;
+  document.getElementById('bookModalTitle').textContent = id ? 'Edit Book' : 'Upload Book / PDF';
+  document.getElementById('pdfLabel').innerHTML = '<strong>Click to select PDF</strong> file';
+  document.getElementById('pdfProgress').style.display='none';
+  if (id) {
+    const b = DB.get('books').find(x=>x.id===id);
+    if (b) {
+      document.getElementById('b-title').value=b.title;
+      document.getElementById('b-author').value=b.author||'';
+      document.getElementById('b-desc').value=b.desc||'';
+      document.getElementById('b-cat').value=b.cat||'Faith';
+      document.getElementById('b-price').value=b.price||'free';
+      document.getElementById('b-colour').value=b.colour||'#4A1A7A';
+    }
+  } else {
+    ['b-title','b-author','b-desc'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('b-price').value='free';
+  }
+  openModal('bookModal');
+}
+
+function handlePDFSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  document.getElementById('pdfLabel').innerHTML = '📄 <strong>' + escHtml(file.name) + '</strong> (' + (file.size/1024/1024).toFixed(1) + ' MB)';
+  // Store file reference (not full base64 for large PDFs to save memory)
+  pendingPDFData = { name: file.name, size: file.size, type: file.type };
+}
+
+function saveBook() {
+  const title = document.getElementById('b-title').value.trim();
+  if (!title) { toast('Title required','error'); return; }
+  const books = DB.get('books');
+  const book = {
+    id: editingBookId || ('b'+Date.now()),
+    title, author:document.getElementById('b-author').value,
+    desc:document.getElementById('b-desc').value,
+    cat:document.getElementById('b-cat').value,
+    price:document.getElementById('b-price').value,
+    colour:document.getElementById('b-colour').value,
+    fileName: pendingPDFData?.name||null,
+    created:Date.now()
+  };
+  if (editingBookId) {
+    const i = books.findIndex(x=>x.id===editingBookId);
+    if (i>-1) books[i]={...books[i],...book};
+  } else {
+    books.unshift(book);
+  }
+  DB.set('books',books);
+  updateBadges(); closeModal('bookModal'); renderBooks();
+  toast(editingBookId?'Book updated!':'Book saved!');
+}
+
+function deleteBook(id) {
+  if (!confirm('Delete this book?')) return;
+  DB.set('books',DB.get('books').filter(x=>x.id!==id));
+  renderBooks(); updateBadges(); toast('Book deleted','info');
+}
+
+function renderBooks() {
+  const search = document.getElementById('booksSearch')?.value.toLowerCase()||'';
+  let books = DB.get('books');
+  if (search) books=books.filter(b=>b.title.toLowerCase().includes(search)||b.author?.toLowerCase().includes(search));
+  const el = document.getElementById('booksList');
+  if (!books.length) {
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">📚</div><p>No books yet. Upload your first book!</p><button class="btn btn-gold" onclick="openBookModal()">+ Upload Book</button></div>';
+    return;
+  }
+  el.innerHTML='<div class="panel"><div class="table-wrap"><table><thead><tr><th>Title</th><th>Author</th><th>Category</th><th>Access</th><th>File</th><th>Date</th><th>Actions</th></tr></thead><tbody>'+
+    books.map(b=>`<tr>
+      <td><div style="display:flex;align-items:center;gap:0.6rem;">
+        <div style="width:28px;height:36px;border-radius:4px;background:${b.colour||'#4A1A7A'};flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:rgba(255,255,255,0.7);">PDF</div>
+        <strong>${escHtml(b.title)}</strong></div></td>
+      <td style="color:var(--text-muted);">${escHtml(b.author||'—')}</td>
+      <td><span class="badge badge-purple">${escHtml(b.cat||'')}</span></td>
+      <td><span class="badge ${b.price==='free'?'badge-green':b.price==='donation'?'badge-gold':'badge-blue'}">${b.price==='free'?'Free':b.price==='donation'?'$50+ Donation':'Coming Soon'}</span></td>
+      <td style="font-size:0.78rem;color:var(--text-muted);">${b.fileName?'📄 '+escHtml(b.fileName):'No file'}</td>
+      <td style="color:var(--text-muted);font-size:0.8rem;">${fmtDate(b.created)}</td>
+      <td><div class="gap-row">
+        <button class="btn-icon" onclick="openBookModal('${b.id}')" title="Edit">✏️</button>
+        <button class="btn-icon" onclick="deleteBook('${b.id}')" title="Delete">🗑️</button>
+      </div></td>
+    </tr>`).join('')+'</tbody></table></div></div>';
+}
+
+// ═══════════════════════════════════════════════════
+//  MEDIA LIBRARY
+// ═══════════════════════════════════════════════════
+let selectedMedia = new Set();
+let activeFolder = '';
+
+function triggerUpload() { document.getElementById('mediaUploadInput').click(); }
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('mediaDropzone').classList.remove('drag-over');
+  const files = Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
+  if (files.length) processImageFiles(files);
+}
+
+function handleMediaUpload(e) {
+  const files = Array.from(e.target.files);
+  processImageFiles(files);
+  e.target.value='';
+}
+
+function processImageFiles(files) {
+  const media = DB.get('media');
+  let done=0;
+  files.forEach(file=>{
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      media.unshift({
+        id:'m'+Date.now()+Math.random().toString(36).slice(2),
+        name:file.name, size:file.size, type:file.type,
+        folder: activeFolder||'', src:ev.target.result, added:Date.now()
+      });
+      done++;
+      if (done===files.length) {
+        DB.set('media',media); renderMedia(); updateBadges();
+        toast(files.length+' image'+(files.length>1?'s':'')+' uploaded!');
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderMedia() {
+  const search = document.getElementById('mediaSearch')?.value.toLowerCase()||'';
+  const folder = document.getElementById('mediaFilter')?.value||'';
+  let items = DB.get('media');
+  if (search) items=items.filter(m=>m.name.toLowerCase().includes(search));
+  if (folder) items=items.filter(m=>m.folder===folder);
+  const el = document.getElementById('mediaGallery');
+  if (!items.length) {
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">🖼️</div><p>No images yet. Upload some!</p></div>';
+    updateActionsBar(); return;
+  }
+  el.innerHTML='<div class="media-grid">'+items.map(m=>`
+    <div class="media-card ${selectedMedia.has(m.id)?'selected':''}" onclick="toggleMediaSelect('${m.id}')">
+      <img class="media-thumb" src="${m.src}" alt="${escHtml(m.name)}" loading="lazy" onerror="this.style.display='none'"/>
+      <div class="media-check">✓</div>
+      <div class="media-info">
+        <div class="media-name">${escHtml(m.name)}</div>
+        <div class="media-size">${fmtSize(m.size)}</div>
+      </div>
+    </div>`).join('')+'</div>';
+  updateActionsBar();
+}
+
+function toggleMediaSelect(id) {
+  if (selectedMedia.has(id)) selectedMedia.delete(id);
+  else selectedMedia.add(id);
+  renderMedia();
+}
+
+function clearSelection() { selectedMedia.clear(); renderMedia(); }
+
+function updateActionsBar() {
+  const bar = document.getElementById('mediaActionsBar');
+  if (!bar) return;
+  if (selectedMedia.size>0) {
+    bar.style.display='flex';
+    document.getElementById('selectedCount').textContent = selectedMedia.size+' file'+(selectedMedia.size>1?'s':'')+' selected';
+  } else bar.style.display='none';
+}
+
+function deleteSelected() {
+  if (!selectedMedia.size) return;
+  if (!confirm('Delete '+selectedMedia.size+' item(s)?')) return;
+  let media = DB.get('media');
+  media = media.filter(m=>!selectedMedia.has(m.id));
+  DB.set('media',media); selectedMedia.clear();
+  renderMedia(); updateBadges(); renderGalleryMgr();
+  toast('Deleted '+selectedMedia.size+' items','info');
+}
+
+function moveSelected() {
+  const folders = DB.get('folders',['Ghana','Kenya','Indonesia','Liberia','Events','Team']);
+  const sel = document.getElementById('moveFolderSelect');
+  sel.innerHTML='<option value="">— No Folder —</option>'+folders.map(f=>'<option>'+escHtml(f)+'</option>').join('');
+  openModal('moveFolderModal');
+}
+
+function confirmMove() {
+  const folder = document.getElementById('moveFolderSelect').value;
+  const media = DB.get('media');
+  media.forEach(m=>{ if(selectedMedia.has(m.id)) m.folder=folder; });
+  DB.set('media',media); selectedMedia.clear();
+  closeModal('moveFolderModal'); renderMedia(); renderGalleryMgr();
+  toast('Files moved!');
+}
+
+function selectAllInFolder() {
+  const folder = document.getElementById('galleryFolderTitle')?.dataset?.folder||'';
+  let items = DB.get('media');
+  if (folder) items=items.filter(m=>m.folder===folder);
+  items.forEach(m=>selectedMedia.add(m.id));
+  renderGalleryMgr(); renderMedia();
+}
+
+// ═══════════════════════════════════════════════════
+//  GALLERY MANAGER
+// ═══════════════════════════════════════════════════
+let galleryActiveFolder = '';
+
+function createFolder() {
+  const name = document.getElementById('newFolderName').value.trim();
+  if (!name) return;
+  const folders = DB.get('folders',['Ghana','Kenya','Indonesia','Liberia','Events','Team']);
+  if (!folders.includes(name)) { folders.push(name); DB.set('folders',folders); }
+  document.getElementById('newFolderName').value='';
+  renderGalleryMgr(); toast('Folder created!');
+}
+
+function renderGalleryMgr() {
+  const folders = DB.get('folders',['Ghana','Kenya','Indonesia','Liberia','Events','Team']);
+  const tree = document.getElementById('folderTree');
+  const media = DB.get('media');
+
+  tree.innerHTML = `<div class="folder-item ${galleryActiveFolder===''?'active':''}" onclick="setGalleryFolder('')">
+    <span>📁</span> All Media <span style="margin-left:auto;font-size:0.72rem;color:var(--text-muted);">${media.length}</span></div>`+
+    folders.map(f=>{
+      const count = media.filter(m=>m.folder===f).length;
+      return `<div class="folder-item ${galleryActiveFolder===f?'active':''}" onclick="setGalleryFolder('${escHtml(f)}')">
+        <span>📂</span> ${escHtml(f)} <span style="margin-left:auto;font-size:0.72rem;color:var(--text-muted);">${count}</span>
+        <button onclick="event.stopPropagation();deleteFolder('${escHtml(f)}')" style="background:none;border:none;color:var(--text-muted);font-size:0.75rem;cursor:pointer;padding:0 0.2rem;" title="Delete folder">✕</button>
+      </div>`;
+    }).join('');
+
+  let items = media;
+  if (galleryActiveFolder) items=items.filter(m=>m.folder===galleryActiveFolder);
+  const title = document.getElementById('galleryFolderTitle');
+  title.textContent = galleryActiveFolder||'All Media';
+  title.dataset.folder = galleryActiveFolder;
+
+  const grid = document.getElementById('galleryMgrGrid');
+  if (!items.length) { grid.innerHTML='<p class="text-muted" style="padding:1rem;">No images in this folder.</p>'; return; }
+  grid.innerHTML = items.map(m=>`
+    <div class="media-card ${selectedMedia.has(m.id)?'selected':''}" onclick="toggleMediaSelect('${m.id}')">
+      <img class="media-thumb" src="${m.src}" alt="${escHtml(m.name)}" loading="lazy"/>
+      <div class="media-check">✓</div>
+      <div class="media-info"><div class="media-name">${escHtml(m.name)}</div></div>
+    </div>`).join('');
+}
+
+function setGalleryFolder(f) { galleryActiveFolder=f; renderGalleryMgr(); }
+
+function deleteFolder(name) {
+  if (!confirm('Delete folder "'+name+'"? Media inside will be unassigned.')) return;
+  const folders = DB.get('folders',[]).filter(f=>f!==name);
+  DB.set('folders',folders);
+  const media = DB.get('media');
+  media.forEach(m=>{ if(m.folder===name) m.folder=''; });
+  DB.set('media',media);
+  if (galleryActiveFolder===name) galleryActiveFolder='';
+  renderGalleryMgr(); toast('Folder deleted');
+}
+
+// ═══════════════════════════════════════════════════
+//  VIDEOS
+// ═══════════════════════════════════════════════════
+function openVideoModal(id=null) {
+  ['v-title','v-url','v-desc'].forEach(x=>document.getElementById(x).value='');
+  openModal('videoModal');
+}
+
+function saveVideo() {
+  const title = document.getElementById('v-title').value.trim();
+  const url = document.getElementById('v-url').value.trim();
+  if (!title) { toast('Title required','error'); return; }
+  const videos = DB.get('videos');
+  videos.unshift({
+    id:'v'+Date.now(), title, url,
+    desc:document.getElementById('v-desc').value,
+    cat:document.getElementById('v-cat').value,
+    status:document.getElementById('v-status').value,
+    embed: getEmbedUrl(url), created:Date.now()
+  });
+  DB.set('videos',videos);
+  closeModal('videoModal'); renderVideos(); updateBadges(); toast('Video saved!');
+}
+
+function getEmbedUrl(url) {
+  const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
+  if (ytMatch) return 'https://www.youtube.com/embed/'+ytMatch[1];
+  const viMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (viMatch) return 'https://player.vimeo.com/video/'+viMatch[1];
+  return url;
+}
+
+function deleteVideo(id) {
+  if (!confirm('Delete this video?')) return;
+  DB.set('videos',DB.get('videos').filter(x=>x.id!==id));
+  renderVideos(); updateBadges(); toast('Video deleted','info');
+}
+
+function renderVideos() {
+  const videos = DB.get('videos');
+  const el = document.getElementById('videosList');
+  if (!videos.length) {
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">🎬</div><p>No videos yet.</p><button class="btn btn-primary" onclick="openVideoModal()">+ Add Video</button></div>';
+    return;
+  }
+  el.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;">'+
+    videos.map(v=>`<div class="panel" style="padding:0;overflow:hidden;">
+      ${v.embed?'<div style="position:relative;padding-bottom:56.25%;background:var(--surface2);"><iframe src="'+escHtml(v.embed)+'" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe></div>':'<div style="height:160px;background:linear-gradient(135deg,var(--purple),var(--purple-light));display:flex;align-items:center;justify-content:center;font-size:3rem;">🎬</div>'}
+      <div style="padding:1rem;">
+        <div style="font-weight:700;margin-bottom:0.3rem;">${escHtml(v.title)}</div>
+        <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:0.6rem;">${escHtml(v.cat||'')} · ${fmtDate(v.created)}</div>
+        <span class="badge ${v.status==='published'?'badge-green':'badge-gold'}">${v.status||'draft'}</span>
+        <div class="gap-row" style="margin-top:0.8rem;">
+          <button class="btn btn-danger btn-sm" onclick="deleteVideo('${v.id}')">🗑️ Delete</button>
+          ${v.url?'<a href="'+escHtml(v.url)+'" target="_blank" class="btn btn-ghost btn-sm">🔗 View</a>':''}
+        </div>
+      </div>
+    </div>`).join('')+'</div>';
+}
+
+// ═══════════════════════════════════════════════════
+//  PAGE TEXT EDITOR
+// ═══════════════════════════════════════════════════
+function savePageText() {
+  const pt = DB.get('pageText',{});
+  ['vision','p1','p2','scripture','email','phone','address','donate-title','donate-desc','donate-btn','paystack','tagline','copyright','fb','ig','tt'].forEach(k=>{
+    const el = document.getElementById('pt-'+k);
+    if (el) pt[k]=el.value;
+  });
+  DB.set('pageText',pt);
+  const saved = document.getElementById('pageTextSaved');
+  if (saved) { saved.style.display='inline'; setTimeout(()=>saved.style.display='none',2000); }
+  toast('Page text saved!');
+}
+
+// Load saved page text on init
+function loadPageText() {
+  const pt = DB.get('pageText',{});
+  Object.entries(pt).forEach(([k,v])=>{
+    const el = document.getElementById('pt-'+k);
+    if (el) el.value=v;
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  SETTINGS
+// ═══════════════════════════════════════════════════
+function saveSettings() {
+  const name = document.getElementById('set-name').value.trim();
+  const oldp = document.getElementById('set-oldpass').value;
+  const newp = document.getElementById('set-newpass').value;
+  const confp = document.getElementById('set-confirmpass').value;
+  const creds = DB.get('creds',{user:'admin',pass:'trvm2024',name:'Admin'});
+
+  if (oldp || newp || confp) {
+    if (oldp!==creds.pass) { toast('Current password incorrect','error'); return; }
+    if (newp!==confp) { toast('New passwords do not match','error'); return; }
+    if (newp.length<6) { toast('Password must be at least 6 characters','error'); return; }
+    creds.pass=newp;
+    ['set-oldpass','set-newpass','set-confirmpass'].forEach(id=>document.getElementById(id).value='');
+    toast('Password changed!');
+  }
+  if (name) { creds.name=name; document.getElementById('userDisplayName').textContent=name; document.getElementById('userAvatar').textContent=name[0].toUpperCase(); }
+  DB.set('creds',creds);
+  toast('Settings saved!');
+}
+
+function exportData() {
+  const data = {
+    devotions: DB.get('devotions'),
+    books: DB.get('books'),
+    videos: DB.get('videos'),
+    media: DB.get('media').map(m=>({...m,src:m.src?.slice(0,50)+'...'})), // truncate src for export
+    pageText: DB.get('pageText',{}),
+    folders: DB.get('folders'),
+    exported: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='trvm_admin_backup_'+Date.now()+'.json'; a.click();
+  toast('Data exported!');
+}
+
+function clearAllData() {
+  if (!confirm('Clear ALL admin data? This cannot be undone!')) return;
+  ['devotions','books','media','videos','pageText','folders'].forEach(k=>localStorage.removeItem('trvm_'+k));
+  refreshDashboard(); renderDevotions(); renderBooks(); renderMedia(); renderVideos();
+  toast('All data cleared','info');
+}
+
+// ═══════════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════════
+function refreshDashboard() {
+  const devots = DB.get('devotions');
+  const books = DB.get('books');
+  const media = DB.get('media');
+  const videos = DB.get('videos');
+  document.getElementById('dashDevotCount').textContent = devots.length;
+  document.getElementById('dashBookCount').textContent = books.length;
+  document.getElementById('dashMediaCount').textContent = media.length;
+  document.getElementById('dashVideoCount').textContent = videos.length;
+
+  // Recent devotions
+  const rd = document.getElementById('dashRecentDevot');
+  rd.innerHTML = devots.slice(0,5).map(d=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+    <span style="font-size:0.85rem;">${escHtml(d.title)}</span>
+    <span class="badge ${d.status==='published'?'badge-green':'badge-gold'}" style="font-size:0.65rem;">${d.status||'draft'}</span>
+  </div>`).join('')||'<p class="text-muted" style="font-size:0.85rem;">No devotions yet.</p>';
+
+  // Recent media
+  const rm = document.getElementById('dashRecentMedia');
+  rm.innerHTML = media.slice(0,5).map(m=>`<div style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0;border-bottom:1px solid var(--border);">
+    <img src="${m.src}" style="width:28px;height:28px;border-radius:4px;object-fit:cover;flex-shrink:0;" loading="lazy"/>
+    <span style="font-size:0.82rem;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(m.name)}</span>
+    <span style="font-size:0.72rem;color:var(--text-muted);">${fmtSize(m.size)}</span>
+  </div>`).join('')||'<p class="text-muted" style="font-size:0.85rem;">No media yet.</p>';
+
+  updateBadges();
+}
+
+function updateBadges() {
+  document.getElementById('devotBadge').textContent = DB.get('devotions').length;
+  document.getElementById('booksBadge').textContent = DB.get('books').length;
+  document.getElementById('mediaBadge').textContent = DB.get('media').length;
+  document.getElementById('videosBadge').textContent = DB.get('videos').length;
+}
+
+// ═══════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════
+function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtDate(ts) { if(!ts) return '—'; return new Date(ts).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
+function fmtSize(bytes) { if(!bytes) return ''; if(bytes>1048576) return (bytes/1048576).toFixed(1)+'MB'; return Math.round(bytes/1024)+'KB'; }
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+window.addEventListener('load',()=>{
+  updateBadges();
+  loadPageText();
+  // Allow pressing Enter on login
+  document.getElementById('loginUser').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('loginPass').focus(); });
+});
+</script>
+</body>
+</html>

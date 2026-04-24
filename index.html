@@ -1,40 +1,1279 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager — The Righteous Vine Missions</title>
-  <!-- Decap CMS (formerly Netlify CMS) -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <style>
-    /* Loading screen while CMS initialises */
-    #cms-loading {
-      position: fixed; inset: 0;
-      background: linear-gradient(135deg, #1a0a30, #2A0A4A);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      z-index: 9999; color: #fff;
-    }
-    #cms-loading h2 { font-family: sans-serif; font-size: 1.2rem; font-weight: 600; margin-top: 1rem; color: rgba(255,255,255,0.85); }
-    #cms-loading p  { font-family: sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 0.4rem; }
-    .spinner { width: 40px; height: 40px; border: 3px solid rgba(212,160,23,0.2); border-top-color: #D4A017; border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Righteous Vine Missions</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #D4A017;
+    --gold-light: #F0C040;
+    --purple: #4A1A7A;
+    --purple-mid: #6B2FA0;
+    --purple-light: #9B59D0;
+    --cream: #FDF8F0;
+    --dark: #1A1A1A;
+    --warm-white: #FAF7FF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: DM Sans, sans-serif;
+    background: var(--warm-white);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── SLIDER ── */
+  .slider {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    background: #2A0A4A;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+  }
+
+  .slide.active { opacity: 1; z-index: 1; animation: kenBurns 12s ease-out forwards; }
+
+  @keyframes kenBurns {
+    0%   { background-size: 110% auto; }
+    100% { background-size: 100% auto; }
+  }
+
+  /* Each slide uses real photos as background */
+
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,0,20,0.6) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .slide-content { position: relative; z-index: 2; }
+
+  /* Large decorative icon per slide */
+  .slide-deco {
+    position: absolute;
+    font-size: clamp(12rem, 25vw, 22rem);
+    opacity: 0.04;
+    pointer-events: none;
+    right: 5%;
+    bottom: -3rem;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    max-width: 860px;
+    animation: slideIn 0.8s ease both;
+  }
+
+  .slide.active .slide-content { animation: slideIn 0.8s ease 0.2s both; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide-logo {
+    height: 110px;
+    width: auto;
+    margin-bottom: 1.8rem;
+    filter: drop-shadow(0 6px 30px rgba(212,160,23,0.5));
+  }
+
+  .slide-tag {
+    display: inline-block;
+    background: rgba(212,160,23,0.2);
+    border: 1px solid rgba(212,160,23,0.55);
+    color: var(--gold);
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.4rem 1.3rem;
+    border-radius: 50px;
+    margin-bottom: 1.4rem;
+  }
+
+  .slide-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.08;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  }
+
+  .slide-title em { font-style: italic; color: var(--gold); }
+
+  .slide-desc {
+    color: rgba(255,255,255,0.78);
+    font-size: 1.1rem;
+    line-height: 1.75;
+    font-weight: 300;
+    max-width: 580px;
+    margin: 0 auto 2.2rem;
+  }
+
+  .slide-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Stats bar at bottom of slider */
+  .slider-stats {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: rgba(20,5,40,0.6);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(212,160,23,0.15);
+  }
+
+  .slider-stat {
+    flex: 1;
+    max-width: 220px;
+    text-align: center;
+    padding: 1.2rem 1rem;
+    border-right: 1px solid rgba(212,160,23,0.1);
+  }
+  .slider-stat:last-child { border-right: none; }
+
+  .slider-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+  .slider-stat-label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Arrow controls */
+  .slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(212,160,23,0.15);
+    border: 1px solid rgba(212,160,23,0.35);
+    color: #fff;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: background 0.2s, transform 0.2s;
+    backdrop-filter: blur(6px);
+    margin-top: -40px; /* nudge up from stats bar */
+  }
+  .slider-arrow:hover { background: rgba(212,160,23,0.4); transform: translateY(-50%) scale(1.08); }
+  .slider-arrow.prev { left: 1.5rem; }
+  .slider-arrow.next { right: 1.5rem; }
+
+  /* Dots */
+  .slider-dots {
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: background 0.3s, width 0.3s;
+  }
+  .dot.active {
+    background: var(--gold);
+    width: 24px;
+    border-radius: 4px;
+    border-color: var(--gold);
+  }
+
+  /* Progress bar */
+  .slider-progress {
+    position: absolute;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--gold);
+    z-index: 20;
+    width: 0%;
+    transition: width 5s linear;
+  }
+  .slider-progress.running { width: 100%; }
+
+  /* ── HERO (old) — now removed, replaced by slider ── */
+
+
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(42,10,74,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212,160,23,0.2);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  .nav-logo img {
+    height: 48px;
+    width: auto;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--dark) !important;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    font-weight: 500 !important;
+  }
+  .nav-cta:hover { background: #b8880f; color: var(--dark) !important; }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 0.9rem 2.2rem;
+    border-radius: 50px;
+    font-family: DM Sans, sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(212,160,23,0.4);
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(212,160,23,0.5); }
+
+  .btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.45);
+    padding: 0.9rem 2.2rem;
+    border-radius: 50px;
+    font-family: DM Sans, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); background: rgba(212,160,23,0.1); }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 2rem; }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--purple-mid);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--dark);
+    margin-bottom: 1.2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: #555;
+    max-width: 540px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .about-body {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .about-body p {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.82;
+    font-weight: 300;
+  }
+  .about-countries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+  .country-chip {
+    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+    letter-spacing: 0.04em;
+  }
+  .about-vision {
+    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
+    border-radius: 1rem;
+    padding: 1.5rem 1.8rem;
+    margin-top: 0.5rem;
+  }
+  .about-vision p {
+    color: rgba(255,255,255,0.9) !important;
+    font-style: italic;
+    font-size: 1rem !important;
+    line-height: 1.75 !important;
+  }
+  .about-vision strong { color: var(--gold); }
+
+  .mission-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 5rem; align-items: start; }
+
+  /* ── MISSION ── */
+  .mission {
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mission::before {
+    content: '"';
+    position: absolute;
+    top: -1rem;
+    left: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 20rem;
+    color: rgba(74,26,122,0.06);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .mission-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--purple-mid);
+    line-height: 1.6;
+    border-left: 4px solid var(--gold);
+    padding-left: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .mission-image-block {
+    position: relative;
+  }
+
+  .mission-img-card {
+    background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+    border-radius: 1.5rem;
+    aspect-ratio: 4/5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .mission-img-card::after {
+    content: '✝';
+    position: absolute;
+    font-size: 8rem;
+    color: rgba(255,255,255,0.12);
+  }
+
+  .floating-badge {
+    position: absolute;
+    bottom: -1.2rem;
+    left: -1.2rem;
+    background: var(--gold);
+    color: var(--dark);
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    box-shadow: 0 8px 32px rgba(245,166,35,0.4);
+    line-height: 1.3;
+  }
+
+  /* ── PROGRAMS ── */
+  .programs { background: var(--warm-white); }
+
+  .programs-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .programs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    border-radius: 1.2rem;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+
+  .card-1 { background: linear-gradient(135deg, #2A0A4A, #4A1A7A); color: #fff; }
+  .card-2 { background: linear-gradient(135deg, #3D0A6B, #6B2FA0); color: #fff; }
+  .card-3 { background: linear-gradient(135deg, #6B2FA0, #9B59D0); color: #fff; }
+  .card-4 { background: linear-gradient(135deg, #4A3000, #D4A017); color: #fff; }
+
+  .card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .card-watermark {
+    position: absolute;
+    bottom: -1rem;
+    right: -1rem;
+    font-size: 6rem;
+    opacity: 0.08;
+    line-height: 1;
+  }
+
+  /* ── PUBLICATIONS ── */
+  .publications {
+    background: linear-gradient(135deg, #2A0A4A 0%, #4A1A7A 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .publications::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(212,160,23,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .publications-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .publications .section-label { color: var(--gold); }
+  .publications .section-title { color: #fff; }
+  .publications .section-subtitle { color: rgba(255,255,255,0.65); }
+
+  .pub-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .pub-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 1.2rem;
+    padding: 2rem;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .pub-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-4px); }
+
+  .pub-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .pub-icon-1 { background: rgba(245,166,35,0.25); }
+  .pub-icon-2 { background: rgba(75,175,106,0.25); }
+  .pub-icon-3 { background: rgba(155,89,208,0.25); }
+
+  .pub-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: #fff;
+  }
+
+  .pub-card p {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .pub-freq {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(212,160,23,0.4);
+    padding: 0.2rem 0.7rem;
+    border-radius: 50px;
+  }
+
+  /* ── GLOBAL REACH ── */
+  .reach {
+    background: var(--cream);
+    text-align: center;
+  }
+
+  .reach-inner { max-width: 900px; margin: 0 auto; }
+
+  .regions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .region-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    border: 1px solid rgba(74,26,122,0.2);
+    border-radius: 50px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.88rem;
+    color: var(--dark);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .region-pill:hover { transform: translateY(-2px); border-color: var(--purple-mid); }
+  .region-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    flex-shrink: 0;
+  }
+
+  /* ── DONATE / CTA ── */
+  .donate {
+    background: var(--gold);
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+
+  .donate h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: var(--dark);
+    margin-bottom: 1rem;
+  }
+
+  .donate p {
+    color: rgba(26,26,26,0.7);
+    font-size: 1.05rem;
+    max-width: 480px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .btn-dark {
+    background: var(--dark);
+    color: #fff;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-family: DM Sans, sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-dark:hover { transform: translateY(-2px); background: #333; }
+
+  /* ── CONTACT ── */
+  .contact {
+    background: var(--warm-white);
+    padding: 6rem 2rem;
+  }
+  .contact-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .contact-info { padding-top: 0.5rem; }
+  .contact-info p {
+    color: #555;
+    line-height: 1.75;
+    font-size: 1rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+  .contact-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .contact-detail-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--purple), var(--purple-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .contact-detail-text strong { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--purple-mid); margin-bottom: 0.2rem; }
+  .contact-detail-text span { font-size: 0.95rem; color: #444; }
+
+  .contact-form {
+    background: #fff;
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    box-shadow: 0 8px 40px rgba(74,26,122,0.1);
+    border: 1px solid rgba(74,26,122,0.08);
+  }
+  .form-group { margin-bottom: 1.4rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--purple-mid);
+    margin-bottom: 0.5rem;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border: 1.5px solid rgba(74,26,122,0.15);
+    border-radius: 0.7rem;
+    font-family: DM Sans, sans-serif;
+    font-size: 0.95rem;
+    color: var(--dark);
+    background: var(--warm-white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--purple-mid);
+    box-shadow: 0 0 0 3px rgba(107,47,160,0.1);
+  }
+  .form-group textarea { resize: vertical; min-height: 130px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-send {
+    width: 100%;
+    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.7rem;
+    font-family: DM Sans, sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(74,26,122,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+  .btn-send:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(74,26,122,0.4); }
+
+  /* ── SOCIAL MEDIA ── */
+  .social-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: transform 0.2s, opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .social-btn:hover { transform: translateY(-3px); opacity: 0.85; }
+  .social-btn.fb  { background: #1877F2; color: #fff; }
+  .social-btn.ig  { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+  .social-btn.tk  { background: #010101; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+
+  .social-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.2rem 0 0.5rem;
+  }
+  .social-footer .social-btn { width: 44px; height: 44px; font-size: 1.2rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.55);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1.2rem 0;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy { font-size: 0.78rem; margin-top: 1rem; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .mission-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .mission-image-block { display: none; }
+    .pub-cards { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+
+
+  .slide-1 { background: linear-gradient(160deg, rgba(42,10,74,0.55), rgba(74,26,122,0.4) 100%), url('/images/slide01.jpg') center/cover no-repeat; }
+  .slide-2 { background: linear-gradient(160deg, rgba(20,5,50,0.58), rgba(42,10,74,0.5) 100%), url('/images/slide02.jpg') center/cover no-repeat; }
+  .slide-3 { background: linear-gradient(160deg, rgba(20,5,50,0.55), rgba(60,20,100,0.45) 100%), url('/images/slide03.jpg') center/cover no-repeat; }
+  .slide-4 { background: linear-gradient(160deg, rgba(42,10,74,0.6), rgba(10,0,20,0.5) 100%), url('/images/slide04.jpg') center/cover no-repeat; }
+  .slide-5 { background: linear-gradient(160deg, rgba(20,5,50,0.58), rgba(42,10,74,0.5) 100%), url('/images/slide05.jpg') center/cover no-repeat; }
+  .slide-6 { background: linear-gradient(160deg, rgba(42,10,74,0.55), rgba(74,26,122,0.4) 100%), url('/images/slide06.jpg') center/cover no-repeat; }
+  .slide-7 { background: linear-gradient(160deg, rgba(20,5,50,0.55), rgba(60,20,100,0.45) 100%), url('/images/slide07.jpg') center/cover no-repeat; }
+  .slide-8 { background: linear-gradient(160deg, rgba(42,10,74,0.55), rgba(30,10,60,0.5) 100%), url('/images/slide08.jpg') center/cover no-repeat; }
+  .slide-9 { background: linear-gradient(160deg, rgba(20,5,50,0.58), rgba(42,10,74,0.5) 100%), url('/images/slide09.jpg') center/cover no-repeat; }
+  .slide-10 { background: linear-gradient(160deg, rgba(30,15,5,0.55), rgba(42,10,74,0.5) 100%), url('/images/slide10.jpg') center/cover no-repeat; }
+</style>
 </head>
 <body>
-  <div id="cms-loading">
-    <div class="spinner"></div>
-    <h2>The Righteous Vine Missions</h2>
-    <p>Loading Content Manager...</p>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <img src="/images/logo.png" alt="The Righteous Vine Missions Logo" />
   </div>
-  <script>
-    // Hide loading screen once CMS mounts
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(function() {
-        var el = document.getElementById('cms-loading');
-        if (el) el.style.display = 'none';
-      }, 2000);
-    });
-  </script>
+  <ul class="nav-links">
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="programs.html" ><span>Programs</span></a></li>
+    <li><a href="publications.html" ><span>Publications</span></a></li>
+    <li><a href="#reach">Global Reach</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="devotions.html">Devotions</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="nav-cta"><span>Give Now</span></a></li>
+  </ul>
+  <div class="social-bar">
+    <a href="https://www.facebook.com/therighteousvinemissions" target="_blank" rel="noopener" class="social-btn fb" title="Facebook">&#x66;</a>
+    <a href="https://www.instagram.com/the_rvm" target="_blank" rel="noopener" class="social-btn ig" title="Instagram">&#x40;</a>
+    <a href="https://www.tiktok.com/@trvmissions" target="_blank" rel="noopener" class="social-btn tk" title="TikTok">&#x2665;</a>
+  </div>
+</nav>
+
+<!-- SLIDER -->
+<div class="slider" id="home">
+  <div class="slider-progress" id="sliderProgress"></div>
+
+  <!-- Slide 1: 🌿 Rooted in Faith · Grown in Love -->
+  <div class="slide slide-1 active">
+    <span class="slide-deco">✝</span>
+    <div class="slide-content">
+      <img src="/images/logo.png" alt="TRVM Logo" class="slide-logo" />
+      <span class="slide-tag">🌿 Rooted in Faith · Grown in Love</span>
+      <h1 class="slide-title">Serving the World<br/>with <em>Grace &amp; Purpose</em></h1>
+      <p class="slide-desc">A global missionary and philanthropic movement — feeding the hungry, sharing the Gospel, and transforming communities across Ghana, Liberia, Kenya, and Indonesia.</p>
+      <div class="slide-buttons">
+        <a href="index.html#programs" class="btn-primary">Our Programs</a>
+        <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-outline">Give Today</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2: 🌾 Feeding the Hungry -->
+  <div class="slide slide-2">
+    <span class="slide-deco">🍞</span>
+    <div class="slide-content">
+      <span class="slide-tag">🌾 Feeding the Hungry</span>
+      <h1 class="slide-title">No One Should<br/>Sleep <em>Hungry</em></h1>
+      <p class="slide-desc">Through community kitchens, food drives, and relief programs, we bring nourishment and dignity to the most vulnerable in the nations we serve.</p>
+      <div class="slide-buttons">
+        <a href="index.html#programs" class="btn-primary">Our Programs</a>
+        <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-outline">Sponsor a Meal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: ✝ Sharing the Gospel -->
+  <div class="slide slide-3">
+    <span class="slide-deco">🌍</span>
+    <div class="slide-content">
+      <span class="slide-tag">✝ Sharing the Gospel</span>
+      <h1 class="slide-title">Taking the Light<br/>to <em>Every Nation</em></h1>
+      <p class="slide-desc">Our missionaries are deployed across Ghana, Liberia, Kenya, and Indonesia — planting churches, training leaders, and bringing hope to unreached communities.</p>
+      <div class="slide-buttons">
+        <a href="index.html#reach" class="btn-primary">Global Reach</a>
+        <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-outline">Send a Missionary</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: 🕊 Prayer & Ministry -->
+  <div class="slide slide-4">
+    <span class="slide-deco">🙏</span>
+    <div class="slide-content">
+      <span class="slide-tag">🕊 Prayer & Ministry</span>
+      <h1 class="slide-title">Touching Lives<br/>with <em>Faith &amp; Prayer</em></h1>
+      <p class="slide-desc">Through the power of prayer and the laying on of hands, we witness transformation — bringing healing, restoration, and hope to those who believe.</p>
+      <div class="slide-buttons">
+        <a href="about.html" class="btn-primary">Our Story</a>
+        <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-outline">Partner With Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: 🎶 Worship & Praise -->
+  <div class="slide slide-5">
+    <span class="slide-deco">🎵</span>
+    <div class="slide-content">
+      <span class="slide-tag">🎶 Worship & Praise</span>
+      <h1 class="slide-title">Hearts Lifted<br/>in <em>Worship</em></h1>
+      <p class="slide-desc">Across every nation we serve, worship is at the center of all we do — drawing communities together to encounter the living God.</p>
+      <div class="slide-buttons">
+        <a href="gallery.html" class="btn-primary">Our Gallery</a>
+        <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-outline">Join the Mission</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 6: 📰 Publications &amp; Devotions -->
+  <div class="slide slide-6">
+    <span class="slide-deco">📖</span>
+    <div class="slide-content">
+      <span class="slide-tag">📰 Publications &amp; Devotions</span>
+      <h1 class="slide-title">Words That <em>Nourish</em><br/>the Soul</h1>
+      <p class="slide-desc">From our yearly Vine Magazine to weekly devotionals and newsletters — we keep you connected, inspired, and grounded in the Word of God.</p>
+      <div class="slide-buttons">
+        <a href="devotions.html" class="btn-primary">Read Devotions</a>
+        <a href="contact.html" class="btn-outline">Subscribe</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 7: 🌿 Community &amp; Fellowship -->
+  <div class="slide slide-7">
+    <span class="slide-deco">🤝</span>
+    <div class="slide-content">
+      <span class="slide-tag">🌿 Community &amp; Fellowship</span>
+      <h1 class="slide-title">Building <em>Bridges</em><br/>Across Nations</h1>
+      <p class="slide-desc">Fellowship, partnership, and shared meals — we build lasting relationships across cultures and borders, united by one mission and one Lord.</p>
+      <div class="slide-buttons">
+        <a href="index.html#reach" class="btn-primary">Global Reach</a>
+        <a href="contact.html" class="btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 8: 🎒 Youth &amp; Schools -->
+  <div class="slide slide-8">
+    <span class="slide-deco">✊</span>
+    <div class="slide-content">
+      <span class="slide-tag">🎒 Youth &amp; Schools</span>
+      <h1 class="slide-title">Raising a <em>Generation</em><br/>Rooted in Christ</h1>
+      <p class="slide-desc">We carry the Gospel into schools and youth communities, equipping the next generation to walk in faith, purpose, and the power of the Holy Spirit.</p>
+      <div class="slide-buttons">
+        <a href="index.html#programs" class="btn-primary">Our Programs</a>
+        <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-outline">Support Youth Ministry</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 9: 🏠 Home Visits &amp; Philanthropy -->
+  <div class="slide slide-9">
+    <span class="slide-deco">💜</span>
+    <div class="slide-content">
+      <span class="slide-tag">🏠 Home Visits &amp; Philanthropy</span>
+      <h1 class="slide-title">God's Love in <em>Action</em></h1>
+      <p class="slide-desc">We go where the need is greatest — visiting the sick, feeding the poor, and delivering the love of Christ to families who need it most.</p>
+      <div class="slide-buttons">
+        <a href="about.html" class="btn-primary">Learn More</a>
+        <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-outline">Give Today</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 10: 💛 Partner With Us -->
+  <div class="slide slide-10">
+    <span class="slide-deco">🕊</span>
+    <div class="slide-content">
+      <span class="slide-tag">💛 Partner With Us</span>
+      <h1 class="slide-title">Your Gift Plants<br/><em>Eternal Seeds</em></h1>
+      <p class="slide-desc">Every donation feeds a family, equips a missionary, or puts Scripture in someone's hands. Partner with The Righteous Vine Missions today.</p>
+      <div class="slide-buttons">
+        <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-primary">Give Now</a>
+        <a href="contact.html" class="btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+
+  <button class="slider-arrow prev" onclick="changeSlide(-1)">&#8592;</button>
+  <button class="slider-arrow next" onclick="changeSlide(1)">&#8594;</button>
+
+
+  <div class="slider-dots" id="sliderDots">
+    <div class="dot active" onclick="goToSlide(0)"></div>
+    <div class="dot" onclick="goToSlide(1)"></div>
+    <div class="dot" onclick="goToSlide(2)"></div>
+    <div class="dot" onclick="goToSlide(3)"></div>
+    <div class="dot" onclick="goToSlide(4)"></div>
+    <div class="dot" onclick="goToSlide(5)"></div>
+    <div class="dot" onclick="goToSlide(6)"></div>
+    <div class="dot" onclick="goToSlide(7)"></div>
+    <div class="dot" onclick="goToSlide(8)"></div>
+    <div class="dot" onclick="goToSlide(9)"></div>
+  </div>
+
+  <div class="slider-stats">
+    <div class="slider-stat">
+      <span class="slider-stat-num">40+</span>
+      <span class="slider-stat-label">Nations Reached</span>
+    </div>
+    <div class="slider-stat">
+      <span class="slider-stat-num">10K+</span>
+      <span class="slider-stat-label">Lives Touched</span>
+    </div>
+    <div class="slider-stat">
+      <span class="slider-stat-num">15+</span>
+      <span class="slider-stat-label">Years of Service</span>
+    </div>
+    <div class="slider-stat">
+      <span class="slider-stat-num">3</span>
+      <span class="slider-stat-label"><span>Publications</span></span>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- ABOUT TEASER -->
+<section style="background:var(--cream);padding:5rem 2rem;text-align:center;">
+  <div style="max-width:700px;margin:0 auto;">
+    <p class="section-label">Who We Are</p>
+    <h2 class="section-title"><span>A Vine Planted by God,<br/>Bearing Fruit for All</span></h2>
+    <p class="section-subtitle" style="margin:0 auto 2rem;">The Righteous Vine Missions is a Christ-centered missionary organization spreading the Gospel and serving communities across Ghana, Liberia, Kenya, and Indonesia since November 2019.<span style="display:none"></span></p>
+    <a href="about.html" style="background:linear-gradient(135deg,#4A1A7A,#6B2FA0);color:#fff;border:none;padding:0.9rem 2.2rem;border-radius:50px;font-family:DM Sans,sans-serif;font-weight:500;font-size:1rem;text-decoration:none;transition:transform 0.2s;display:inline-block;">Read Our Full Story</a>
+  </div>
+</section>
+
+
+<!-- PROGRAMS -->
+<section class="programs" id="programs">
+  <div class="programs-inner">
+    <div class="programs-header">
+      <div>
+        <p class="section-label">What We Do</p>
+        <h2 class="section-title"><span>Our Programs</span></h2>
+      </div>
+      <p class="section-subtitle">Every initiative flows from our core calling — to love God and serve people.</p>
+    </div>
+    <div class="cards-grid">
+      <a href="prog-missions.html" class="card card-1" style="text-decoration:none;display:block;cursor:pointer;">
+        <span class="card-icon">🌍</span>
+        <h3>Global Missions</h3>
+        <p>We deploy missionaries across continents, planting churches, training leaders, and bringing the Gospel to unreached communities.</p>
+        <span class="card-watermark">✝</span><span style="display:block;color:var(--gold);font-size:0.82rem;font-weight:600;margin-top:1rem;">Read More →</span>
+      </a>
+      <a href="prog-feeding.html" class="card card-2" style="text-decoration:none;display:block;cursor:pointer;">
+        <span class="card-icon">🍞</span>
+        <h3>Feeding the Needy</h3>
+        <p>Through food drives, feeding programs, and community kitchens, we ensure no one goes to sleep hungry in the regions we serve.</p>
+        <span class="card-watermark">🌾</span><span style="display:block;color:var(--gold);font-size:0.82rem;font-weight:600;margin-top:1rem;">Read More →</span>
+      </a>
+      <a href="prog-philanthropy.html" class="card card-3" style="text-decoration:none;display:block;cursor:pointer;">
+        <span class="card-icon">🤝</span>
+        <h3>Philanthropic Aid</h3>
+        <p>From emergency relief to long-term development, we partner with local organizations to uplift the vulnerable and marginalized.</p>
+        <span class="card-watermark">♡</span><span style="display:block;color:var(--gold);font-size:0.82rem;font-weight:600;margin-top:1rem;">Read More →</span>
+      </a>
+      <a href="prog-discipleship.html" class="card card-4" style="text-decoration:none;display:block;cursor:pointer;">
+        <span class="card-icon">📖</span>
+        <h3>Discipleship & Training</h3>
+        <p>We equip believers through Bible training, spiritual formation, and mentorship programs to become fruit-bearing disciples.</p>
+        <span class="card-watermark">🕊</span><span style="display:block;color:var(--gold);font-size:0.82rem;font-weight:600;margin-top:1rem;">Read More →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="publications" id="publications">
+  <div class="publications-inner">
+    <p class="section-label">Stay Nourished</p>
+    <h2 class="section-title"><span>Our Publications</span></h2>
+    <p class="section-subtitle">Words that inspire, equip, and draw you deeper into faith — delivered straight to your heart.</p>
+    <div class="pub-cards">
+      <a href="pub-magazine.html" class="pub-card" style="text-decoration:none;display:block;cursor:pointer;">
+        <div class="pub-icon pub-icon-1">📰</div>
+        <h3><span>The Vine Magazine</span></h3>
+        <p>Our flagship publication — a beautifully produced magazine featuring mission stories, testimonies, and in-depth teachings from the field.</p>
+        <span class="pub-freq">Published Yearly</span><span style="display:block;color:var(--gold);font-size:0.78rem;font-weight:600;margin-top:0.8rem;">Download Issues →</span>
+      </a>
+      <a href="devotions.html" class="pub-card" style="text-decoration:none;display:block;cursor:pointer;">
+        <div class="pub-icon pub-icon-2">🙏</div>
+        <h3><span>Daily Devotions</span></h3>
+        <p>Weekly devotional guides crafted to anchor your soul in Scripture, spark reflection, and cultivate a vibrant prayer life.</p>
+        <span class="pub-freq">Every Week</span><span style="display:block;color:var(--gold);font-size:0.78rem;font-weight:600;margin-top:0.8rem;">Read Devotions →</span>
+      </a>
+      <a href="pub-newsletter.html" class="pub-card" style="text-decoration:none;display:block;cursor:pointer;">
+        <div class="pub-icon pub-icon-3">✉️</div>
+        <h3><span>Mission Newsletter</span></h3>
+        <p>Stay connected with the latest updates from our missionaries, outreach reports, prayer requests, and opportunities to give.</p>
+        <span class="pub-freq">Weekly Updates</span><span style="display:block;color:var(--gold);font-size:0.78rem;font-weight:600;margin-top:0.8rem;">Subscribe →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- GLOBAL REACH -->
+<section class="reach" id="reach">
+  <div class="reach-inner">
+    <p class="section-label">Global Presence</p>
+    <h2 class="section-title">Bearing Fruit Across the Earth</h2>
+    <p class="section-subtitle" style="margin: 0 auto;">From the streets of Ghana and Liberia, to the communities of Kenya and the congregations of Indonesia — our missionaries are present, serving and sharing the love of Christ.</p>
+    <div class="regions">
+      <div class="region-pill"><span class="region-dot"></span> 🇬🇭 Ghana</div>
+      <div class="region-pill"><span class="region-dot"></span> 🇱🇷 Liberia</div>
+      <div class="region-pill"><span class="region-dot"></span> 🇰🇪 Kenya</div>
+      <div class="region-pill"><span class="region-dot"></span> 🇮🇩 Indonesia</div>
+    </div>
+  </div>
+</section>
+
+<!-- DONATE CTA -->
+
+
+<section class="donate" id="donate">
+  <h2><span>Partner With the Mission</span></h2>
+  <p>Your generosity plants seeds that bear eternal fruit. Every gift feeds a family, sends a missionary, or puts Scripture in someone's hands.</p>
+  <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-dark">Give Today 🌿</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="/images/logo.png" alt="The Righteous Vine Missions" style="height:80px;width:auto;margin-bottom:1rem;" />
+  <p style="font-size:0.85rem;"><span>Rooted in Faith · Growing in Love · Bearing Fruit for All Nations</span></p>
+  <div class="social-footer">
+    <a href="https://www.facebook.com/therighteousvinemissions" target="_blank" rel="noopener" class="social-btn fb" title="Facebook">f</a>
+    <a href="https://www.instagram.com/the_rvm" target="_blank" rel="noopener" class="social-btn ig" title="@the_rvm">@</a>
+    <a href="https://www.tiktok.com/@trvmissions" target="_blank" rel="noopener" class="social-btn tk" title="@trvmissions">♪</a>
+  </div>
+  <div class="footer-links">
+    <a href="about.html">About Us</a>
+    <a href="programs.html" ><span>Programs</span></a>
+    <a href="publications.html" ><span>Publications</span></a>
+    <a href="#reach">Global Reach</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="devotions.html">Devotions</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener">Donate</a>
+  </div>
+  <p class="footer-copy"><span>© 2026 The Righteous Vine Missions. All rights reserved.</span><br/>
+  <span style="opacity:0.6;font-size:0.75rem;">Facebook: therighteousvinemissions &nbsp;|&nbsp; Instagram: @the_rvm &nbsp;|&nbsp; TikTok: @trvmissions</span></p>
+</footer>
+
+<script>
+  // ── SLIDER ──
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  const progress = document.getElementById('sliderProgress');
+  let timer;
+
+  function showSlide(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    // Reset progress bar
+    progress.classList.remove('running');
+    progress.style.transition = 'none';
+    progress.style.width = '0%';
+    setTimeout(() => {
+      progress.style.transition = 'width 5s linear';
+      progress.classList.add('running');
+    }, 50);
+  }
+
+  function changeSlide(dir) {
+    clearInterval(timer);
+    showSlide(current + dir);
+    startAuto();
+  }
+
+  function goToSlide(n) {
+    clearInterval(timer);
+    showSlide(n);
+    startAuto();
+  }
+
+  function startAuto() {
+    timer = setInterval(() => showSlide(current + 1), 5000);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'ArrowRight') changeSlide(1);
+  });
+
+  // Start
+  showSlide(0);
+  startAuto();
+</script>
 </body>
 </html>
