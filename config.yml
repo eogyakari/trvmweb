@@ -1,530 +1,154 @@
-# ═══════════════════════════════════════════════════════
-# Decap CMS (Netlify CMS) Configuration
-# The Righteous Vine Missions — trvm.netlify.app
-#
-# SETUP STEPS:
-#  1. Push this entire site folder to a GitHub repository
-#  2. Connect the GitHub repo to Netlify (netlify.com → Add new site)
-#  3. In Netlify: Site Settings → Identity → Enable Identity
-#  4. In Netlify: Identity → Services → Enable Git Gateway
-#  5. Invite admin users via Netlify Identity
-#  6. Visit https://your-site.netlify.app/admin/ to log in
-# ═══════════════════════════════════════════════════════
+# Decap CMS Configuration — The Righteous Vine Missions
+# ─────────────────────────────────────────────────────
+# HOW TO USE:
+#  Visit https://your-site.netlify.app/admin/ to log in.
+#  Netlify Identity + Git Gateway must be enabled in your Netlify dashboard.
+# ─────────────────────────────────────────────────────
 
 backend:
   name: git-gateway
-  branch: main            # Change to 'master' if your default branch is master
-  commit_messages:
-    create:  'Content: Add {{collection}} "{{slug}}"'
-    update:  'Content: Update {{collection}} "{{slug}}"'
-    delete:  'Content: Delete {{collection}} "{{slug}}"'
-    uploadMedia:  'Media: Upload "{{path}}"'
-    deleteMedia:  'Media: Delete "{{path}}"'
+  branch: main
 
-# ── Media & Public Folder ──
-media_folder: "images/uploads"       # Where uploaded images are stored in the repo
-public_folder: "/images/uploads"     # The public URL path for uploaded images
-media_library:
-  max_file_size: 10000000            # 10MB max upload
+# Where uploaded images are stored and served from
+media_folder: "images/uploads"
+public_folder: "images/uploads"
 
-# ── Site URL (update with your actual Netlify URL) ──
-site_url: https://your-site.netlify.app
-display_url: https://your-site.netlify.app
-logo_url: /images/logo.png
-
-# ── Editor settings ──
+# Disable editor preview pane (not needed for HTML sites)
 editor:
-  preview: false                     # Disable split preview (cleaner for plain HTML sites)
-
-# ══════════════════════════════════════════════════════
-# COLLECTIONS
-# ══════════════════════════════════════════════════════
+  preview: false
 
 collections:
 
-  # ── 1. DEVOTIONS ──────────────────────────────────
+  # ── DEVOTIONS ────────────────────────────────────
   - name: "devotions"
     label: "📖 Devotions"
     label_singular: "Devotion"
     folder: "_content/devotions"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{title}} — {{tag}} ({{date | date('YYYY')}})"
-    sortable_fields: ['date', 'title', 'tag']
-    view_filters:
-      - label: Published
-        field: published
-        pattern: true
-      - label: Drafts
-        field: published
-        pattern: false
-    view_groups:
-      - label: Tag
-        field: tag
+    summary: "{{title}} ({{tag}})"
     fields:
-      - label: "Title"
-        name: "title"
-        widget: "string"
-        hint: "The title of the devotion"
-
-      - label: "Date"
-        name: "date"
-        widget: "datetime"
-        default: ""
-        date_format: "YYYY-MM-DD"
-        time_format: false
-
-      - label: "Tag / Category"
+      - { label: "Title",      name: "title",     widget: "string" }
+      - { label: "Date",       name: "date",      widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - label: "Tag"
         name: "tag"
         widget: "select"
-        options:
-          - { label: "Faith", value: "Faith" }
-          - { label: "Prayer", value: "Prayer" }
-          - { label: "Purpose", value: "Purpose" }
-          - { label: "Healing", value: "Healing" }
-          - { label: "Words", value: "Words" }
-          - { label: "Worship", value: "Worship" }
-          - { label: "Missions", value: "Missions" }
-          - { label: "Discipleship", value: "Discipleship" }
+        options: [Faith, Prayer, Purpose, Healing, Words, Worship, Missions, Discipleship]
+      - { label: "Scripture",  name: "scripture", widget: "string",  required: false, hint: "e.g. Proverbs 18:21" }
+      - { label: "Summary",    name: "summary",   widget: "text",    required: false, hint: "Short preview shown on cards" }
+      - { label: "Content",    name: "body",      widget: "markdown" }
+      - { label: "Published",  name: "published", widget: "boolean", default: false }
 
-      - label: "Key Scripture"
-        name: "scripture"
-        widget: "string"
-        required: false
-        hint: "e.g. Proverbs 18:21 · Matthew 12:36–37"
-
-      - label: "Summary"
-        name: "summary"
-        widget: "text"
-        required: false
-        hint: "Short preview text shown on the devotions listing page"
-
-      - label: "Content"
-        name: "body"
-        widget: "markdown"
-        hint: "Full devotion content. Use headings, bold, blockquotes for scripture."
-        toolbar:
-          - bold
-          - italic
-          - heading
-          - quote
-          - bulleted-list
-          - link
-
-      - label: "Published"
-        name: "published"
-        widget: "boolean"
-        default: false
-        hint: "Toggle to publish this devotion on the website"
-
-      - label: "Featured Image"
-        name: "image"
-        widget: "image"
-        required: false
-        hint: "Optional header image for this devotion"
-
-
-  # ── 2. BOOKS ──────────────────────────────────────
+  # ── BOOKS ────────────────────────────────────────
   - name: "books"
     label: "📚 Books"
     label_singular: "Book"
     folder: "_content/books"
     create: true
     slug: "{{slug}}"
-    summary: "{{title}} — {{author}} ({{access}})"
+    summary: "{{title}} — {{author}}"
     fields:
-      - label: "Title"
-        name: "title"
-        widget: "string"
-
-      - label: "Author"
-        name: "author"
-        widget: "string"
-        default: "TRVM Ministry"
-
-      - label: "Description"
-        name: "description"
-        widget: "text"
-        hint: "Brief description shown on the books page"
-
+      - { label: "Title",       name: "title",       widget: "string" }
+      - { label: "Author",      name: "author",      widget: "string", default: "TRVM Ministry" }
+      - { label: "Description", name: "description", widget: "text",   required: false }
       - label: "Category"
         name: "category"
         widget: "select"
-        options:
-          - Faith
-          - Prayer
-          - Missions
-          - Discipleship
-          - Healing
-          - Leadership
-          - Evangelism
-
-      - label: "Access / Pricing"
+        options: [Faith, Prayer, Missions, Discipleship, Healing, Leadership]
+      - label: "Access"
         name: "access"
         widget: "select"
         options:
-          - { label: "Free Download", value: "free" }
-          - { label: "Donation Required (USD 50+)", value: "donation" }
-          - { label: "Coming Soon", value: "coming" }
+          - { label: "Free Download",          value: "free" }
+          - { label: "Donation Required ($50+)", value: "donation" }
+          - { label: "Coming Soon",             value: "coming" }
         default: "coming"
-
       - label: "Cover Colour"
         name: "cover_color"
         widget: "select"
         options:
           - { label: "Purple", value: "#4A1A7A" }
-          - { label: "Green", value: "#1A3C2A" }
-          - { label: "Red", value: "#5a0e00" }
-          - { label: "Navy", value: "#062040" }
-          - { label: "Gold", value: "#3a2800" }
+          - { label: "Green",  value: "#1A3C2A" }
+          - { label: "Red",    value: "#5a0e00" }
+          - { label: "Navy",   value: "#062040" }
+          - { label: "Gold",   value: "#3a2800" }
         default: "#4A1A7A"
+      - { label: "PDF File",     name: "pdf",         widget: "file",  required: false, media_folder: "files/books", public_folder: "files/books" }
+      - { label: "Cover Image",  name: "cover_image", widget: "image", required: false }
+      - { label: "Published",    name: "published",   widget: "boolean", default: true }
 
-      - label: "PDF File"
-        name: "pdf"
-        widget: "file"
-        required: false
-        media_folder: "/files/books"
-        public_folder: "/files/books"
-        hint: "Upload the PDF file for this book (optional — for donation/free access)"
-
-      - label: "Cover Image"
-        name: "cover_image"
-        widget: "image"
-        required: false
-        hint: "Optional book cover image"
-
-      - label: "Published"
-        name: "published"
-        widget: "boolean"
-        default: true
-
-
-  # ── 3. VINE MAGAZINE ──────────────────────────────
+  # ── VINE MAGAZINE ────────────────────────────────
   - name: "magazine"
     label: "📰 Vine Magazine"
     label_singular: "Magazine Issue"
     folder: "_content/magazine"
     create: true
-    slug: "edition-{{edition}}-{{year}}"
+    slug: "edition-{{edition}}"
     summary: "Edition {{edition}} — {{year}}"
     fields:
-      - label: "Edition Number"
-        name: "edition"
-        widget: "number"
-        value_type: "int"
-        min: 1
-
-      - label: "Year"
-        name: "year"
-        widget: "number"
-        value_type: "int"
-
-      - label: "Title / Theme"
-        name: "title"
-        widget: "string"
-        hint: "e.g. Year of Harvest"
-
-      - label: "Description"
-        name: "description"
-        widget: "text"
-        hint: "Brief description of what this edition covers"
-
-      - label: "PDF File"
-        name: "pdf"
-        widget: "file"
-        required: false
-        media_folder: "/files/magazine"
-        public_folder: "/files/magazine"
-        hint: "Upload the PDF file for this edition"
-
-      - label: "Cover Image"
-        name: "cover_image"
-        widget: "image"
-        required: false
-
+      - { label: "Edition Number", name: "edition",     widget: "number", value_type: "int", min: 1 }
+      - { label: "Year",           name: "year",        widget: "number", value_type: "int" }
+      - { label: "Title/Theme",    name: "title",       widget: "string", required: false }
+      - { label: "Description",    name: "description", widget: "text",   required: false }
+      - { label: "PDF File",       name: "pdf",         widget: "file",   required: false, media_folder: "files/magazine", public_folder: "files/magazine" }
+      - { label: "Cover Image",    name: "cover_image", widget: "image",  required: false }
       - label: "Access"
         name: "access"
         widget: "select"
         options:
-          - { label: "Donation Required (USD 50+)", value: "donation" }
-          - { label: "Free Download", value: "free" }
-          - { label: "Coming Soon", value: "coming" }
+          - { label: "Donation Required ($50+)", value: "donation" }
+          - { label: "Free Download",            value: "free" }
+          - { label: "Coming Soon",              value: "coming" }
         default: "donation"
+      - { label: "Published", name: "published", widget: "boolean", default: true }
 
-      - label: "Published"
-        name: "published"
-        widget: "boolean"
-        default: true
-
-
-  # ── 4. VIDEOS ─────────────────────────────────────
+  # ── VIDEOS ───────────────────────────────────────
   - name: "videos"
     label: "🎬 Videos"
     label_singular: "Video"
     folder: "_content/videos"
     create: true
     slug: "{{slug}}"
-    summary: "{{title}} — {{category}}"
-    sortable_fields: ['date', 'title', 'category']
+    summary: "{{title}}"
     fields:
-      - label: "Title"
-        name: "title"
-        widget: "string"
-
-      - label: "YouTube / Vimeo URL"
-        name: "url"
-        widget: "string"
-        hint: "Paste the full YouTube or Vimeo URL. e.g. https://www.youtube.com/watch?v=..."
-
-      - label: "Description"
-        name: "description"
-        widget: "text"
-        required: false
-
+      - { label: "Title",       name: "title",       widget: "string" }
+      - { label: "YouTube/Vimeo URL", name: "url",  widget: "string", hint: "Paste the full YouTube or Vimeo URL" }
+      - { label: "Description", name: "description", widget: "text",   required: false }
       - label: "Category"
         name: "category"
         widget: "select"
-        options:
-          - Service Highlights
-          - Mission Report
-          - Testimony
-          - Teaching
-          - Crusade
-          - Crusade Highlights
-          - Children's Ministry
-          - Other
+        options: [Service Highlights, Mission Report, Testimony, Teaching, Crusade, Other]
+      - { label: "Date",      name: "date",      widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Published", name: "published", widget: "boolean",  default: true }
 
-      - label: "Date"
-        name: "date"
-        widget: "datetime"
-        date_format: "YYYY-MM-DD"
-        time_format: false
-
-      - label: "Thumbnail"
-        name: "thumbnail"
-        widget: "image"
-        required: false
-        hint: "Optional custom thumbnail. If blank, YouTube thumbnail is used."
-
-      - label: "Published"
-        name: "published"
-        widget: "boolean"
-        default: true
-
-
-  # ── 5. GALLERY ALBUMS ─────────────────────────────
-  - name: "gallery"
-    label: "🖼️ Gallery Albums"
-    label_singular: "Album"
-    folder: "_content/gallery"
-    create: true
-    slug: "{{slug}}"
-    summary: "{{title}} — {{location}}"
-    fields:
-      - label: "Album Title"
-        name: "title"
-        widget: "string"
-        hint: "e.g. Indonesia Crusade 2024"
-
-      - label: "Location / Nation"
-        name: "location"
-        widget: "select"
-        options:
-          - Ghana
-          - Kenya
-          - Liberia
-          - Indonesia
-          - Multiple Nations
-          - Other
-
-      - label: "Date"
-        name: "date"
-        widget: "datetime"
-        date_format: "YYYY-MM-DD"
-        time_format: false
-
-      - label: "Description"
-        name: "description"
-        widget: "text"
-        required: false
-
-      - label: "Cover Photo"
-        name: "cover"
-        widget: "image"
-        required: false
-        hint: "Main photo for this album"
-
-      - label: "Photos"
-        name: "photos"
-        widget: "list"
-        label_singular: "Photo"
-        hint: "Upload all photos for this album"
-        fields:
-          - label: "Photo"
-            name: "image"
-            widget: "image"
-          - label: "Caption"
-            name: "caption"
-            widget: "string"
-            required: false
-
-      - label: "Published"
-        name: "published"
-        widget: "boolean"
-        default: true
-
-
-  # ── 6. NEWSLETTER ISSUES ──────────────────────────
+  # ── NEWSLETTER ───────────────────────────────────
   - name: "newsletter"
-    label: "✉️ Newsletter Issues"
+    label: "✉️ Newsletter"
     label_singular: "Issue"
     folder: "_content/newsletter"
     create: true
     slug: "{{year}}-{{month}}-{{slug}}"
-    summary: "{{title}} — {{date}}"
+    summary: "{{title}}"
     fields:
-      - label: "Title"
-        name: "title"
-        widget: "string"
-        hint: "e.g. Indonesia Crusade Report — March 2025"
+      - { label: "Title",     name: "title",   widget: "string" }
+      - { label: "Date",      name: "date",    widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Summary",   name: "summary", widget: "text",    required: false }
+      - { label: "Content",   name: "body",    widget: "markdown" }
+      - { label: "Published", name: "published", widget: "boolean", default: true }
 
-      - label: "Date"
-        name: "date"
-        widget: "datetime"
-        date_format: "YYYY-MM-DD"
-        time_format: false
-
-      - label: "Summary"
-        name: "summary"
-        widget: "text"
-        hint: "One-line description shown in the newsletter archive"
-
-      - label: "Content"
-        name: "body"
-        widget: "markdown"
-        hint: "Full newsletter content"
-
-      - label: "Published"
-        name: "published"
-        widget: "boolean"
-        default: true
-
-
-  # ── 7. SITE SETTINGS ──────────────────────────────
+  # ── SITE SETTINGS ────────────────────────────────
   - name: "settings"
     label: "⚙️ Site Settings"
     files:
-
-      - label: "General Settings"
+      - label: "General"
         name: "general"
         file: "_content/settings/general.json"
         fields:
-          - label: "Site Title"
-            name: "site_title"
-            widget: "string"
-            default: "The Righteous Vine Missions"
-
-          - label: "Tagline"
-            name: "tagline"
-            widget: "string"
-            default: "Rooted in Faith · Growing in Love · Bearing Fruit for All Nations"
-
-          - label: "Contact Email"
-            name: "email"
-            widget: "string"
-            default: "eogyakari@gmail.com"
-
-          - label: "Phone Number"
-            name: "phone"
-            widget: "string"
-            required: false
-
-          - label: "Paystack Donation Link"
-            name: "paystack_url"
-            widget: "string"
-            default: "https://paystack.shop/pay/vt_j1cmjlse"
-
-          - label: "Facebook URL"
-            name: "facebook"
-            widget: "string"
-            default: "https://www.facebook.com/therighteousvinemissions"
-
-          - label: "Instagram Handle"
-            name: "instagram"
-            widget: "string"
-            default: "@the_rvm"
-
-          - label: "TikTok Handle"
-            name: "tiktok"
-            widget: "string"
-            default: "@trvmissions"
-
-          - label: "Operating Nations"
-            name: "nations"
-            widget: "list"
-            default: ["Ghana", "Liberia", "Kenya", "Indonesia"]
-            hint: "Nations where TRVM operates"
-
-      - label: "Homepage Content"
-        name: "homepage"
-        file: "_content/settings/homepage.json"
-        fields:
-          - label: "Hero Tagline"
-            name: "hero_tag"
-            widget: "string"
-            default: "Rooted in Faith · Grown in Love"
-
-          - label: "Hero Heading"
-            name: "hero_heading"
-            widget: "string"
-            default: "Serving the World with Grace & Purpose"
-
-          - label: "Hero Description"
-            name: "hero_desc"
-            widget: "text"
-            default: "A global missionary and philanthropic movement — feeding the hungry, sharing the Gospel, and transforming communities."
-
-          - label: "About Section Description"
-            name: "about_desc"
-            widget: "text"
-
-          - label: "Donate Section Heading"
-            name: "donate_heading"
-            widget: "string"
-            default: "Partner With the Mission"
-
-          - label: "Donate Section Description"
-            name: "donate_desc"
-            widget: "text"
-            default: "Your generosity plants seeds that bear eternal fruit. Every gift feeds a family, sends a missionary, or puts Scripture in someone's hands."
-
-      - label: "About Page Content"
-        name: "about"
-        file: "_content/settings/about.json"
-        fields:
-          - label: "Founded"
-            name: "founded"
-            widget: "string"
-            default: "November 2019"
-
-          - label: "Paragraph 1"
-            name: "paragraph_1"
-            widget: "text"
-
-          - label: "Paragraph 2"
-            name: "paragraph_2"
-            widget: "text"
-
-          - label: "Paragraph 3 (Operations)"
-            name: "paragraph_3"
-            widget: "text"
-
-          - label: "Vision Statement"
-            name: "vision"
-            widget: "text"
-            hint: "The bold vision statement shown in the purple box"
-
-          - label: "Key Scripture"
-            name: "scripture"
-            widget: "string"
-            default: "I am the vine; you are the branches. — John 15:5"
+          - { label: "Site Title",        name: "site_title",   widget: "string", default: "The Righteous Vine Missions" }
+          - { label: "Tagline",           name: "tagline",      widget: "string" }
+          - { label: "Contact Email",     name: "email",        widget: "string", default: "eogyakari@gmail.com" }
+          - { label: "Phone",             name: "phone",        widget: "string", required: false }
+          - { label: "Paystack URL",      name: "paystack_url", widget: "string" }
+          - { label: "Facebook URL",      name: "facebook",     widget: "string" }
+          - { label: "Instagram Handle",  name: "instagram",    widget: "string" }
+          - { label: "TikTok Handle",     name: "tiktok",       widget: "string" }
