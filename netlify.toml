@@ -1,46 +1,5 @@
-# ═══════════════════════════════════════════════════════
-# netlify.toml — Netlify Deployment Configuration
-# The Righteous Vine Missions
-# ═══════════════════════════════════════════════════════
+# Netlify Configuration — The Righteous Vine Missions
 
 [build]
-  publish = "."          # Serve from the root folder
-  command = ""           # No build command needed (static HTML)
-
-# ── Headers ──────────────────────────────────────────
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-
-# Allow Netlify CMS admin to be framed by Netlify Identity widget
-[[headers]]
-  for = "/admin/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    Content-Security-Policy = "frame-ancestors 'self'"
-
-# ── Redirects ─────────────────────────────────────────
-# Redirect /admin to /admin/index.html
-[[redirects]]
-  from = "/admin"
-  to = "/admin/index.html"
-  status = 200
-
-# Redirect old admin.html to new Netlify CMS
-[[redirects]]
-  from = "/admin.html"
-  to = "/admin/index.html"
-  status = 301
-
-# ── Netlify Identity ─────────────────────────────────
-# Netlify Identity is configured via the Netlify dashboard:
-# Site Settings → Identity → Enable
-# Site Settings → Identity → Services → Enable Git Gateway
-# Site Settings → Identity → Registration → Invite Only (recommended)
-
-[context.production]
-  environment = { NODE_VERSION = "18" }
+  publish = "."
+  command = "node build.js"
