@@ -148,5 +148,28 @@
   </div>
   <p class="footer-copy">© 2026 The Righteous Vine Missions. All rights reserved.</p>
 </footer>
+
+  <script>
+  async function loadCMSNewsletter() {
+    try {
+      const res = await fetch('newsletter-data.json?v=' + Date.now());
+      const issues = await res.json();
+      if (!issues || !issues.length) return;
+      const container = document.querySelector('.nl-list') || document.querySelector('[style*="flex-direction:column"]');
+      if (!container) return;
+      const html = issues.map(n => `
+        <div style="background:#fff;border-radius:0.9rem;padding:1.3rem 1.6rem;box-shadow:0 2px 12px rgba(0,0,0,0.05);border-left:4px solid var(--purple-mid);cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+          <h3 style="font-family:Playfair Display,serif;font-size:1rem;color:var(--dark);margin-bottom:0.2rem;">${n.title}</h3>
+          <div style="font-size:0.8rem;color:#aaa;">${n.date ? new Date(n.date).toLocaleDateString('en-GB',{month:'long',year:'numeric'}) : ''}</div>
+          ${n.summary ? `<div style="font-size:0.88rem;color:#666;margin-top:0.3rem;">${n.summary}</div>` : ''}
+        </div>
+        <div style="display:none;padding:1rem 1.5rem;background:#fafafa;border-radius:0 0 0.9rem 0.9rem;margin-top:-0.5rem;border-left:4px solid var(--purple-mid);font-size:0.92rem;line-height:1.8;color:#444;">${n.content}</div>
+      `).join('');
+      container.insertAdjacentHTML('afterbegin', html);
+    } catch(e) {}
+  }
+  loadCMSNewsletter();
+  </script>
+
 </body>
 </html>
