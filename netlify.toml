@@ -1,0 +1,5 @@
+# Netlify Configuration — The Righteous Vine Missions
+
+[build]
+  publish = "."
+  command = "node build.js"
