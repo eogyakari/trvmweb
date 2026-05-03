@@ -22,7 +22,7 @@
     <div class="spinner"></div>
   </div>
 
-  <!-- Netlify Identity Widget — MUST load first to handle tokens -->
+  <!-- Netlify Identity Widget — handles invite/recovery tokens automatically -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
   <script>
@@ -34,18 +34,20 @@
     );
 
     if (isToken) {
-      // Token detected — let Identity widget handle it, do NOT load Decap CMS
-      document.getElementById('loaderMsg').textContent = 'Opening password form...';
-      window.netlifyIdentity.on('init', function() {
-        window.netlifyIdentity.open();
+      // Token in URL — the Identity widget detects it automatically on init
+      // Do NOT call netlifyIdentity.open() — that opens the login form, not the token form
+      // Just hide the loader and let the widget handle it
+      document.getElementById('loaderMsg').textContent = 'Setting up your password...';
+      window.netlifyIdentity.on('init', function(user) {
         document.getElementById('loader').style.display = 'none';
+        // Widget auto-detects the token and shows the correct form (set/reset password)
       });
     } else {
-      // No token — load Decap CMS normally
+      // No token — load Decap CMS for content editing
       document.getElementById('loaderMsg').textContent = 'Loading Content Manager...';
-      var script = document.createElement('script');
-      script.src = 'https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js';
-      document.body.appendChild(script);
+      var cms = document.createElement('script');
+      cms.src = 'https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js';
+      document.body.appendChild(cms);
     }
   </script>
 </body>
