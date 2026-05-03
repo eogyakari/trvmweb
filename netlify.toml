@@ -1,9 +1,0 @@
-# Netlify Configuration — The Righteous Vine Missions
-
-[build]
-  publish = "."
-  command = "node build.js"
-
-# Skip post-processing to prevent timeout on large HTML files
-[build.processing]
-  skip_processing = true
