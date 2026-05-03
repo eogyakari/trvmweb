@@ -1,0 +1,20 @@
+# Netlify Configuration — The Righteous Vine Missions
+
+[build]
+  publish = "."
+  command = "node build.js"
+
+# Disable post-processing — large embedded-image HTML files cause timeouts
+[build.processing]
+  skip_processing = true
+
+# Explicit routing for admin
+[[redirects]]
+  from = "/admin"
+  to   = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/"
+  to   = "/admin/index.html"
+  status = 200
