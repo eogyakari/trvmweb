@@ -1267,5 +1267,18 @@
   showSlide(0);
   startAuto();
 </script>
+
+<!-- Netlify Identity Widget — handles invite & password reset tokens -->
+<!-- This must be on the homepage because Netlify redirects tokens here -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  window.netlifyIdentity && window.netlifyIdentity.on('init', function(user) {
+    if (!user) {
+      window.netlifyIdentity.on('login', function() {
+        document.location.href = '/admin/';
+      });
+    }
+  });
+</script>
 </body>
 </html>
