@@ -1,0 +1,42 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Content Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Netlify CMS -->
+    <script src="https://unpkg.com/netlify-cms@^2.10.192/dist/netlify-cms.js"></script>
+
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  </head>
+
+  <body>
+    <!-- Optional: loading message -->
+    <p style="text-align:center; margin-top:50px; font-family:sans-serif;">
+      Loading CMS...
+    </p>
+
+    <script>
+      // Initialize Netlify Identity & handle login redirects
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", function (user) {
+          if (!user) {
+            window.netlifyIdentity.on("login", function () {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+
+        // Handle invite & recovery tokens properly
+        window.netlifyIdentity.on("open", () => console.log("Identity widget opened"));
+        window.netlifyIdentity.on("login", () => console.log("User logged in"));
+        window.netlifyIdentity.on("logout", () => console.log("User logged out"));
+        window.netlifyIdentity.on("error", (err) => console.error("Error:", err));
+      }
+    </script>
+  </body>
+</html>
+```
