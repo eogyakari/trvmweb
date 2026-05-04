@@ -1,8 +1,0 @@
-# Netlify Configuration — The Righteous Vine Missions
-
-[build]
-  publish = "."
-  command = ""
-
-[build.processing]
-  skip_processing = true
