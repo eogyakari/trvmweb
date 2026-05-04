@@ -1,7 +1,7 @@
 ---
 title: "From Darkness to Dominion: Experiencing Total Freedom in Christ"
 date: 2026-05-04
-tag: Faith
+tag: Words
 scripture: “For, behold, the darkness shall cover the earth, and gross darkness
   the people…” (Isaiah 60:2)
 summary: Across the world today, many people are searching for freedom—yet few
