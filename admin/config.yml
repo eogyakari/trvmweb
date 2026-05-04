@@ -17,7 +17,6 @@ collections:
     folder: "_content/devotions"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{title}} ({{tag}})"
     fields:
       - {label: "Title",     name: "title",     widget: "string"}
       - {label: "Date",      name: "date",      widget: "datetime", date_format: "YYYY-MM-DD", time_format: false}
@@ -25,10 +24,10 @@ collections:
         name: "tag"
         widget: "select"
         options: [Faith, Prayer, Purpose, Healing, Words, Worship, Missions, Discipleship]
-      - {label: "Scripture", name: "scripture", widget: "string",  required: false, hint: "e.g. Proverbs 18:21"}
-      - {label: "Summary",   name: "summary",   widget: "text",    required: false, hint: "Short preview shown on cards"}
+      - {label: "Scripture", name: "scripture", widget: "string",  required: false}
+      - {label: "Summary",   name: "summary",   widget: "text",    required: false}
       - {label: "Content",   name: "body",      widget: "markdown"}
-      - {label: "Published", name: "published", widget: "boolean", default: false}
+      - {label: "Published", name: "published", widget: "boolean", default: true}
 
   - name: "books"
     label: "📚 Books"
@@ -36,7 +35,6 @@ collections:
     folder: "_content/books"
     create: true
     slug: "{{slug}}"
-    summary: "{{title}} — {{author}}"
     fields:
       - {label: "Title",       name: "title",       widget: "string"}
       - {label: "Author",      name: "author",      widget: "string", default: "TRVM Ministry"}
@@ -73,7 +71,6 @@ collections:
     folder: "_content/magazine"
     create: true
     slug: "edition-{{edition}}"
-    summary: "Edition {{edition}} — {{year}}"
     fields:
       - {label: "Edition Number", name: "edition",     widget: "number", value_type: "int", min: 1}
       - {label: "Year",           name: "year",        widget: "number", value_type: "int"}
@@ -97,11 +94,10 @@ collections:
     folder: "_content/videos"
     create: true
     slug: "{{slug}}"
-    summary: "{{title}}"
     fields:
-      - {label: "Title",              name: "title",       widget: "string"}
-      - {label: "YouTube/Vimeo URL",  name: "url",         widget: "string", hint: "Paste the full YouTube or Vimeo URL"}
-      - {label: "Description",        name: "description", widget: "text",   required: false}
+      - {label: "Title",             name: "title",       widget: "string"}
+      - {label: "YouTube/Vimeo URL", name: "url",         widget: "string"}
+      - {label: "Description",       name: "description", widget: "text",   required: false}
       - label: "Category"
         name: "category"
         widget: "select"
@@ -115,7 +111,6 @@ collections:
     folder: "_content/newsletter"
     create: true
     slug: "{{year}}-{{month}}-{{slug}}"
-    summary: "{{title}}"
     fields:
       - {label: "Title",     name: "title",   widget: "string"}
       - {label: "Date",      name: "date",    widget: "datetime", date_format: "YYYY-MM-DD", time_format: false}
@@ -130,9 +125,9 @@ collections:
         name: "general"
         file: "_content/settings/general.json"
         fields:
-          - {label: "Site Title",       name: "site_title",   widget: "string", default: "The Righteous Vine Missions"}
+          - {label: "Site Title",       name: "site_title",   widget: "string"}
           - {label: "Tagline",          name: "tagline",      widget: "string"}
-          - {label: "Contact Email",    name: "email",        widget: "string", default: "eogyakari@gmail.com"}
+          - {label: "Contact Email",    name: "email",        widget: "string"}
           - {label: "Phone",            name: "phone",        widget: "string", required: false}
           - {label: "Paystack URL",     name: "paystack_url", widget: "string"}
           - {label: "Facebook URL",     name: "facebook",     widget: "string"}
