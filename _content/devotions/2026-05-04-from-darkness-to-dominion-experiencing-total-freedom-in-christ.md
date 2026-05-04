@@ -10,7 +10,7 @@ summary: Across the world today, many people are searching for freedom—yet few
   greatest bondage is not always visible. A man is not truly imprisoned because
   he is behind bars nor free because he walks the streets. The deepest prison is
   spiritual darkness—a condition where the soul is cut off from the light of God
-published: false
+published: true
 ---
 **Many are trapped in this darkness and do not even realize it.**
 
