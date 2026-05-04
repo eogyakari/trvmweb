@@ -1,0 +1,11 @@
+{
+  "name": "trvm-website",
+  "version": "1.0.0",
+  "description": "The Righteous Vine Missions website",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "build": "node build.js"
+  }
+}
