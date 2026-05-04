@@ -1,0 +1,11 @@
+# Netlify Configuration — The Righteous Vine Missions
+
+[build]
+  publish = "."
+  command = "node build.js"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[build.processing]
+  skip_processing = true
