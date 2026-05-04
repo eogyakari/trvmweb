@@ -20,25 +20,17 @@ This darkness is not merely the absence of light—it is the presence of ignoran
 
 Can humanity ever truly be free? Governments have tried. Systems have been built. Laws enforced. Yet peace remains elusive because the problem is spiritual.
 
- 
-
 But there is hope.
 
 “…but the LORD shall arise upon thee, and his glory shall be seen upon thee.”
-
- 
 
 J**esus said: “I am the light of the world…” (John 8:12)**
 
 He did not come to improve darkness—he came to destroy it.
 
- 
-
 Why do many remain bound? “Men loved darkness rather than light…” **(John 3:19)** 
 
 Freedom is available—but not all desire it. “Where the Spirit of the Lord is, there is liberty.” (2 Corinthians 3:17)
-
- 
 
 **When Christ enters a life:**
 
@@ -47,17 +39,13 @@ Freedom is available—but not all desire it. “Where the Spirit of the Lord is
 3. Identity is restored
 4. Authority is given
 
- 
-
 **Jesus is the way out of every form of bondage (John 14:6).** 
 
 The first step is repentance. “Stand fast therefore in the liberty…” **(Galatians 5:1)**
 
 Do not return to what once enslaved you. Jesus came to open prison doors.
 
-Will you remain in darkness or step into intothe light?
-
- 
+Will you remain in darkness or step into the light?
 
 **Decree:**
 
