@@ -178,6 +178,9 @@ var magazine = readCollection('magazine')
     };
   });
 write('magazine-data.json', magazine);
+var magazineJs = 'window.CMS_MAGAZINE = ' + JSON.stringify(magazine).split('<' + '/script>').join('<\/script>') + ';';
+fs.writeFileSync(path.join(process.cwd(), 'magazine-data.js'), magazineJs);
+console.log('  \u2705 magazine-data.js \u2014 ' + magazine.length + ' issue(s)');
 
 // 4. Videos
 var videos = readCollection('videos')
@@ -216,6 +219,8 @@ var settings = {
   about:    readSettings('about')
 };
 write('settings-data.json', settings);
+
+
 
 
 console.log('\n✅ Build complete!\n');
