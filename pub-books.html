@@ -78,6 +78,7 @@
   .sub-box p{color:#666;font-size:0.9rem;margin-bottom:1rem;}
   .sub-box input{width:100%;padding:0.7rem 1rem;border:1.5px solid rgba(74,26,122,0.15);border-radius:0.6rem;font-family:DM Sans,sans-serif;font-size:0.9rem;margin-bottom:0.7rem;outline:none;}
 </style>
+<script src="/books-data.js"></script>
 </head>
 <body>
 <nav class="nav">
@@ -173,5 +174,44 @@
   </div>
   <p class="footer-copy">© 2026 The Righteous Vine Missions. All rights reserved.</p>
 </footer>
+
+<script>
+  function loadCMSBooks() {
+    var books = window.CMS_BOOKS;
+    if (!books || !books.length) return;
+    var grid = document.querySelector('.grid');
+    if (!grid) return;
+    var cards = books.map(function(b) {
+      var color = b.coverColor || '#4A1A7A';
+      var accessLabel = b.access === 'free'     ? '&#9989; Free Download' :
+                        b.access === 'donation' ? '&#128274; Donation Required ($50+)' :
+                        '&#9203; Coming Soon';
+      var btnHtml = b.access === 'free' && b.pdfUrl
+        ? '<a href="' + b.pdfUrl + '" download class="card-btn" style="background:linear-gradient(135deg,var(--purple),var(--purple-mid));color:#fff;display:block;text-align:center;border-radius:0.6rem;padding:0.55rem;text-decoration:none;font-size:0.82rem;font-weight:600;">&#11015; Download Free</a>'
+        : b.access === 'donation'
+        ? '<button class="card-btn btn-locked" onclick="openDonateModal()">Give &amp; Download &rarr;</button>'
+        : '<span class="card-btn btn-coming" style="display:block;text-align:center;padding:0.55rem;font-size:0.82rem;color:#aaa;">Coming Soon</span>';
+      var coverImg = b.coverImage
+        ? '<img src="' + b.coverImage + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" alt="' + (b.title||'') + '"/>'
+        : '';
+      return '<div class="card">' +
+        '<div class="card-cover" style="background:linear-gradient(135deg,' + color + ',#9B59D0);flex-direction:column;gap:0.3rem;position:relative;overflow:hidden;">' +
+        coverImg +
+        '<span style="font-size:2.5rem;position:relative;">&#128214;</span>' +
+        '<span style="font-family:Playfair Display,serif;font-size:0.82rem;font-weight:700;color:#fff;position:relative;padding:0 0.5rem;text-align:center;">' + (b.title||'') + '</span>' +
+        '<span style="font-size:0.68rem;color:var(--gold);position:relative;">' + (b.author||'') + '</span>' +
+        '</div>' +
+        '<div class="card-body">' +
+        '<h3>' + (b.title||'') + '</h3>' +
+        '<div class="card-author">' + (b.author||'') + '</div>' +
+        (b.description ? '<div class="card-desc">' + b.description + '</div>' : '') +
+        '<span class="badge ' + (b.access==='free' ? 'badge-free' : b.access==='donation' ? 'badge-donation' : 'badge-coming') + '" style="margin-bottom:0.7rem;">' + accessLabel + '</span>' +
+        btnHtml +
+        '</div></div>';
+    }).join('');
+    grid.insertAdjacentHTML('afterbegin', cards);
+  }
+  document.addEventListener('DOMContentLoaded', function() { loadCMSBooks(); });
+</script>
 </body>
 </html>

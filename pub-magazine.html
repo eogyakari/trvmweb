@@ -78,6 +78,7 @@
   .sub-box p{color:#666;font-size:0.9rem;margin-bottom:1rem;}
   .sub-box input{width:100%;padding:0.7rem 1rem;border:1.5px solid rgba(74,26,122,0.15);border-radius:0.6rem;font-family:DM Sans,sans-serif;font-size:0.9rem;margin-bottom:0.7rem;outline:none;}
 </style>
+<script src="/magazine-data.js"></script>
 </head>
 <body>
 <nav class="nav">
@@ -204,6 +205,67 @@
   function openDonateModal(){ document.getElementById('donateModal').classList.add('open'); }
   document.getElementById('donateModal').addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') document.getElementById('donateModal').classList.remove('open'); });
+</script>
+
+<!-- Donate modal -->
+<div class="modal-overlay" id="donateModal">
+  <div class="modal-box">
+    <div style="font-size:2rem;margin-bottom:0.8rem;">&#128274;</div>
+    <h3>Unlock This Resource</h3>
+    <p>This magazine is available as a gift to partners who give <strong>USD 50 or more</strong>. Your donation supports our global missions.</p>
+    <div class="modal-steps">
+      <div class="modal-step"><span class="step-num">1</span><span>Click "Give &amp; Download" to donate on Paystack</span></div>
+      <div class="modal-step"><span class="step-num">2</span><span>Email your receipt to <a href="mailto:info@trvmissions.com" style="color:var(--purple-mid);">info@trvmissions.com</a></span></div>
+      <div class="modal-step"><span class="step-num">3</span><span>We will send your download link within 24 hours</span></div>
+    </div>
+    <a href="https://paystack.shop/pay/vt_j1cmjlse" target="_blank" rel="noopener" class="btn-gold-block">Give &amp; Download &mdash; USD 50+</a>
+    <button class="modal-close" onclick="document.getElementById('donateModal').classList.remove('open')">Cancel</button>
+  </div>
+</div>
+
+<script>
+  function openDonateModal() { document.getElementById('donateModal').classList.add('open'); }
+  document.getElementById('donateModal').addEventListener('click', function(e) { if(e.target===this) this.classList.remove('open'); });
+  document.addEventListener('keydown', function(e) { if(e.key==='Escape') document.getElementById('donateModal').classList.remove('open'); });
+
+  // Load CMS magazine issues from magazine-data.js
+  function loadCMSMagazine() {
+    var issues = window.CMS_MAGAZINE;
+    if (!issues || !issues.length) return;
+    var grid = document.querySelector('.grid');
+    if (!grid) return;
+    var colors = [
+      'linear-gradient(135deg,#4A1A7A,#9B59D0)',
+      'linear-gradient(135deg,#1A3C2A,#2D7D46)',
+      'linear-gradient(135deg,#2A0A4A,#6B2FA0)',
+      'linear-gradient(135deg,#3a2800,#D4A017)'
+    ];
+    var cards = issues.map(function(m, i) {
+      var accessLabel = m.access === 'free'     ? '&#9989; Free Download' :
+                        m.access === 'donation' ? '&#128274; Give USD 50+ to unlock' :
+                        '&#9203; Coming Soon';
+      var btnHtml = m.access === 'free' && m.pdfUrl
+        ? '<a href="' + m.pdfUrl + '" download class="card-btn" style="background:linear-gradient(135deg,var(--purple),var(--purple-mid));color:#fff;display:block;text-align:center;border-radius:0.6rem;padding:0.55rem;text-decoration:none;font-size:0.82rem;font-weight:600;">&#11015; Download Free</a>'
+        : m.access === 'donation'
+        ? '<button class="card-btn btn-locked" onclick="openDonateModal()">Give &amp; Download &rarr;</button>'
+        : '<span class="card-btn btn-coming" style="display:block;text-align:center;padding:0.55rem;font-size:0.82rem;color:#aaa;">In Production</span>';
+      return '<div class="card">' +
+        '<div class="card-cover" style="background:' + colors[i % colors.length] + ';flex-direction:column;">' +
+        '<span style="font-size:2.2rem;position:relative;margin-bottom:0.4rem;">&#128240;</span>' +
+        '<span style="font-family:Playfair Display,serif;font-size:0.85rem;font-weight:700;color:#fff;position:relative;">The Vine Magazine</span>' +
+        '<span style="font-size:0.72rem;color:var(--gold);position:relative;margin-top:0.2rem;">Edition ' + (m.edition||'') + ' &middot; ' + (m.year||'') + '</span>' +
+        '</div>' +
+        '<div class="card-body">' +
+        '<h3>Edition ' + (m.edition||'') + ' &mdash; ' + (m.year||'') + '</h3>' +
+        (m.description ? '<div class="card-desc">' + m.description + '</div>' : '') +
+        '<div class="badge badge-donation" style="margin-bottom:0.7rem;">' + accessLabel + '</div>' +
+        btnHtml +
+        '</div></div>';
+    }).join('');
+    grid.insertAdjacentHTML('afterbegin', cards);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() { loadCMSMagazine(); });
 </script>
 </body>
 </html>

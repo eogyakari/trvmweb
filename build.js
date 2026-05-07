@@ -160,6 +160,9 @@ var books = readCollection('books')
     };
   });
 write('books-data.json', books);
+var booksJs = 'window.CMS_BOOKS = ' + JSON.stringify(books).split('<' + '/script>').join('<\/script>') + ';';
+fs.writeFileSync(path.join(process.cwd(), 'books-data.js'), booksJs);
+console.log('  \u2705 books-data.js \u2014 ' + books.length + ' book(s)');
 
 // 3. Magazine
 var magazine = readCollection('magazine')
