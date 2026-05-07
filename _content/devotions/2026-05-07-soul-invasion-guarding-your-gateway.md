@@ -38,4 +38,4 @@ The moment God spoke—"Let us make man"—man came into existence in the spirit
 
 Then came the moment of incarnation—the entering of the spirit into matter.
 
-...visit books and download the full edition
+...visit books to download the full edition
