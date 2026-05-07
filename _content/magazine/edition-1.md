@@ -8,5 +8,5 @@ description: "This magazine is the maiden edition of the Vine Magazine. Our
 pdf: files/magazine/trvm-magazine.pdf
 cover_image: images/uploads/4b58dd64-85bf-4d68-8fe5-b79239c1d628.jpg
 access: donation
-published: false
+published: true
 ---
