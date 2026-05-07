@@ -14,6 +14,6 @@ category: Prayer
 access: free
 cover_color: "#3a2800"
 pdf: files/books/soul-invasion-book-english.pdf
-cover_image: images/uploads/whatsapp-image-2022-03-08-at-1.11.02-pm.jpeg
+cover_image: ""
 published: true
 ---
