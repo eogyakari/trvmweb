@@ -245,7 +245,7 @@
                         m.access === 'donation' ? '&#128274; Give USD 50+ to unlock' :
                         '&#9203; Coming Soon';
       var btnHtml = m.access === 'free' && m.pdfUrl
-        ? '<a href="' + m.pdfUrl + '" download class="card-btn" style="background:linear-gradient(135deg,var(--purple),var(--purple-mid));color:#fff;display:block;text-align:center;border-radius:0.6rem;padding:0.55rem;text-decoration:none;font-size:0.82rem;font-weight:600;">&#11015; Download Free</a>'
+        ? '<a href="' + m.pdfUrl + '" target="_blank" rel="noopener" class="card-btn" style="background:linear-gradient(135deg,var(--purple),var(--purple-mid));color:#fff;display:block;text-align:center;border-radius:0.6rem;padding:0.55rem;text-decoration:none;font-size:0.82rem;font-weight:600;">&#11015; Download Free</a>'
         : m.access === 'donation'
         ? '<button class="card-btn btn-locked" onclick="openDonateModal()">Give &amp; Download &rarr;</button>'
         : '<span class="card-btn btn-coming" style="display:block;text-align:center;padding:0.55rem;font-size:0.82rem;color:#aaa;">In Production</span>';
