@@ -1,17 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
+import type { Devotion } from '@/lib/types'
 import Link from 'next/link'
-
-type Devotion = {
-  id: string
-  title: string
-  slug: string
-  content: string
-  author: string
-  date: string
-  image_url: string | null
-}
 
 function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
@@ -23,7 +14,6 @@ const inputStyle: React.CSSProperties = {
   marginTop: 6, outline: 'none', boxSizing: 'border-box',
   color: '#000', background: '#fff'
 }
-
 const labelStyle: React.CSSProperties = {
   fontSize: 13, fontWeight: 600, color: '#444', display: 'block'
 }
@@ -33,7 +23,7 @@ export default function AdminDevotionsPage() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<Devotion | null>(null)
-  const [form, setForm] = useState({ title: '', slug: '', content: '', author: '', date: '', image_url: '' })
+  const [form, setForm] = useState({ title: '', slug: '', content: '', author: '', date: '', cover_image: '' })
   const [saving, setSaving] = useState(false)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
@@ -49,20 +39,20 @@ export default function AdminDevotionsPage() {
 
   function openNew() {
     setEditing(null)
-    setForm({ title: '', slug: '', content: '', author: 'TRVM', date: new Date().toISOString().split('T')[0], image_url: '' })
+    setForm({ title: '', slug: '', content: '', author: 'TRVM', date: new Date().toISOString().split('T')[0], cover_image: '' })
     setImageFile(null)
     setShowForm(true)
   }
 
   function openEdit(d: Devotion) {
     setEditing(d)
-    setForm({ title: d.title, slug: d.slug, content: d.content, author: d.author, date: d.date, image_url: d.image_url || '' })
+    setForm({ title: d.title, slug: d.slug, content: d.content, author: d.author, date: d.date, cover_image: d.cover_image || '' })
     setImageFile(null)
     setShowForm(true)
   }
 
   async function uploadImage(): Promise<string | null> {
-    if (!imageFile) return form.image_url || null
+    if (!imageFile) return form.cover_image || null
     setUploading(true)
     const ext = imageFile.name.split('.').pop()
     const path = `devotions/${Date.now()}.${ext}`
@@ -80,7 +70,7 @@ export default function AdminDevotionsPage() {
     setSaving(true)
     const imageUrl = await uploadImage()
     const slug = form.slug || slugify(form.title)
-    const payload = { title: form.title, slug, content: form.content, author: form.author, date: form.date, image_url: imageUrl }
+    const payload = { title: form.title, slug, content: form.content, author: form.author, date: form.date, cover_image: imageUrl }
 
     if (editing) {
       const { error } = await supabase.from('devotions').update(payload).eq('id', editing.id)
@@ -165,11 +155,26 @@ export default function AdminDevotionsPage() {
               </div>
 
               <div>
-                <label style={labelStyle}>Cover Image (upload)</label>
-                <input type="file" accept="image/*" style={{ marginTop: 8 }}
-                  onChange={e => setImageFile(e.target.files?.[0] || null)} />
-                {form.image_url && !imageFile && (
-                  <img src={form.image_url} alt="current" style={{ height: 80, marginTop: 10, borderRadius: 6, objectFit: 'cover' }} />
+                <label style={labelStyle}>Cover Image (optional)</label>
+                <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                  <label style={{
+                    display: 'inline-block', padding: '9px 20px', background: '#1a3a2a',
+                    color: 'white', borderRadius: 6, fontSize: 13, fontWeight: 600,
+                    cursor: 'pointer', fontFamily: 'Georgia, serif'
+                  }}>
+                    Choose Image
+                    <input type="file" accept="image/*" style={{ display: 'none' }}
+                      onChange={e => setImageFile(e.target.files?.[0] || null)} />
+                  </label>
+                  {imageFile && (
+                    <span style={{ fontSize: 13, color: '#1a3a2a', fontWeight: 600 }}>
+                      ✓ {imageFile.name}
+                    </span>
+                  )}
+                </div>
+                {form.cover_image && !imageFile && (
+                  <img src={form.cover_image} alt="current"
+                    style={{ height: 80, marginTop: 10, borderRadius: 6, objectFit: 'cover', display: 'block' }} />
                 )}
               </div>
             </div>
@@ -211,8 +216,8 @@ export default function AdminDevotionsPage() {
               border: '1px solid #f0ebe0'
             }}>
               <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-                {d.image_url && (
-                  <img src={d.image_url} alt={d.title}
+                {d.cover_image && (
+                  <img src={d.cover_image} alt={d.title}
                     style={{ width: 48, height: 48, borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />
                 )}
                 <div>
