@@ -1,65 +1,235 @@
-import Image from "next/image";
+import Link from "next/link"
+import { supabase } from "@/lib/supabase"
 
-export default function Home() {
+async function getLatestContent() {
+  const [{ data: devotions }, { data: magazines }, { data: videos }] = await Promise.all([
+    supabase.from("devotions").select("id, title, excerpt, published_date, slug").eq("is_published", true).order("published_date", { ascending: false }).limit(3),
+    supabase.from("magazines").select("id, title, edition, cover_image, published_date").eq("is_published", true).order("published_date", { ascending: false }).limit(3),
+    supabase.from("videos").select("id, title, url, thumbnail").eq("is_published", true).order("published_date", { ascending: false }).limit(3),
+  ])
+  return { devotions: devotions ?? [], magazines: magazines ?? [], videos: videos ?? [] }
+}
+
+export default async function HomePage() {
+  const { devotions, magazines, videos } = await getLatestContent()
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div>
+      {/* Hero */}
+      <section style={{
+        background: "linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 50%, #0D1A2E 100%)",
+        minHeight: "90vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        padding: "80px 24px",
+        position: "relative",
+        overflow: "hidden",
+      }}>
+        {/* Background glow */}
+        <div style={{
+          position: "absolute",
+          width: 600,
+          height: 600,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(123,47,190,0.15) 0%, transparent 70%)",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }} />
+
+        <div style={{ position: "relative", maxWidth: 800 }}>
+          <div style={{
+            fontSize: 12,
+            fontWeight: 700,
+            color: "#F5A623",
+            letterSpacing: 4,
+            textTransform: "uppercase",
+            marginBottom: 16,
+          }}>
+            ✝ The Righteous Vine Missions
+          </div>
+          <h1 style={{
+            fontSize: "clamp(36px, 6vw, 72px)",
+            fontWeight: 800,
+            lineHeight: 1.1,
+            marginBottom: 24,
+            background: "linear-gradient(135deg, #F5A623, #9B59B6)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}>
+            Spreading the Gospel to the Ends of the Earth
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p style={{ fontSize: 18, color: "#a0a0b0", lineHeight: 1.8, marginBottom: 40, maxWidth: 600, margin: "0 auto 40px" }}>
+            Reaching the unreached, feeding the hungry, discipling the nations — one mission at a time.
           </p>
+          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+            <Link href="/about" style={{
+              background: "linear-gradient(135deg, #7B2FBE, #9B59B6)",
+              color: "#fff",
+              padding: "14px 32px",
+              borderRadius: 30,
+              fontSize: 14,
+              fontWeight: 700,
+              letterSpacing: 1,
+            }}>
+              OUR MISSION
+            </Link>
+            <Link href="/donate" style={{
+              background: "linear-gradient(135deg, #F5A623, #E8860A)",
+              color: "#0D0D1A",
+              padding: "14px 32px",
+              borderRadius: 30,
+              fontSize: 14,
+              fontWeight: 700,
+              letterSpacing: 1,
+            }}>
+              SUPPORT US
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Stats */}
+      <section style={{ background: "#1A0A2E", padding: "48px 24px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 32, textAlign: "center" }}>
+          {[
+            { num: "1,500+", label: "Souls Reached" },
+            { num: "6", label: "Islands Visited" },
+            { num: "61", label: "Days in the Field" },
+            { num: "10+", label: "Years of Ministry" },
+          ].map(stat => (
+            <div key={stat.label}>
+              <div style={{ fontSize: 40, fontWeight: 800, background: "linear-gradient(135deg, #F5A623, #9B59B6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{stat.num}</div>
+              <div style={{ fontSize: 13, color: "#a0a0b0", textTransform: "uppercase", letterSpacing: 2, marginTop: 8 }}>{stat.label}</div>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
+
+      {/* Programs */}
+      <section style={{ padding: "80px 24px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <h2 style={{ fontSize: 36, fontWeight: 800, textAlign: "center", marginBottom: 8, color: "#fff" }}>Our Programs</h2>
+          <p style={{ textAlign: "center", color: "#a0a0b0", marginBottom: 48 }}>How we serve communities around the world</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 24 }}>
+            {[
+              { icon: "✝", title: "Missions", desc: "Evangelism and gospel outreach to unreached communities across islands and nations." },
+              { icon: "🍞", title: "Feeding Program", desc: "Providing nutritious meals to the hungry and vulnerable in underserved communities." },
+              { icon: "🤝", title: "Philanthropy", desc: "Supporting communities through education, healthcare, and social development." },
+              { icon: "📖", title: "Discipleship", desc: "Training and equipping believers to grow in faith and share the gospel." },
+            ].map(prog => (
+              <div key={prog.title} style={{
+                background: "linear-gradient(135deg, #1A0A2E, #16213E)",
+                border: "1px solid rgba(123, 47, 190, 0.3)",
+                borderRadius: 16,
+                padding: 32,
+                transition: "transform 0.2s",
+              }}
+                onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-4px)")}
+                onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}
+              >
+                <div style={{ fontSize: 36, marginBottom: 16 }}>{prog.icon}</div>
+                <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F5A623", marginBottom: 12 }}>{prog.title}</h3>
+                <p style={{ color: "#a0a0b0", fontSize: 14, lineHeight: 1.8 }}>{prog.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Devotions */}
+      {devotions.length > 0 && (
+        <section style={{ padding: "80px 24px", background: "#1A0A2E" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
+              <div>
+                <h2 style={{ fontSize: 36, fontWeight: 800, color: "#fff" }}>Latest Devotions</h2>
+                <p style={{ color: "#a0a0b0", marginTop: 8 }}>Daily words of encouragement</p>
+              </div>
+              <Link href="/devotions" style={{ color: "#F5A623", fontSize: 14, fontWeight: 600 }}>View All →</Link>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
+              {devotions.map((d: any) => (
+                <Link key={d.id} href={`/devotions/${d.slug}`} style={{
+                  background: "linear-gradient(135deg, #0D0D1A, #1A0A2E)",
+                  border: "1px solid rgba(123, 47, 190, 0.3)",
+                  borderRadius: 16,
+                  padding: 24,
+                  display: "block",
+                }}>
+                  <div style={{ fontSize: 11, color: "#9B59B6", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
+                    {new Date(d.published_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+                  </div>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 12 }}>{d.title}</h3>
+                  {d.excerpt && <p style={{ color: "#a0a0b0", fontSize: 13, lineHeight: 1.8 }} >{d.excerpt}</p>}
+                  <div style={{ marginTop: 16, color: "#F5A623", fontSize: 13, fontWeight: 600 }}>Read More →</div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Latest Magazines */}
+      {magazines.length > 0 && (
+        <section style={{ padding: "80px 24px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
+              <div>
+                <h2 style={{ fontSize: 36, fontWeight: 800, color: "#fff" }}>The Vine Magazine</h2>
+                <p style={{ color: "#a0a0b0", marginTop: 8 }}>Our latest publications</p>
+              </div>
+              <Link href="/publications" style={{ color: "#F5A623", fontSize: 14, fontWeight: 600 }}>View All →</Link>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 24 }}>
+              {magazines.map((mag: any) => (
+                <div key={mag.id} style={{
+                  background: "linear-gradient(135deg, #1A0A2E, #16213E)",
+                  border: "1px solid rgba(123, 47, 190, 0.3)",
+                  borderRadius: 16,
+                  overflow: "hidden",
+                }}>
+                  <div style={{ height: 200, background: "linear-gradient(135deg, #7B2FBE, #F5A623)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {mag.cover_image
+                      ? <img src={mag.cover_image} alt={mag.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      : <span style={{ fontSize: 48 }}>📖</span>}
+                  </div>
+                  <div style={{ padding: 20 }}>
+                    <div style={{ fontSize: 11, color: "#9B59B6", letterSpacing: 2, marginBottom: 8 }}>Edition {mag.edition}</div>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>{mag.title}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA */}
+      <section style={{
+        background: "linear-gradient(135deg, #7B2FBE 0%, #F5A623 100%)",
+        padding: "80px 24px",
+        textAlign: "center",
+      }}>
+        <h2 style={{ fontSize: 40, fontWeight: 800, color: "#fff", marginBottom: 16 }}>Support Our Mission</h2>
+        <p style={{ fontSize: 18, color: "rgba(255,255,255,0.85)", marginBottom: 40, maxWidth: 600, margin: "0 auto 40px" }}>
+          Your donation helps us reach more souls, feed more families, and spread the gospel further.
+        </p>
+        <Link href="/donate" style={{
+          background: "#fff",
+          color: "#7B2FBE",
+          padding: "16px 40px",
+          borderRadius: 30,
+          fontSize: 16,
+          fontWeight: 800,
+          letterSpacing: 1,
+          display: "inline-block",
+        }}>
+          DONATE NOW
+        </Link>
+      </section>
     </div>
-  );
+  )
 }
