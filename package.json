@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "trvmweb",
   "version": "0.1.0",
   "private": true,
@@ -24,15 +23,5 @@
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
     "typescript": "^5"
-=======
-  "name": "trvm-website",
-  "version": "1.0.0",
-  "description": "The Righteous Vine Missions website",
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "scripts": {
-    "build": "node build.js"
->>>>>>> 2fddc91ead97f534c0243b367c121cc8879dac00
   }
 }
