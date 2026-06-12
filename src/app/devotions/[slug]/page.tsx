@@ -63,7 +63,7 @@ export default async function DevotionPage({ params }: { params: Promise<{ slug:
       )}
 
       {/* Article */}
-      <article style={{ maxWidth: 760, margin: '0 auto', padding: '56px 24px' }}>
+      <article style={{ maxWidth: 760, margin: '0 auto', padding: '56px 24px', background: 'white', color: '#333' }}>
         {/* Back + meta */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 36, flexWrap: 'wrap', gap: 12 }}>
           <Link href="/devotions" style={{ color: '#1a3a2a', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
@@ -76,7 +76,7 @@ export default async function DevotionPage({ params }: { params: Promise<{ slug:
 
         {/* Content */}
         <div style={{
-          fontSize: '1.05rem', lineHeight: 2, color: '#333',
+          fontSize: '1.05rem', lineHeight: 2, color: '#222',
           fontFamily: 'Georgia, serif', whiteSpace: 'pre-wrap'
         }}>
           {devotion.content}
