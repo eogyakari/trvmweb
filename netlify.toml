@@ -1,11 +1,6 @@
-# Netlify Configuration — The Righteous Vine Missions
-
 [build]
-  publish = "."
-  command = "node build.js"
+  command = "npm run build"
+  publish = ".next"
 
-[build.environment]
-  NODE_VERSION = "18"
-
-[build.processing]
-  skip_processing = true
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
