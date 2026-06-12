@@ -1,1 +1,0 @@
-window.CMS_BOOKS = [];
