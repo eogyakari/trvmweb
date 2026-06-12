@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import Navbar from "./components/Navbar"
-import Footer from "./components/Footer"
+import LayoutWrapper from "./components/layoutWrapper"
 
 export const metadata: Metadata = {
   title: "The Righteous Vine Missions",
@@ -16,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   )
