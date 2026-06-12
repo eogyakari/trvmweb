@@ -5,7 +5,7 @@ export type Devotion = {
   content: string
   author: string
   date: string
-  image_url: string | null
+  cover_image: string | null
   created_at: string
 }
 

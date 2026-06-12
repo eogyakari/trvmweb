@@ -35,9 +35,9 @@ export default async function DevotionPage({ params }: { params: Promise<{ slug:
   return (
     <>
       {/* Hero */}
-      {devotion.image_url ? (
+      {devotion.cover_image ? (
         <div style={{ position: 'relative', height: 380, overflow: 'hidden' }}>
-          <img src={devotion.image_url} alt={devotion.title}
+          <img src={devotion.cover_image} alt={devotion.title}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(15,36,25,0.85) 0%, rgba(15,36,25,0.2) 100%)' }} />
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 32px' }}>
@@ -120,9 +120,9 @@ export default async function DevotionPage({ params }: { params: Promise<{ slug:
                   boxShadow: '0 1px 8px rgba(0,0,0,0.07)', textDecoration: 'none',
                   border: '1px solid #ede8de', display: 'block'
                 }}>
-                  {d.image_url && (
+                  {d.cover_image && (
                     <div style={{ height: 140, overflow: 'hidden' }}>
-                      <img src={d.image_url} alt={d.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={d.cover_image} alt={d.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   )}
                   <div style={{ padding: 20 }}>

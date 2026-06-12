@@ -53,7 +53,7 @@ export default async function DevotionsPage() {
               </p>
               <Link href={`/devotions/${devotions[0].slug}`} style={{
                 display: 'grid',
-                gridTemplateColumns: devotions[0].image_url ? '1fr 1fr' : '1fr',
+                gridTemplateColumns: devotions[0].cover_image ? '1fr 1fr' : '1fr',
                 background: 'white',
                 borderRadius: 12,
                 overflow: 'hidden',
@@ -61,9 +61,9 @@ export default async function DevotionsPage() {
                 textDecoration: 'none',
                 border: '1px solid #ede8de'
               }}>
-                {devotions[0].image_url && (
+                {devotions[0].cover_image && (
                   <div style={{ minHeight: 280, overflow: 'hidden' }}>
-                    <img src={devotions[0].image_url} alt={devotions[0].title}
+                    <img src={devotions[0].cover_image} alt={devotions[0].title}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                 )}
@@ -104,9 +104,9 @@ export default async function DevotionsPage() {
                       border: '1px solid #ede8de', display: 'block',
                       transition: 'transform 0.2s, box-shadow 0.2s'
                     }}>
-                      {d.image_url && (
+                      {d.cover_image && (
                         <div style={{ height: 180, overflow: 'hidden' }}>
-                          <img src={d.image_url} alt={d.title}
+                          <img src={d.cover_image} alt={d.title}
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </div>
                       )}
