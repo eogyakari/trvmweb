@@ -30,14 +30,6 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Hidden Netlify form for bot detection */}
-      <form name="contact" data-netlify="true" hidden>
-        <input type="text" name="name" />
-        <input type="email" name="email" />
-        <input type="text" name="phone" />
-        <input type="text" name="subject" />
-        <textarea name="message" />
-      </form>
       {/* Hero */}
       <section style={{
         background: "linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 50%, #0D1A2E 100%)",

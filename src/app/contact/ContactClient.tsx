@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { supabase } from '@/lib/supabase'
 
 const SUBJECTS = [
   'General Enquiry',
@@ -22,25 +23,19 @@ export default function ContactClient() {
     setSubmitting(true)
     setError('')
 
-    try {
-      const res = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          'form-name': 'contact',
-          ...form
-        }).toString()
-      })
+    const { error } = await supabase.from('contact_messages').insert({
+      name: form.name,
+      email: form.email,
+      phone: form.phone || null,
+      subject: form.subject,
+      message: form.message,
+    })
 
-      if (res.ok) {
-        setSubmitted(true)
-      } else {
-        setError('Something went wrong. Please try again or email us directly.')
-      }
-    } catch {
-      setError('Something went wrong. Please email us at info@trvmissions.com')
+    if (error) {
+      setError('Something went wrong. Please email us directly at info@trvmissions.com')
+    } else {
+      setSubmitted(true)
     }
-
     setSubmitting(false)
   }
 
@@ -86,7 +81,6 @@ export default function ContactClient() {
             </div>
           ))}
 
-          {/* Social */}
           <div style={{ marginTop: 16 }}>
             <p style={{ fontSize: 11, color: '#F5A623', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 16 }}>Follow Us</p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -121,16 +115,7 @@ export default function ContactClient() {
               </button>
             </div>
           ) : (
-            <form
-              name="contact"
-              method="POST"
-              data-netlify="true"
-              onSubmit={handleSubmit}
-              style={{ display: 'flex', flexDirection: 'column', gap: 18 }}
-            >
-              {/* Hidden field for Netlify */}
-              <input type="hidden" name="form-name" value="contact" />
-
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div>
                   <label style={labelStyle}>Full Name *</label>
@@ -152,7 +137,7 @@ export default function ContactClient() {
 
               <div>
                 <label style={labelStyle}>Subject *</label>
-                <select required style={{ ...inputStyle, color: form.subject ? 'white' : 'rgba(255,255,255,0.4)' }}
+                <select required style={{ ...inputStyle, color: 'white' }}
                   value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}>
                   {SUBJECTS.map(s => <option key={s} value={s} style={{ background: '#1A0A2E', color: 'white' }}>{s}</option>)}
                 </select>
@@ -170,9 +155,8 @@ export default function ContactClient() {
 
               <button type="submit" disabled={submitting} style={{
                 background: 'linear-gradient(135deg, #F5A623, #E8860A)',
-                color: '#0D0D1A', padding: '14px',
-                border: 'none', borderRadius: 8, fontWeight: 800,
-                fontSize: 14, cursor: submitting ? 'not-allowed' : 'pointer',
+                color: '#0D0D1A', padding: '14px', border: 'none', borderRadius: 8,
+                fontWeight: 800, fontSize: 14, cursor: submitting ? 'not-allowed' : 'pointer',
                 fontFamily: 'Georgia, serif', textTransform: 'uppercase',
                 letterSpacing: '0.05em', opacity: submitting ? 0.7 : 1
               }}>

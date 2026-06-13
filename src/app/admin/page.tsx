@@ -11,7 +11,7 @@ export default function AdminPage() {
   const [error, setError] = useState('')
   const [checking, setChecking] = useState(true)
   const [stats, setStats] = useState({
-    devotions: 0, books: 0, magazines: 0, newsletters: 0, videos: 0, gallery: 0, slideshow: 0
+    devotions: 0, books: 0, magazines: 0, newsletters: 0, videos: 0, gallery: 0, slideshow: 0, messages: 0
   })
 
   useEffect(() => {
@@ -28,11 +28,12 @@ export default function AdminPage() {
   }, [])
 
   async function loadStats() {
-    const tables = ['devotions', 'books', 'magazines', 'newsletters', 'videos', 'gallery', 'slideshow'] as const
+    const tables = ['devotions', 'books', 'magazines', 'newsletters', 'videos', 'gallery', 'slideshow', 'contact_messages'] as const
     const counts: Record<string, number> = {}
     for (const t of tables) {
       const { count } = await supabase.from(t).select('*', { count: 'exact', head: true })
-      counts[t] = count || 0
+      const key = t === 'contact_messages' ? 'messages' : t
+      counts[key] = count || 0
     }
     setStats(counts as any)
   }
@@ -140,6 +141,7 @@ export default function AdminPage() {
     { href: '/admin/videos', icon: '🎥', label: 'Videos', count: stats.videos },
     { href: '/admin/gallery', icon: '🖼️', label: 'Gallery', count: stats.gallery },
     { href: '/admin/slideshow', icon: '🎞️', label: 'Slideshow', count: stats.slideshow },
+    { href: '/admin/messages', icon: '💬', label: 'Messages', count: stats.messages },
     { href: '/admin/about', icon: '📝', label: 'About Page', count: null },
     { href: '/admin/programs', icon: '🌍', label: 'Programs', count: null },
     { href: '/admin/settings', icon: '⚙️', label: 'Site Settings', count: null },
