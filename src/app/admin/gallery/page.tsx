@@ -11,7 +11,7 @@ type GalleryPhoto = {
   created_at: string
 }
 
-const CATEGORIES = ['General', 'Missions', 'Feeding', 'Philanthropy', 'Discipleship', 'Events', 'Team', 'Testimonies']
+const CATEGORIES = ['Missions', 'Care & Philanthropy', 'Discipleship', 'Events']
 
 export default function AdminGalleryPage() {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([])
