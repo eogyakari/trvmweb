@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
 
 const SUBJECTS = [
   'General Enquiry',
@@ -23,19 +22,22 @@ export default function ContactClient() {
     setSubmitting(true)
     setError('')
 
-    const { error } = await supabase.from('contact_messages').insert({
-      name: form.name,
-      email: form.email,
-      phone: form.phone || null,
-      subject: form.subject,
-      message: form.message,
-    })
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      })
 
-    if (error) {
-      setError('Something went wrong. Please email us directly at info@trvmissions.com')
-    } else {
-      setSubmitted(true)
+      if (res.ok) {
+        setSubmitted(true)
+      } else {
+        setError('Something went wrong. Please email us directly at info@trvmissions.com')
+      }
+    } catch {
+      setError('Something went wrong. Please email us at info@trvmissions.com')
     }
+
     setSubmitting(false)
   }
 

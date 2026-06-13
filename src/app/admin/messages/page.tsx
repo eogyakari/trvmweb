@@ -162,8 +162,9 @@ export default function AdminMessagesPage() {
             </div>
 
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <a href={`mailto:${selected.email}?subject=Re: ${encodeURIComponent(selected.subject)}`}
-                style={{ background: '#1a3a2a', color: 'white', padding: '9px 20px', borderRadius: 6, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+              <a href={`https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(selected.email)}&su=${encodeURIComponent('Re: ' + selected.subject)}`}
+                 target="_blank" rel="noreferrer"
+                 style={{ background: '#1a3a2a', color: 'white', padding: '9px 20px', borderRadius: 6, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
                 Reply by Email
               </a>
               {selected.phone && (
