@@ -20,12 +20,12 @@ export default function AdminGalleryPage() {
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<GalleryPhoto | null>(null)
   const [caption, setCaption] = useState('')
-  const [category, setCategory] = useState('General')
+  const [category, setCategory] = useState('Missions')
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [uploadingBulk, setUploadingBulk] = useState(false)
-  const [bulkCategory, setBulkCategory] = useState('General')
+  const [bulkCategory, setBulkCategory] = useState('Missions')
   const [bulkProgress, setBulkProgress] = useState({ done: 0, total: 0 })
   const fileInputRef = useRef<HTMLInputElement>(null)
   const bulkInputRef = useRef<HTMLInputElement>(null)
@@ -42,7 +42,7 @@ export default function AdminGalleryPage() {
   function openNew() {
     setEditing(null)
     setCaption('')
-    setCategory('General')
+    setCategory('Missions')
     setImageFile(null)
     setPreview(null)
     setShowForm(true)
@@ -149,7 +149,7 @@ export default function AdminGalleryPage() {
           <div>
             <label style={{ fontSize: 13, fontWeight: 600, color: '#444', display: 'block', marginBottom: 6 }}>Category for all photos</label>
             <select value={bulkCategory} onChange={e => setBulkCategory(e.target.value)}
-              style={{ padding: '9px 14px', border: '1px solid #ddd', borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif', outline: 'none', background: 'white' }}>
+              style={{ padding: '9px 14px', border: '1px solid #ddd', borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif', outline: 'none', background: 'white', color: '#000' }}>
               {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
@@ -225,7 +225,7 @@ export default function AdminGalleryPage() {
               <div>
                 <label style={{ fontSize: 13, fontWeight: 600, color: '#444', display: 'block', marginBottom: 6 }}>Category *</label>
                 <select value={category} onChange={e => setCategory(e.target.value)}
-                  style={{ width: '100%', padding: '10px 14px', border: '1px solid #ddd', borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif', outline: 'none', background: 'white' }}>
+                  style={{ width: '100%', padding: '10px 14px', border: '1px solid #ddd', borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif', outline: 'none', background: 'white', color: '#000' }}>
                   {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
@@ -234,7 +234,7 @@ export default function AdminGalleryPage() {
               <div>
                 <label style={{ fontSize: 13, fontWeight: 600, color: '#444', display: 'block', marginBottom: 6 }}>Caption (optional)</label>
                 <input
-                  style={{ width: '100%', padding: '10px 14px', border: '1px solid #ddd', borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif', marginTop: 0, outline: 'none' }}
+                  style={{ width: '100%', padding: '10px 14px', border: '1px solid #ddd', borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif', marginTop: 0, outline: 'none', color: '#000', background: '#fff' }}
                   placeholder="Describe the photo..."
                   value={caption}
                   onChange={e => setCaption(e.target.value)} />
