@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { supabase } from "@/lib/supabase"
 import type { Devotion } from "@/lib/types"
+import Slideshow from "./components/Slideshow"
 
 export const revalidate = 60
 
@@ -13,8 +14,19 @@ async function getLatestDevotions(): Promise<Devotion[]> {
   return data || []
 }
 
+async function getSlides() {
+  const { data } = await supabase
+    .from("slideshow")
+    .select("*")
+    .order("sort_order", { ascending: true })
+  return data || []
+}
+
 export default async function HomePage() {
-  const devotions = await getLatestDevotions()
+  const [devotions, slides] = await Promise.all([
+    getLatestDevotions(),
+    getSlides(),
+  ])
 
   return (
     <div>
@@ -68,26 +80,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Stats */}
-      <section style={{ background: "#1A0A2E", padding: "48px 24px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 32, textAlign: "center" }}>
-          {[
-            { num: "1,500+", label: "Souls Reached" },
-            { num: "6", label: "Islands Visited" },
-            { num: "61", label: "Days in the Field" },
-            { num: "10+", label: "Years of Ministry" },
-          ].map(stat => (
-            <div key={stat.label}>
-              <div style={{ fontSize: 40, fontWeight: 800, background: "linear-gradient(135deg, #F5A623, #9B59B6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                {stat.num}
-              </div>
-              <div style={{ fontSize: 13, color: "#a0a0b0", textTransform: "uppercase", letterSpacing: 2, marginTop: 8 }}>
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Photo Slideshow */}
+      {slides.length > 0 && <Slideshow slides={slides} />}
 
       {/* Programs */}
       <section style={{ padding: "80px 24px", background: "#0D0D1A" }}>

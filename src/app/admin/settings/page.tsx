@@ -12,7 +12,11 @@ const SETTINGS_FIELDS = [
   { key: 'address', label: 'Address', type: 'text' },
   { key: 'facebook_url', label: 'Facebook URL', type: 'text' },
   { key: 'whatsapp_channel', label: 'WhatsApp Channel URL', type: 'text' },
-  { key: 'about_text', label: 'About Us Summary (shown on homepage)', type: 'textarea' },
+  { key: 'about_text', label: 'About Us Summary', type: 'textarea' },
+  { key: 'stat_souls', label: 'Stat — Souls Reached (e.g. 1,500+)', type: 'text' },
+  { key: 'stat_islands', label: 'Stat — Islands Visited (e.g. 6)', type: 'text' },
+  { key: 'stat_days', label: 'Stat — Days in the Field (e.g. 61)', type: 'text' },
+  { key: 'stat_years', label: 'Stat — Years of Ministry (e.g. 10+)', type: 'text' },
 ]
 
 export default function AdminSettingsPage() {
