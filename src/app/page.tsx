@@ -30,6 +30,14 @@ export default async function HomePage() {
 
   return (
     <div>
+      {/* Hidden Netlify form for bot detection */}
+      <form name="contact" data-netlify="true" hidden>
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <input type="text" name="phone" />
+        <input type="text" name="subject" />
+        <textarea name="message" />
+      </form>
       {/* Hero */}
       <section style={{
         background: "linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 50%, #0D1A2E 100%)",
@@ -115,6 +123,14 @@ export default async function HomePage() {
           <div style={{ maxWidth: 1200, margin: "0 auto" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48, flexWrap: "wrap", gap: 16 }}>
               <div>
+      {/* Hidden Netlify form for bot detection */}
+      <form name="contact" data-netlify="true" hidden>
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <input type="text" name="phone" />
+        <input type="text" name="subject" />
+        <textarea name="message" />
+      </form>
                 <h2 style={{ fontSize: 36, fontWeight: 800, color: "#fff" }}>Latest Devotions</h2>
                 <p style={{ color: "#a0a0b0", marginTop: 8 }}>Daily words of encouragement</p>
               </div>

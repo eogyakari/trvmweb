@@ -17,6 +17,17 @@ const SETTINGS_FIELDS = [
   { key: 'stat_islands', label: 'Stat — Islands Visited (e.g. 6)', type: 'text' },
   { key: 'stat_days', label: 'Stat — Days in the Field (e.g. 61)', type: 'text' },
   { key: 'stat_years', label: 'Stat — Years of Ministry (e.g. 10+)', type: 'text' },
+  { key: 'bank1_name', label: 'Bank 1 — Bank Name', type: 'text' },
+  { key: 'bank1_account_name', label: 'Bank 1 — Account Name', type: 'text' },
+  { key: 'bank1_account_number', label: 'Bank 1 — Account Number', type: 'text' },
+  { key: 'bank1_branch', label: 'Bank 1 — Branch', type: 'text' },
+  { key: 'bank2_name', label: 'Bank 2 — Bank Name', type: 'text' },
+  { key: 'bank2_account_name', label: 'Bank 2 — Account Name', type: 'text' },
+  { key: 'bank2_account_number', label: 'Bank 2 — Account Number', type: 'text' },
+  { key: 'bank2_branch', label: 'Bank 2 — Branch', type: 'text' },
+  { key: 'momo_network', label: 'Mobile Money — Network (e.g. MTN)', type: 'text' },
+  { key: 'momo_name', label: 'Mobile Money — Name', type: 'text' },
+  { key: 'momo_number', label: 'Mobile Money — Number', type: 'text' },
 ]
 
 export default function AdminSettingsPage() {

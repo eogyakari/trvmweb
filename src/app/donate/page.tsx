@@ -1,10 +1,19 @@
-export default function Page() {
-  return (
-    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Georgia, serif' }}>
-      <div style={{ textAlign: 'center' }}>
-        <h1 style={{ fontSize: '2rem', color: '#0f2419', marginBottom: 12 }}>Coming Soon</h1>
-        <p style={{ color: '#888' }}>This page is being built.</p>
-      </div>
-    </div>
-  )
+import { supabase } from '@/lib/supabase'
+import DonateClient from './DonateClient'
+
+export const revalidate = 60
+
+async function getBankDetails() {
+  const { data } = await supabase.from('site_settings').select('key, value')
+    .in('key', ['bank1_name', 'bank1_account_name', 'bank1_account_number', 'bank1_branch',
+                 'bank2_name', 'bank2_account_name', 'bank2_account_number', 'bank2_branch',
+                 'momo_name', 'momo_number', 'momo_network'])
+  const s: Record<string, string> = {}
+  for (const row of data || []) s[row.key] = row.value
+  return s
+}
+
+export default async function DonatePage() {
+  const bankDetails = await getBankDetails()
+  return <DonateClient bankDetails={bankDetails} />
 }
