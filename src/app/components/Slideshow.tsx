@@ -1,4 +1,5 @@
 'use client'
+import { useState, useEffect } from 'react'
 
 type Slide = {
   id: string
@@ -8,60 +9,121 @@ type Slide = {
 }
 
 export default function Slideshow({ slides }: { slides: Slide[] }) {
+  const [current, setCurrent] = useState(0)
+  const [prev, setPrev] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (slides.length <= 1) return
+    const timer = setInterval(() => {
+      setPrev(current)
+      setCurrent(c => (c + 1) % slides.length)
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [current, slides.length])
+
   if (slides.length === 0) return null
 
-  const doubled = [...slides, ...slides]
-
   return (
-    <div style={{ background: '#0D0D1A', padding: '40px 0', overflow: 'hidden' }}>
-      <div
-        className="slideshow-track"
-        style={{
-          display: 'flex',
-          gap: 24,
-          width: 'max-content',
-          animation: `scrollLeft ${slides.length * 12}s linear infinite`,
-        }}
-      >
-        {doubled.map((slide, i) => (
-          <div key={`${slide.id}-${i}`} style={{ flexShrink: 0, width: 'calc(50vw - 36px)', maxWidth: 640, minWidth: 320 }}>
-            <div style={{
-              width: '100%',
-              aspectRatio: '16/9',
-              borderRadius: 12,
-              overflow: 'hidden',
-              border: '2px solid rgba(245, 166, 35, 0.3)',
+    <div style={{ position: 'relative', width: '100%', height: 520, overflow: 'hidden', background: '#0D0D1A' }}>
+      {/* Previous slide fading out */}
+      {prev !== null && (
+        <div key={`prev-${prev}`} style={{
+          position: 'absolute', inset: 0,
+          animation: 'fadeOut 1.2s ease-in-out forwards',
+        }}>
+          <img
+            src={slides[prev].image_url}
+            alt={slides[prev].caption || ''}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,13,26,0.75) 0%, rgba(13,13,26,0.1) 60%)' }} />
+        </div>
+      )}
+
+      {/* Current slide fading in with zoom */}
+      <div key={`curr-${current}`} style={{
+        position: 'absolute', inset: 0,
+        animation: 'fadeInZoom 1.2s ease-in-out forwards',
+      }}>
+        <img
+          src={slides[current].image_url}
+          alt={slides[current].caption || ''}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,13,26,0.75) 0%, rgba(13,13,26,0.1) 60%)' }} />
+
+        {/* Caption */}
+        {slides[current].caption && (
+          <div style={{
+            position: 'absolute', bottom: 56, left: 0, right: 0,
+            textAlign: 'center', padding: '0 40px',
+            animation: 'captionUp 1.4s ease-out forwards',
+          }}>
+            <p style={{
+              color: 'white', fontSize: '1.05rem', fontStyle: 'italic',
+              fontFamily: 'Georgia, serif',
+              textShadow: '0 2px 12px rgba(0,0,0,0.6)',
+              maxWidth: 700, margin: '0 auto'
             }}>
-              <img
-                src={slide.image_url}
-                alt={slide.caption || ''}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-            </div>
-            {slide.caption && (
-              <p style={{
-                color: 'rgba(255,255,255,0.65)', fontSize: 13,
-                marginTop: 10, fontStyle: 'italic',
-                fontFamily: 'Georgia, serif', lineHeight: 1.5,
-                paddingLeft: 4
-              }}>
-                {slide.caption}
-              </p>
-            )}
+              {slides[current].caption}
+            </p>
           </div>
-        ))}
+        )}
       </div>
 
+      {/* Dots */}
+      {slides.length > 1 && (
+        <div style={{
+          position: 'absolute', bottom: 20, left: 0, right: 0,
+          display: 'flex', justifyContent: 'center', gap: 8, zIndex: 10
+        }}>
+          {slides.map((_, i) => (
+            <button key={i} onClick={() => { setPrev(current); setCurrent(i) }} style={{
+              width: i === current ? 28 : 8, height: 8,
+              borderRadius: 4, border: 'none', cursor: 'pointer',
+              background: i === current ? '#F5A623' : 'rgba(255,255,255,0.35)',
+              transition: 'all 0.4s', padding: 0
+            }} />
+          ))}
+        </div>
+      )}
+
+      {/* Arrows */}
+      {slides.length > 1 && (
+        <>
+          <button onClick={() => { setPrev(current); setCurrent(c => (c - 1 + slides.length) % slides.length) }}
+            style={{
+              position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)',
+              background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.2)',
+              color: 'white', width: 44, height: 44, borderRadius: '50%',
+              fontSize: 20, cursor: 'pointer', zIndex: 10,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'background 0.2s'
+            }}>‹</button>
+          <button onClick={() => { setPrev(current); setCurrent(c => (c + 1) % slides.length) }}
+            style={{
+              position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)',
+              background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.2)',
+              color: 'white', width: 44, height: 44, borderRadius: '50%',
+              fontSize: 20, cursor: 'pointer', zIndex: 10,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'background 0.2s'
+            }}>›</button>
+        </>
+      )}
+
       <style>{`
-        @keyframes scrollLeft {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        @keyframes fadeInZoom {
+          0% { opacity: 0; transform: scale(1.06); }
+          100% { opacity: 1; transform: scale(1); }
         }
-        .slideshow-track {
-          animation-play-state: running;
+        @keyframes fadeOut {
+          0% { opacity: 1; }
+          100% { opacity: 0; }
         }
-        .slideshow-track:hover {
-          animation-play-state: paused;
+        @keyframes captionUp {
+          0% { opacity: 0; transform: translateY(16px); }
+          100% { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </div>
