@@ -155,8 +155,18 @@ export default function AdminGalleryPage() {
           </div>
           <div style={{ flex: 1, minWidth: 200 }}>
             <label style={{ fontSize: 13, fontWeight: 600, color: '#444', display: 'block', marginBottom: 6 }}>Select multiple images</label>
-            <input ref={bulkInputRef} type="file" accept="image/*" multiple onChange={handleBulkUpload}
-              style={{ fontSize: 13 }} disabled={uploadingBulk} />
+            <label style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '9px 20px', background: '#1a3a2a', color: 'white',
+              borderRadius: 6, fontSize: 13, fontWeight: 600,
+              cursor: uploadingBulk ? 'not-allowed' : 'pointer',
+              fontFamily: 'Georgia, serif', opacity: uploadingBulk ? 0.6 : 1
+            }}>
+              📁 Choose Images (select multiple)
+              <input ref={bulkInputRef} type="file" accept="image/*" multiple
+                onChange={handleBulkUpload} style={{ display: 'none' }}
+                disabled={uploadingBulk} />
+            </label>
           </div>
           {uploadingBulk && (
             <div style={{ background: '#f0ebe0', borderRadius: 6, padding: '8px 16px', fontSize: 13, color: '#1a3a2a', fontWeight: 600 }}>
