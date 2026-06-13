@@ -1,17 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
+import type { Book } from '@/lib/types'
 import Link from 'next/link'
-
-type Book = {
-  id: string
-  title: string
-  author: string
-  description?: string | null
-  pdf_url?: string | null
-  cover_image?: string | null
-  published_date?: string | null
-}
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '10px 14px', border: '1px solid #ddd',
@@ -27,7 +18,7 @@ export default function AdminBooksPage() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<Book | null>(null)
-  const [form, setForm] = useState({ title: '', author: '', description: '', pdf_url: '', cover_image: '', published_date: '' })
+  const [form, setForm] = useState({ title: '', author: '', description: '', pdf_url: '', cover_image: '', published_date: '', is_free: false, price: '', currency: 'GHS' })
   const [saving, setSaving] = useState(false)
   const [pdfFile, setPdfFile] = useState<File | null>(null)
   const [coverFile, setCoverFile] = useState<File | null>(null)
@@ -51,14 +42,14 @@ export default function AdminBooksPage() {
 
   function openNew() {
     setEditing(null)
-    setForm({ title: '', author: '', description: '', pdf_url: '', cover_image: '', published_date: '' })
+    setForm({ title: '', author: '', description: '', pdf_url: '', cover_image: '', published_date: '', is_free: false, price: '', currency: 'GHS' })
     setPdfFile(null); setCoverFile(null)
     setShowForm(true)
   }
 
   function openEdit(b: Book) {
     setEditing(b)
-    setForm({ title: b.title, author: b.author, description: b.description || '', pdf_url: b.pdf_url || '', cover_image: b.cover_image || '', published_date: b.published_date || '' })
+    setForm({ title: b.title, author: b.author, description: b.description || '', pdf_url: b.pdf_url || '', cover_image: b.cover_image || '', published_date: b.published_date || '', is_free: b.is_free || false, price: b.price?.toString() || '', currency: b.currency || 'GHS' })
     setPdfFile(null); setCoverFile(null)
     setShowForm(true)
   }
@@ -68,7 +59,7 @@ export default function AdminBooksPage() {
     setSaving(true)
     const pdfUrl = pdfFile ? await uploadFile(pdfFile, 'books/pdf') : form.pdf_url
     const coverUrl = coverFile ? await uploadFile(coverFile, 'books/covers') : form.cover_image
-    const payload = { title: form.title, author: form.author, description: form.description || null, pdf_url: pdfUrl || null, cover_image: coverUrl || null, published_date: form.published_date || null }
+    const payload = { title: form.title, author: form.author, description: form.description || null, pdf_url: pdfUrl || null, cover_image: coverUrl || null, published_date: form.published_date || null, is_free: form.is_free, price: parseFloat(form.price) || 0, currency: form.currency }
 
     if (editing) {
       const { error } = await supabase.from('books').update(payload).eq('id', editing.id)
@@ -125,6 +116,25 @@ export default function AdminBooksPage() {
               <div>
                 <label style={labelStyle}>Description</label>
                 <textarea rows={3} style={{ ...inputStyle, resize: 'vertical' }} value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+                <div>
+                  <label style={labelStyle}>Price</label>
+                  <input type="number" min="0" step="0.01" style={inputStyle} placeholder="0.00" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Currency</label>
+                  <select style={{ ...inputStyle, marginTop: 6 }} value={form.currency} onChange={e => setForm(f => ({ ...f, currency: e.target.value }))}>
+                    <option value="GHS">GHS</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                  </select>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingTop: 22 }}>
+                  <input type="checkbox" id="book-free" checked={form.is_free} onChange={e => setForm(f => ({ ...f, is_free: e.target.checked }))} style={{ width: 16, height: 16 }} />
+                  <label htmlFor="book-free" style={{ fontSize: 13, fontWeight: 600, color: '#444', cursor: 'pointer' }}>Free</label>
+                </div>
               </div>
               <div>
                 <label style={labelStyle}>PDF — Upload file</label>

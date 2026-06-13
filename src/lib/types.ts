@@ -17,6 +17,9 @@ export type Book = {
   pdf_url: string | null
   cover_image: string | null
   published_date: string | null
+  is_free: boolean
+  price: number
+  currency: string
   created_at: string
 }
 
@@ -29,6 +32,8 @@ export type Magazine = {
   cover_image: string | null
   published_date: string | null
   is_free: boolean
+  price: number
+  currency: string
   created_at: string
 }
 

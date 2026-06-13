@@ -1,17 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
-// Minimal Magazine type used in this file. Replaces missing import from '@/lib/types'.
-type Magazine = {
-  id: string
-  title: string
-  edition?: string | null
-  description?: string | null
-  pdf_url?: string | null
-  cover_image?: string | null
-  published_date?: string | null
-  is_free?: boolean
-}
+import type { Magazine } from '@/lib/types'
 import Link from 'next/link'
 
 const inputStyle: React.CSSProperties = {
@@ -28,7 +18,7 @@ export default function AdminMagazinesPage() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<Magazine | null>(null)
-  const [form, setForm] = useState({ title: '', edition: '', description: '', pdf_url: '', cover_image: '', published_date: '', is_free: true })
+  const [form, setForm] = useState({ title: '', edition: '', description: '', pdf_url: '', cover_image: '', published_date: '', is_free: true, price: '', currency: 'GHS' })
   const [saving, setSaving] = useState(false)
   const [pdfFile, setPdfFile] = useState<File | null>(null)
   const [coverFile, setCoverFile] = useState<File | null>(null)
@@ -52,21 +42,13 @@ export default function AdminMagazinesPage() {
 
   function openNew() {
     setEditing(null)
-    setForm({ title: '', edition: '', description: '', pdf_url: '', cover_image: '', published_date: '', is_free: true })
+    setForm({ title: '', edition: '', description: '', pdf_url: '', cover_image: '', published_date: '', is_free: true, price: '', currency: 'GHS' })
     setPdfFile(null); setCoverFile(null); setShowForm(true)
   }
 
   function openEdit(m: Magazine) {
     setEditing(m)
-    setForm({
-      title: m.title,
-      edition: m.edition ?? '',
-      description: m.description ?? '',
-      pdf_url: m.pdf_url ?? '',
-      cover_image: m.cover_image ?? '',
-      published_date: m.published_date ?? '',
-      is_free: !!m.is_free,
-    })
+    setForm({ title: m.title, edition: m.edition, description: m.description || '', pdf_url: m.pdf_url || '', cover_image: m.cover_image || '', published_date: m.published_date || '', is_free: m.is_free, price: m.price?.toString() || '', currency: m.currency || 'GHS' })
     setPdfFile(null); setCoverFile(null); setShowForm(true)
   }
 
@@ -75,7 +57,7 @@ export default function AdminMagazinesPage() {
     setSaving(true)
     const pdfUrl = pdfFile ? await uploadFile(pdfFile, 'magazines/pdf') : form.pdf_url
     const coverUrl = coverFile ? await uploadFile(coverFile, 'magazines/covers') : form.cover_image
-    const payload = { title: form.title, edition: form.edition, description: form.description || null, pdf_url: pdfUrl || null, cover_image: coverUrl || null, published_date: form.published_date || null, is_free: form.is_free }
+    const payload = { title: form.title, edition: form.edition, description: form.description || null, pdf_url: pdfUrl || null, cover_image: coverUrl || null, published_date: form.published_date || null, is_free: form.is_free, price: parseFloat(form.price) || 0, currency: form.currency }
 
     if (editing) {
       const { error } = await supabase.from('magazines').update(payload).eq('id', editing.id)
@@ -147,8 +129,25 @@ export default function AdminMagazinesPage() {
               <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginTop: 4 }}>
                 <input type="checkbox" checked={form.is_free} onChange={e => setForm(f => ({ ...f, is_free: e.target.checked }))}
                   style={{ width: 18, height: 18, cursor: 'pointer' }} />
-                <span style={{ fontSize: 14, color: '#444' }}>Mark as Free to Read</span>
+                <span style={{ fontSize: 14, color: '#444' }}>Mark as Free</span>
               </label>
+              {!form.is_free && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div>
+                    <label style={labelStyle}>Price</label>
+                    <input type="number" min="0" step="0.01" style={inputStyle} placeholder="0.00" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Currency</label>
+                    <select style={{ ...inputStyle, marginTop: 6 }} value={form.currency} onChange={e => setForm(f => ({ ...f, currency: e.target.value }))}>
+                      <option value="GHS">GHS</option>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                      <option value="GBP">GBP</option>
+                    </select>
+                  </div>
+                </div>
+              )}
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 28, justifyContent: 'flex-end' }}>
               <button onClick={() => setShowForm(false)} style={{ background: 'transparent', color: '#c9a84c', padding: '10px 24px', border: '2px solid #c9a84c', borderRadius: 6, fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'Georgia, serif' }}>Cancel</button>
