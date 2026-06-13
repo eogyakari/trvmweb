@@ -4,6 +4,3 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-  [plugins.inputs]
-    netlify_forms = false
