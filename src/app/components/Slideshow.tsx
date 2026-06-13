@@ -20,7 +20,7 @@ export default function Slideshow({ slides }: { slides: Slide[] }) {
           display: 'flex',
           gap: 24,
           width: 'max-content',
-          animation: `scrollLeft ${slides.length * 5}s linear infinite`,
+          animation: `scrollLeft ${slides.length * 12}s linear infinite`,
         }}
       >
         {doubled.map((slide, i) => (
