@@ -141,6 +141,7 @@ export default function AdminPage() {
     { href: '/admin/gallery', icon: '🖼️', label: 'Gallery', count: stats.gallery },
     { href: '/admin/slideshow', icon: '🎞️', label: 'Slideshow', count: stats.slideshow },
     { href: '/admin/about', icon: '📝', label: 'About Page', count: null },
+    { href: '/admin/programs', icon: '🌍', label: 'Programs', count: null },
     { href: '/admin/settings', icon: '⚙️', label: 'Site Settings', count: null },
   ]
 
