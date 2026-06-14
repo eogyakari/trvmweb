@@ -78,6 +78,22 @@ export default function AdminDevotionsPage() {
     } else {
       const { error } = await supabase.from('devotions').insert(payload)
       if (error) { alert('Error: ' + error.message); setSaving(false); return }
+
+      // Auto-notify subscribers for new devotions only
+      const notify = confirm('Devotion saved! Notify subscribers by email?')
+      if (notify) {
+        const summary = form.content.substring(0, 200) + '...'
+        const devotionUrl = `https://trvmissions.com/devotions/${slug}`
+        await fetch('/api/broadcast', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject: `Daily Devotion: ${form.title}`,
+            message: `${summary}\n\nRead the full devotion here:\n${devotionUrl}`
+          })
+        })
+        alert('Subscribers notified!')
+      }
     }
     setSaving(false)
     setShowForm(false)
