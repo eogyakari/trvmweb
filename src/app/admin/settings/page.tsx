@@ -60,7 +60,7 @@ export default function AdminSettingsPage() {
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 14px', border: '1px solid #ddd',
     borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif',
-    marginTop: 6, outline: 'none', boxSizing: 'border-box'
+    marginTop: 6, outline: 'none', boxSizing: 'border-box', color:'#000', background: '#fff'
   }
 
   return (
