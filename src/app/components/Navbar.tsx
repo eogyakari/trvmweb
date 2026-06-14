@@ -100,6 +100,7 @@ export default function Navbar() {
           {[
             { label: "Devotions", href: "/devotions" },
             { label: "Gallery", href: "/gallery" },
+            { label: "Videos", href: "/videos" },
             { label: "Contact", href: "/contact" },
           ].map(link => (
             <Link key={link.href} href={link.href} style={{ fontSize: 13, fontWeight: 600, color: "#e0e0f0", letterSpacing: 1, textTransform: "uppercase", transition: "color 0.2s", textDecoration: "none" }}
