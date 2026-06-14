@@ -2,6 +2,7 @@ import Link from "next/link"
 import { supabase } from "@/lib/supabase"
 import type { Devotion } from "@/lib/types"
 import Slideshow from "./components/Slideshow"
+import SubscribeForm from "./components/SubscribeForm"
 
 export const revalidate = 60
 
@@ -149,6 +150,21 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Subscribe */}
+      <section style={{ background: '#1A0A2E', padding: '72px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
+          <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>Stay Connected</p>
+          <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: 'white', marginBottom: 12 }}>
+            Get Ministry Updates
+          </h2>
+          <div style={{ width: 50, height: 3, background: '#F5A623', margin: '0 auto 20px' }} />
+          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '1rem', marginBottom: 32, lineHeight: 1.8 }}>
+            Subscribe to receive daily devotions, newsletters, and ministry news directly in your inbox.
+          </p>
+          <SubscribeForm />
+        </div>
+      </section>
 
       {/* CTA */}
       <section style={{
