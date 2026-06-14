@@ -9,10 +9,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Subject and message required' }, { status: 400 })
     }
 
-    // Use service role to read subscribers
+    // Use service role to bypass RLS and read subscribers
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
 
     const { data: subscribers, error } = await supabase
