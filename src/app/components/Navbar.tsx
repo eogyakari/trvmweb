@@ -137,6 +137,7 @@ export default function Navbar() {
             { label: "→ Newsletters", href: "/publications#newsletters", sub: true },
             { label: "Devotions", href: "/devotions", sub: false },
             { label: "Gallery", href: "/gallery", sub: false },
+            { label: "Videos", href: "/videos" },
             { label: "Contact", href: "/contact", sub: false },
             { label: "Donate", href: "/donate", sub: false },
           ].map(link => (
