@@ -34,10 +34,6 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <Image src="/logo.png" alt="TRVM Logo" width={50} height={50} style={{ objectFit: "contain" }} />
-          <div>
-            <div style={{ fontSize: 14, fontWeight: 800, color: "#F5A623", letterSpacing: 2 }}>THE RIGHTEOUS VINE</div>
-            <div style={{ fontSize: 11, color: "#9B59B6", letterSpacing: 3 }}>MISSIONS</div>
-          </div>
         </Link>
 
         {/* Desktop Nav */}
@@ -138,7 +134,7 @@ export default function Navbar() {
             { label: "→ Newsletters", href: "/publications#newsletters", sub: true },
             { label: "Devotions", href: "/devotions", sub: false },
             { label: "Gallery", href: "/gallery", sub: false },
-            { label: "Videos", href: "/videos" },
+             { label: "Videos", href: "/videos" },
             { label: "Contact", href: "/contact", sub: false },
             { label: "Donate", href: "/donate", sub: false },
           ].map(link => (
