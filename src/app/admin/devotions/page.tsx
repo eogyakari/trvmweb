@@ -94,6 +94,28 @@ export default function AdminDevotionsPage() {
         })
         alert('Subscribers notified!')
       }
+
+      // Auto-post to Facebook
+      const postToFacebook = confirm('Post this devotion to TRVM Facebook page?')
+      if (postToFacebook) {
+        const summary = form.content.substring(0, 200) + '...'
+        const res = await fetch('/api/facebook/post', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: form.title,
+            summary,
+            slug,
+            imageUrl: imageUrl || null,
+          })
+        })
+        const data = await res.json()
+        if (data.success) {
+          alert('Posted to Facebook successfully!')
+        } else {
+          alert('Facebook post failed: ' + (data.error || 'Unknown error'))
+        }
+      }
     }
     setSaving(false)
     setShowForm(false)
