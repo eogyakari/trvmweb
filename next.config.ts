@@ -1,7 +1,17 @@
-import type { NextConfig } from "next";
+const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: '/devotions/:slug',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=60, stale-while-revalidate=300',
+          },
+        ],
+      },
+    ]
+  },
+}
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+export default nextConfig

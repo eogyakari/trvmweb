@@ -4,3 +4,8 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+[[headers]]
+  for = "/devotions/*"
+  [headers.values]
+    X-Robots-Tag = "index, follow"
