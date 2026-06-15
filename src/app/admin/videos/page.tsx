@@ -1,21 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
-// Local Video type (was '@/lib/types' which may be missing in this project)
-type Video = {
-  id: string
-  title: string
-  description?: string | null
-  url: string
-  category?: string | null
-  date?: string | null
-}
+import type { Video } from '@/lib/types'
 import Link from 'next/link'
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '10px 14px', border: '1px solid #ddd',
   borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif',
-  marginTop: 6, outline: 'none', boxSizing: 'border-box'
+  marginTop: 6, outline: 'none', boxSizing: 'border-box', color: '#000', background: '#fff'
 }
 const labelStyle: React.CSSProperties = {
   fontSize: 13, fontWeight: 600, color: '#444', display: 'block'

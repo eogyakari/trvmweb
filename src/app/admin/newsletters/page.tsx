@@ -1,20 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
+import type { Newsletter } from '@/lib/types'
 import Link from 'next/link'
-
-type Newsletter = {
-  id: string
-  title: string
-  issue_number?: string | null
-  pdf_url?: string | null
-  date?: string | null
-}
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '10px 14px', border: '1px solid #ddd',
   borderRadius: 6, fontSize: 14, fontFamily: 'Georgia, serif',
-  marginTop: 6, outline: 'none', boxSizing: 'border-box'
+  marginTop: 6, outline: 'none', boxSizing: 'border-box', color: '#000', background: '#fff'
 }
 const labelStyle: React.CSSProperties = {
   fontSize: 13, fontWeight: 600, color: '#444', display: 'block'
