@@ -64,6 +64,42 @@ export default function AdminNewslettersPage() {
     } else {
       const { error } = await supabase.from('newsletters').insert(payload)
       if (error) { alert(error.message); setSaving(false); return }
+
+      // Notify subscribers
+      const notify = confirm('Newsletter saved! Notify subscribers by email?')
+      if (notify) {
+        const newsletterUrl = pdfUrl || 'https://trvmissions.com/publications#newsletters'
+        await fetch('/api/broadcast', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject: `New Newsletter: ${form.title}`,
+            message: `The latest TRVM Newsletter is now available.\n\n${form.title}${form.issue_number ? ` — Issue ${form.issue_number}` : ''}\n\nDownload or read it here:\n${newsletterUrl}`
+          })
+        })
+        alert('Subscribers notified!')
+      }
+
+      // Post to Facebook
+      const postFb = confirm('Post this newsletter to TRVM Facebook page?')
+      if (postFb) {
+        const res = await fetch('/api/facebook/post', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: `New Newsletter: ${form.title}`,
+            summary: `${form.title}${form.issue_number ? ` — Issue ${form.issue_number}` : ''}. Download the latest TRVM Newsletter now.`,
+            slug: '',
+            imageUrl: null,
+          })
+        })
+        const data = await res.json()
+        if (data.success) {
+          alert('Posted to Facebook successfully!')
+        } else {
+          alert('Facebook post failed: ' + (data.error || 'Unknown error'))
+        }
+      }
     }
     setSaving(false); setShowForm(false); load()
   }
@@ -110,7 +146,15 @@ export default function AdminNewslettersPage() {
               </div>
               <div>
                 <label style={labelStyle}>PDF — Upload file</label>
-                <input type="file" accept=".pdf" style={{ marginTop: 8 }} onChange={e => setPdfFile(e.target.files?.[0] || null)} />
+                <label style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  marginTop: 8, padding: '9px 20px', background: '#1a3a2a', color: 'white',
+                  borderRadius: 6, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Georgia, serif'
+                }}>
+                  📎 Choose PDF file
+                  <input type="file" accept=".pdf" style={{ display: 'none' }} onChange={e => setPdfFile(e.target.files?.[0] || null)} />
+                </label>
+                {pdfFile && <p style={{ fontSize: 12, color: '#1a3a2a', marginTop: 6, fontWeight: 600 }}>✓ {pdfFile.name}</p>}
                 <label style={{ ...labelStyle, marginTop: 10 }}>OR paste Google Drive / external URL</label>
                 <input style={inputStyle} placeholder="https://drive.google.com/..." value={form.pdf_url} onChange={e => setForm(f => ({ ...f, pdf_url: e.target.value }))} />
               </div>
