@@ -4,7 +4,20 @@ import LayoutWrapper from "./components/layoutWrapper"
 
 export const metadata: Metadata = {
   title: "The Righteous Vine Missions",
-  description: "Evangelical missionary organization spreading the gospel",
+  description: "Spreading the Gospel to the ends of the earth through missions, care & philanthropy, and discipleship.",
+  openGraph: {
+    title: "The Righteous Vine Missions",
+    description: "Spreading the Gospel to the ends of the earth through missions, care & philanthropy, and discipleship.",
+    url: "https://trvmissions.com",
+    siteName: "The Righteous Vine Missions",
+    images: [{ url: "https://trvmissions.com/logo.png", width: 500, height: 500, alt: "TRVM Logo" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Righteous Vine Missions",
+    description: "Spreading the Gospel to the ends of the earth.",
+  },
 }
 
 export default function RootLayout({

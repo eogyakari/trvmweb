@@ -2,6 +2,7 @@ import { supabase } from '@/lib/supabase'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Devotion } from '@/lib/types'
+import type { Metadata } from 'next'
 
 export const revalidate = 60
 
@@ -22,6 +23,34 @@ async function getRelated(currentId: string): Promise<Devotion[]> {
     .order('date', { ascending: false })
     .limit(3)
   return data || []
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const devotion = await getDevotion(slug)
+  if (!devotion) return {}
+
+  const summary = devotion.content.substring(0, 160)
+  const url = `https://trvmissions.com/devotions/${devotion.slug}`
+
+  return {
+    title: `${devotion.title} | TRVM Devotions`,
+    description: summary,
+    openGraph: {
+      title: devotion.title,
+      description: summary,
+      url,
+      siteName: 'The Righteous Vine Missions',
+      images: devotion.cover_image ? [{ url: devotion.cover_image, width: 1200, height: 630, alt: devotion.title }] : [],
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: devotion.title,
+      description: summary,
+      images: devotion.cover_image ? [devotion.cover_image] : [],
+    },
+  }
 }
 
 export default async function DevotionPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -62,53 +91,60 @@ export default async function DevotionPage({ params }: { params: Promise<{ slug:
         </div>
       )}
 
-      {/* Article */}
-      <article style={{ maxWidth: 760, margin: '0 auto', padding: '56px 24px', background: 'white', color: '#333' }}>
-        {/* Back + meta */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 36, flexWrap: 'wrap', gap: 12 }}>
-          <Link href="/devotions" style={{ color: '#1a3a2a', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
-            ← All Devotions
-          </Link>
-          <p style={{ fontSize: 13, color: '#888' }}>By {devotion.author}</p>
-        </div>
-
-        <div style={{ width: 50, height: 3, background: '#c9a84c', marginBottom: 36 }} />
-
-        {/* Content */}
-        <div style={{
-          fontSize: '1.05rem', lineHeight: 2, color: '#222',
-          fontFamily: 'Georgia, serif', whiteSpace: 'pre-wrap'
+      {/* Article on light background */}
+      <div style={{ background: '#f5f0e8', padding: '48px 20px' }}>
+        <article style={{
+          maxWidth: 760, margin: '0 auto',
+          background: 'white', borderRadius: 12,
+          padding: '48px 40px',
+          boxShadow: '0 2px 16px rgba(0,0,0,0.08)'
         }}>
-          {devotion.content}
-        </div>
+          {/* Back + meta */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 12 }}>
+            <Link href="/devotions" style={{ color: '#1a3a2a', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
+              ← All Devotions
+            </Link>
+            <p style={{ fontSize: 13, color: '#888' }}>By {devotion.author}</p>
+          </div>
 
-        {/* Share */}
-        <div style={{
-          marginTop: 56, paddingTop: 32, borderTop: '1px solid #ede8de',
-          display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap'
-        }}>
-          <span style={{ fontSize: 14, color: '#888', fontWeight: 600 }}>Share:</span>
-          <a href={`https://wa.me/?text=${encodeURIComponent(devotion.title + ' - https://trvmissions.com/devotions/' + devotion.slug)}`}
-            target="_blank" rel="noreferrer"
-            style={{ background: '#25D366', color: 'white', padding: '8px 18px', borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
-            WhatsApp
-          </a>
-          <a href={`https://t.me/share/url?url=${encodeURIComponent('https://trvmissions.com/devotions/' + devotion.slug)}&text=${encodeURIComponent(devotion.title)}`}
-            target="_blank" rel="noreferrer"
-            style={{ background: '#229ED9', color: 'white', padding: '8px 18px', borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
-            Telegram
-          </a>
-          <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://trvmissions.com/devotions/' + devotion.slug)}`}
-            target="_blank" rel="noreferrer"
-            style={{ background: '#1877F2', color: 'white', padding: '8px 18px', borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
-            Facebook
-          </a>
-        </div>
-      </article>
+          <div style={{ width: 50, height: 3, background: '#c9a84c', marginBottom: 36 }} />
+
+          {/* Content */}
+          <div style={{
+            fontSize: '1.05rem', lineHeight: 2, color: '#222',
+            fontFamily: 'Georgia, serif', whiteSpace: 'pre-wrap'
+          }}>
+            {devotion.content}
+          </div>
+
+          {/* Share */}
+          <div style={{
+            marginTop: 56, paddingTop: 32, borderTop: '1px solid #ede8de',
+            display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap'
+          }}>
+            <span style={{ fontSize: 14, color: '#888', fontWeight: 600 }}>Share:</span>
+            <a href={`https://wa.me/?text=${encodeURIComponent(devotion.title + ' - https://trvmissions.com/devotions/' + devotion.slug)}`}
+              target="_blank" rel="noreferrer"
+              style={{ background: '#25D366', color: 'white', padding: '8px 18px', borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+              WhatsApp
+            </a>
+            <a href={`https://t.me/share/url?url=${encodeURIComponent('https://trvmissions.com/devotions/' + devotion.slug)}&text=${encodeURIComponent(devotion.title)}`}
+              target="_blank" rel="noreferrer"
+              style={{ background: '#229ED9', color: 'white', padding: '8px 18px', borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+              Telegram
+            </a>
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://trvmissions.com/devotions/' + devotion.slug)}`}
+              target="_blank" rel="noreferrer"
+              style={{ background: '#1877F2', color: 'white', padding: '8px 18px', borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+              Facebook
+            </a>
+          </div>
+        </article>
+      </div>
 
       {/* Related devotions */}
       {related.length > 0 && (
-        <section style={{ background: '#f5f0e8', padding: '56px 24px' }}>
+        <section style={{ background: '#ede8de', padding: '56px 24px' }}>
           <div style={{ maxWidth: 1000, margin: '0 auto' }}>
             <p style={{ fontSize: 12, color: '#c9a84c', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 24 }}>
               More Devotions
