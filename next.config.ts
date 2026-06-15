@@ -1,13 +1,12 @@
-const nextConfig = {
+import type { NextConfig } from 'next'
+
+const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/devotions/:slug',
+        source: '/(.*)',
         headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, s-maxage=60, stale-while-revalidate=300',
-          },
+          { key: 'X-Robots-Tag', value: 'index, follow' },
         ],
       },
     ]
