@@ -137,18 +137,40 @@ export default function AdminBooksPage() {
                 </div>
               </div>
               <div>
-                <label style={labelStyle}>PDF — Upload file</label>
-                <input type="file" accept=".pdf" style={{ marginTop: 8 }} onChange={e => setPdfFile(e.target.files?.[0] || null)} />
-                <label style={{ ...labelStyle, marginTop: 10 }}>OR paste Google Drive / external URL</label>
-                <input style={inputStyle} placeholder="https://drive.google.com/..." value={form.pdf_url} onChange={e => setForm(f => ({ ...f, pdf_url: e.target.value }))} />
-              </div>
-              <div>
-                <label style={labelStyle}>Cover Image</label>
-                <input type="file" accept="image/*" style={{ marginTop: 8 }} onChange={e => setCoverFile(e.target.files?.[0] || null)} />
-                {form.cover_image && !coverFile && (
-                  <img src={form.cover_image} alt="cover" style={{ height: 80, marginTop: 10, borderRadius: 6, objectFit: 'cover' }} />
-                )}
-              </div>
+  <label style={labelStyle}>PDF — Upload file</label>
+  <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+    <label style={{
+      display: 'inline-block', padding: '9px 20px', background: '#1a3a2a',
+      color: 'white', borderRadius: 6, fontSize: 13, fontWeight: 600,
+      cursor: 'pointer', fontFamily: 'Georgia, serif'
+    }}>
+      Choose PDF
+      <input type="file" accept=".pdf" style={{ display: 'none' }}
+        onChange={e => setPdfFile(e.target.files?.[0] || null)} />
+    </label>
+    {pdfFile && <span style={{ fontSize: 13, color: '#1a3a2a', fontWeight: 600 }}>✓ {pdfFile.name}</span>}
+  </div>
+  <label style={{ ...labelStyle, marginTop: 10 }}>OR paste Google Drive / external URL</label>
+  <input style={inputStyle} placeholder="https://drive.google.com/..." value={form.pdf_url} onChange={e => setForm(f => ({ ...f, pdf_url: e.target.value }))} />
+</div>
+<div>
+  <label style={labelStyle}>Cover Image</label>
+  <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+    <label style={{
+      display: 'inline-block', padding: '9px 20px', background: '#1a3a2a',
+      color: 'white', borderRadius: 6, fontSize: 13, fontWeight: 600,
+      cursor: 'pointer', fontFamily: 'Georgia, serif'
+    }}>
+      Choose Image
+      <input type="file" accept="image/*" style={{ display: 'none' }}
+        onChange={e => setCoverFile(e.target.files?.[0] || null)} />
+    </label>
+    {coverFile && <span style={{ fontSize: 13, color: '#1a3a2a', fontWeight: 600 }}>✓ {coverFile.name}</span>}
+  </div>
+  {form.cover_image && !coverFile && (
+    <img src={form.cover_image} alt="cover" style={{ height: 80, marginTop: 10, borderRadius: 6, objectFit: 'cover' }} />
+  )}
+</div>
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 28, justifyContent: 'flex-end' }}>
               <button onClick={() => setShowForm(false)} style={{ background: 'transparent', color: '#c9a84c', padding: '10px 24px', border: '2px solid #c9a84c', borderRadius: 6, fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'Georgia, serif' }}>Cancel</button>

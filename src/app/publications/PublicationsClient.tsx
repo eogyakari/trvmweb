@@ -76,7 +76,7 @@ export default function PublicationsClient({ books, magazines, newsletters }: Pr
               {books.map(book => (
                 <div key={book.id} style={cardStyle}>
                   {/* Cover */}
-                  <div style={{ height: 300, background: 'linear-gradient(135deg, #7B2FBE33, #0D0D1A)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                  <div style={{ height: 200, background: 'linear-gradient(135deg, #7B2FBE33, #0D0D1A)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                     {book.cover_image ? (
                       <img src={book.cover_image} alt={book.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
@@ -148,7 +148,7 @@ export default function PublicationsClient({ books, magazines, newsletters }: Pr
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 28 }}>
               {magazines.map(mag => (
                 <div key={mag.id} style={cardStyle}>
-                  <div style={{ height: 340, background: 'linear-gradient(135deg, #7B2FBE33, #0D0D1A)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+                  <div style={{ height: 220, background: 'linear-gradient(135deg, #7B2FBE33, #0D0D1A)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
                     {mag.cover_image ? (
                       <img src={mag.cover_image} alt={mag.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
