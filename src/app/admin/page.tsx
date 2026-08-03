@@ -11,7 +11,7 @@ export default function AdminPage() {
   const [error, setError] = useState('')
   const [checking, setChecking] = useState(true)
   const [stats, setStats] = useState({
-    devotions: 0, books: 0, magazines: 0, newsletters: 0, videos: 0, gallery: 0, slideshow: 0, messages: 0, subscribers: 0
+    devotions: 0, books: 0, magazines: 0, newsletters: 0, videos: 0, gallery: 0, slideshow: 0, messages: 0, subscribers: 0, quotes: 0
   })
 
   useEffect(() => {
@@ -150,6 +150,7 @@ export default function AdminPage() {
     { href: '/admin/subscribers', icon: '📧', label: 'Subscribers', count: stats.subscribers },
     { href: '/admin/about', icon: '📝', label: 'About Page', count: null },
     { href: '/admin/programs', icon: '🌍', label: 'Programs', count: null },
+    { href: '/admin/quotes', icon: '💬', label: 'Quotes', count: stats.quotes },
     { href: '/admin/settings', icon: '⚙️', label: 'Site Settings', count: null },
   ]
 

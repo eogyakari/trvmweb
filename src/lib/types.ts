@@ -56,3 +56,12 @@ export type Video = {
   date: string | null
   created_at: string
 }
+
+export interface Quote {
+  id: string
+  text: string
+  author: string | null
+  published_date: string
+  is_published: boolean
+  created_at: string
+}
