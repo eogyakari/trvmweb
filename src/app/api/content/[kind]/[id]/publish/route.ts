@@ -5,20 +5,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { publishContent } from "@/lib/publishContent";
 
-const ALLOWED = ["devotion", "quote", "event", "gallery"] as const;
+const ALLOWED = ["devotion", "quote", "event", "gallery"];
 
 export async function POST(
   _req: NextRequest,
-  { params }: { params: { kind: string; id: string } },
+  { params }: { params: Promise<{ kind: string; id: string }> },
 ) {
-  const { kind, id } = params;
+  const { kind, id } = await params;
 
-  if (!ALLOWED.includes(kind as any)) {
+  if (!ALLOWED.includes(kind)) {
     return NextResponse.json({ error: "Invalid content kind" }, { status: 400 });
   }
 
   try {
-    const result = await publishContent(kind as any, id);
+    const result = await publishContent(kind, id);
     return NextResponse.json({ ok: true, ...result });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
