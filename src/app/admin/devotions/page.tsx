@@ -72,12 +72,16 @@ export default function AdminDevotionsPage() {
     const slug = form.slug || slugify(form.title)
     const payload = { title: form.title, slug, content: form.content, author: form.author, date: form.date, cover_image: imageUrl }
 
+    let devotionId: string
+
     if (editing) {
       const { error } = await supabase.from('devotions').update(payload).eq('id', editing.id)
       if (error) { alert('Error: ' + error.message); setSaving(false); return }
+      devotionId = editing.id
     } else {
-      const { error } = await supabase.from('devotions').insert(payload)
-      if (error) { alert('Error: ' + error.message); setSaving(false); return }
+      const { data, error } = await supabase.from('devotions').insert(payload).select('id').single()
+      if (error || !data) { alert('Error: ' + (error?.message || 'insert failed')); setSaving(false); return }
+      devotionId = (data as { id: string }).id
 
       // Auto-notify subscribers for new devotions only
       const notify = confirm('Devotion saved! Notify subscribers by email?')
@@ -117,6 +121,20 @@ export default function AdminDevotionsPage() {
         }
       }
     }
+
+    // Generate Indonesian + Swahili translations (both new and edited devotions)
+    try {
+      const res = await fetch(`/api/content/devotion/${devotionId}/publish`, { method: 'POST' })
+      const result = await res.json()
+      if (!res.ok) {
+        alert('Saved, but translation failed: ' + (result.error || 'unknown error'))
+      } else if ((result.translated || []).length) {
+        alert(`Translated → ${result.translated.join(', ')}`)
+      }
+    } catch (e: any) {
+      alert('Saved, but translation request failed: ' + e.message)
+    }
+
     setSaving(false)
     setShowForm(false)
     load()

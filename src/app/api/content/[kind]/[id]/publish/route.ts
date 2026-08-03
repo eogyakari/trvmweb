@@ -5,6 +5,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { publishContent } from "@/lib/publishContent";
 
+// Never statically analyze/pre-render this route at build time.
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 const ALLOWED = ["devotion", "quote", "event", "gallery"];
 
 export async function POST(

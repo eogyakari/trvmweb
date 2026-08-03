@@ -11,14 +11,25 @@
 //
 // Runs server-side with the service_role key (bypasses RLS).
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { translateBatch, TARGET_LOCALES, type Locale } from "./translate";
 
-const admin = createClient(
-  (process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL)!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { persistSession: false } },
-);
+// Create the admin client lazily (at request time), NOT at module load.
+// Building at import time would throw during `next build` if the server env
+// vars aren't present, breaking the whole build.
+let _admin: SupabaseClient | null = null;
+function getAdmin(): SupabaseClient {
+  if (_admin) return _admin;
+  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) {
+    throw new Error(
+      "Missing Supabase server env vars (need SUPABASE_URL or NEXT_PUBLIC_SUPABASE_URL, and SUPABASE_SERVICE_ROLE_KEY)",
+    );
+  }
+  _admin = createClient(url, key, { auth: { persistSession: false } });
+  return _admin;
+}
 
 interface ContentSpec {
   parentTable: string;
@@ -67,6 +78,8 @@ export async function publishContent(
 ): Promise<{ translated: Locale[]; skipped: Locale[] }> {
   const spec = SPECS[kind];
   if (!spec) throw new Error(`Unknown content kind: ${kind}`);
+
+  const admin = getAdmin();
 
   const trFields = Object.keys(spec.fieldMap);       // e.g. ['title','body','excerpt']
   const baseCols = Object.values(spec.fieldMap);     // e.g. ['title','content','excerpt']
