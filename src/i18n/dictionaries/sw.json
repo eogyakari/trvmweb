@@ -1,0 +1,248 @@
+{
+  "nav": {
+    "home": "Nyumbani",
+    "about": "Kuhusu",
+    "devotions": "Tafakari",
+    "programs": "Programu",
+    "publications": "Machapisho",
+    "videos": "Video",
+    "gallery": "Matunzio",
+    "donate": "Changia",
+    "contact": "Wasiliana"
+  },
+  "programs": {
+    "missions": "Misheni",
+    "discipleship": "Ufuasi",
+    "carePhilanthropy": "Huduma na Ukarimu"
+  },
+  "pub": {
+    "books": "Vitabu",
+    "magazines": "Majarida",
+    "newsletters": "Jarida la Habari"
+  },
+  "common": {
+    "readMore": "Soma zaidi",
+    "read": "Soma",
+    "watch": "Tazama",
+    "download": "Pakua",
+    "subscribe": "Jiandikishe",
+    "donate": "Changia",
+    "send": "Tuma",
+    "search": "Tafuta",
+    "loading": "Inapakia…",
+    "language": "Lugha",
+    "viewAll": "Angalia zote",
+    "back": "Rudi",
+    "share": "Shiriki"
+  },
+  "home": {
+    "latestDevotions": "Tafakari za Hivi Karibuni",
+    "ourPrograms": "Programu Zetu",
+    "recentVideos": "Video za Hivi Karibuni",
+    "getInvolved": "Shiriki Nasi",
+    "heroTitle": "Kueneza Injili hadi Miisho ya Dunia",
+    "heroSubtitle": "Kuwafikia wasiofikiwa, kulisha wenye njaa, kuwafanya mataifa wanafunzi — misheni moja kwa wakati.",
+    "ourMission": "Dhamira Yetu",
+    "supportUs": "Tuunge Mkono",
+    "programsSubtitle": "Jinsi tunavyohudumia jamii kote ulimwenguni",
+    "devotionsSubtitle": "Maneno ya kutia moyo ya kila siku",
+    "stayConnected": "Endelea Kuunganishwa",
+    "getUpdates": "Pata Taarifa za Huduma",
+    "subscribeText": "Jiandikishe kupokea tafakari za kila siku, majarida, na habari za huduma moja kwa moja kwenye kikasha chako.",
+    "supportMission": "Unga Mkono Misheni Yetu",
+    "supportText": "Mchango wako unatusaidia kufikia roho nyingi zaidi, kulisha familia nyingi zaidi, na kueneza Injili mbali zaidi.",
+    "donateNow": "Changia Sasa",
+    "programs": [
+      {
+        "title": "Misheni",
+        "desc": "Uinjilisti na kufikisha Injili kwa jamii zisizofikiwa katika visiwa na mataifa."
+      },
+      {
+        "title": "Mpango wa Kulisha",
+        "desc": "Kutoa chakula bora kwa wenye njaa na walio hatarini katika jamii zisizohudumiwa vya kutosha."
+      },
+      {
+        "title": "Ufadhili",
+        "desc": "Kusaidia jamii kupitia elimu, huduma za afya, na maendeleo ya kijamii."
+      },
+      {
+        "title": "Ufuasi",
+        "desc": "Kufundisha na kuwawezesha waumini kukua katika imani na kushiriki Injili."
+      }
+    ]
+  },
+  "footer": {
+    "subscribePrompt": "Jiandikishe kupata masasisho",
+    "rights": "Haki zote zimehifadhiwa",
+    "followUs": "Tufuate",
+    "quickLinks": "Viungo vya Haraka",
+    "newsletter": "Jarida",
+    "inboxUpdates": "Pata masasisho kwenye kikasha chako",
+    "aboutBlurb": "Kueneza Injili na kuhudumia jamii kupitia misheni, ufadhili, na ufuasi."
+  },
+  "devotionsPage": {
+    "eyebrow": "Lishe ya Kiroho",
+    "title": "Tafakari",
+    "subtitle": "Lishe ya kiroho ya kila siku kutoka Neno la Mungu",
+    "latest": "Tafakari ya Hivi Karibuni",
+    "previous": "Tafakari Zilizopita",
+    "readDevotion": "Soma Tafakari",
+    "comingSoon": "Tafakari zinakuja hivi karibuni. Rudi kila siku.",
+    "by": "Na",
+    "allDevotions": "Tafakari Zote",
+    "moreDevotions": "Tafakari Zaidi"
+  },
+  "aboutPage": {
+    "whoWeAre": "Sisi ni Nani",
+    "title": "Kuhusu The Righteous Vine Missions",
+    "heroSubtitle": "Tumeota katika imani. Tunakua katika upendo. Tunazaa matunda kwa ufalme wa Mungu.",
+    "statSouls": "Roho Zilizookolewa kwa Ufalme",
+    "statIslands": "Visiwa nchini Indonesia",
+    "statDays": "Siku Uwandani",
+    "statYears": "Miaka ya Huduma",
+    "missionsIn": "Misheni katika",
+    "ourStory": "Historia Yetu",
+    "calledToNations": "Tumeitwa kwa Mataifa",
+    "ourFoundation": "Msingi Wetu",
+    "mission": "Dhamira",
+    "vision": "Maono",
+    "values": "Maadili",
+    "theTeam": "Timu Yetu",
+    "leadership": "Uongozi",
+    "teamComingSoon": "Wanachama wa timu wanakuja hivi karibuni.",
+    "unitedBy": "Tumeunganishwa na Bwana mmoja, imani moja, ubatizo mmoja.",
+    "scripture": "Mimi ni mzabibu, ninyi ni matawi. Akaaye ndani yangu, nami ndani yake, huyo huzaa sana; maana pasipo mimi ninyi hamwezi kufanya neno lolote.",
+    "scriptureRef": "Yohana 15:5",
+    "partnerWithUs": "Shirikiana Nasi",
+    "partnerText": "Msaada wako unatuwezesha kufikia roho nyingi zaidi, kulisha familia nyingi zaidi, na kujenga jamii imara kwa utukufu wa Mungu.",
+    "getInTouch": "Wasiliana Nasi"
+  },
+  "publicationsPage": {
+    "eyebrow": "Rasilimali",
+    "subtitle": "Vitabu, majarida, na majarida ya habari kutoka The Righteous Vine Missions"
+  },
+  "publicationsClient": {
+    "by": "na",
+    "freeDownload": "Pakua Bila Malipo",
+    "pdfNotAvailable": "PDF haipatikani bado",
+    "buy": "Nunua",
+    "comingSoonShort": "Inakuja hivi karibuni",
+    "booksComingSoon": "Vitabu vinakuja hivi karibuni.",
+    "magazinesComingSoon": "Majarida yanakuja hivi karibuni.",
+    "newslettersComingSoon": "Majarida ya habari yanakuja hivi karibuni.",
+    "free": "BILA MALIPO",
+    "issue": "Toleo",
+    "emailPrompt": "Weka anwani yako ya barua pepe ili kupokea upakuaji wako:",
+    "invalidEmail": "Tafadhali weka anwani sahihi ya barua pepe."
+  },
+  "videosPage": {
+    "eyebrow": "Vyombo vya Habari",
+    "subtitle": "Mahubiri, ripoti za misheni, ushuhuda na zaidi kutoka The Righteous Vine Missions",
+    "comingSoon": "Inakuja Hivi Karibuni",
+    "comingSoonText": "Kwa sasa tunaandaa huduma yetu ya video. Rudi hivi karibuni kwa mahubiri, ripoti za misheni, na ushuhuda kutoka uwandani.",
+    "scripture": "Enendeni ulimwenguni mwote, mkaihubiri Injili kwa kila kiumbe.",
+    "scriptureRef": "Marko 16:15",
+    "notifyTitle": "Pata arifa video zinapopatikana",
+    "notifyText": "Jiandikishe kwenye orodha yetu ya barua pepe na uwe wa kwanza kujua."
+  },
+  "galleryPage": {
+    "eyebrow": "Nyakati katika Huduma",
+    "subtitle": "Mionekano ya kazi ya Mungu kupitia The Righteous Vine Missions"
+  },
+  "galleryClient": {
+    "all": "Zote",
+    "events": "Matukio",
+    "noPhotos": "Hakuna picha katika kategoria hii bado."
+  },
+  "donateClient": {
+    "eyebrow": "Toa kwa Ufalme",
+    "title": "Unga Mkono Misheni Yetu",
+    "scripture": "Kila mtu na atoe kama alivyokusudia moyoni mwake, si kwa huzuni wala kwa kulazimishwa, maana Mungu humpenda yeye atoaye kwa moyo wa ukunjufu.",
+    "scriptureRef": "2 Wakorintho 9:7",
+    "giveOnline": "Toa Mtandaoni",
+    "successTitle": "Mungu Akubariki!",
+    "successText": "Asante kwa mchango wako wa ukarimu kwa The Righteous Vine Missions. Zawadi yako itasaidia kueneza Injili na kuhudumia jamii.",
+    "giveAgain": "Toa Tena",
+    "currency": "Sarafu",
+    "selectAmount": "Chagua Kiasi",
+    "custom": "Nyingine",
+    "enterAmount": "Weka kiasi kwa",
+    "processing": "Inachakata...",
+    "selectAnAmount": "Chagua Kiasi",
+    "securePayment": "Malipo salama yanawezeshwa na Paystack",
+    "bankTransfer": "Uhamisho wa Benki",
+    "accountName": "Jina la Akaunti",
+    "accountNumber": "Nambari ya Akaunti",
+    "branch": "Tawi",
+    "mobileMoney": "Pesa za Simu",
+    "name": "Jina",
+    "number": "Nambari",
+    "network": "Mtandao",
+    "bankComingSoon": "Maelezo ya benki yanakuja hivi karibuni. Tafadhali tumia chaguo la mchango mtandaoni hapo juu au wasiliana nasi.",
+    "ctaBefore": "Kwa michango mikubwa au uhamisho wa kimataifa, tafadhali",
+    "ctaLink": "wasiliana nasi",
+    "ctaAfter": "moja kwa moja nasi tutakusaidia.",
+    "invalidAmount": "Tafadhali weka kiasi sahihi.",
+    "emailPrompt": "Tafadhali weka anwani yako ya barua pepe:",
+    "invalidEmail": "Tafadhali weka anwani sahihi ya barua pepe.",
+    "currencies": {
+      "GHS": "Cedi za Ghana (GHS)",
+      "USD": "Dola ya Marekani (USD)",
+      "GBP": "Pauni ya Uingereza (GBP)",
+      "EUR": "Euro (EUR)"
+    }
+  },
+  "contactPage": {
+    "eyebrow": "Wasiliana Nasi",
+    "title": "Wasiliana Nasi",
+    "subtitle": "Tungependa kusikia kutoka kwako — kwa mialiko, maombi ya sala, maswali au ushirikiano"
+  },
+  "contactClient": {
+    "ourDetails": "Maelezo Yetu",
+    "email": "Barua Pepe",
+    "phone": "Simu",
+    "location": "Mahali",
+    "sendAMessage": "Tuma Ujumbe",
+    "messageSent": "Ujumbe Umetumwa!",
+    "messageSentText": "Asante kwa kuwasiliana nasi. Tutakujibu haraka iwezekanavyo.",
+    "sendAnother": "Tuma Mwingine",
+    "fullName": "Jina Kamili",
+    "emailAddress": "Anwani ya Barua Pepe",
+    "subject": "Somo",
+    "message": "Ujumbe",
+    "yourName": "Jina lako",
+    "emailPlaceholder": "wako@barua.com",
+    "messagePlaceholder": "Andika ujumbe wako hapa...",
+    "sending": "Inatuma...",
+    "sendMessage": "Tuma Ujumbe",
+    "errorGeneric": "Hitilafu imetokea. Tafadhali tutumie barua pepe moja kwa moja kwa info@trvmissions.com",
+    "subjects": {
+      "General Enquiry": "Swali la Jumla",
+      "Invitation / Speaking Engagement": "Mwaliko / Kuzungumza",
+      "Prayer Request": "Ombi la Sala",
+      "Partnership / Collaboration": "Ushirikiano",
+      "Donation Enquiry": "Swali la Mchango",
+      "Volunteer": "Kujitolea",
+      "Other": "Nyingine"
+    }
+  },
+  "programsPage": {
+    "eyebrow": "Tunachofanya",
+    "title": "Programu Zetu",
+    "subtitle": "Jinsi tunavyohudumia jamii na kueneza Injili kote ulimwenguni",
+    "learnMore": "Jifunze Zaidi",
+    "allPrograms": "Programu Zote",
+    "otherPrograms": "Programu Nyingine",
+    "getInvolved": "Shiriki Nasi",
+    "getInvolvedText": "Unga mkono programu zetu kupitia sala, kujitolea, au kutoa.",
+    "contactUs": "Wasiliana Nasi",
+    "supportProgram": "Unga Mkono Programu Hii",
+    "supportProgramText": "Msaada wako unatusaidia kuendeleza kazi hii muhimu kwa ufalme wa Mungu.",
+    "getInTouch": "Wasiliana Nasi",
+    "names": {
+      "missions": "Misheni",
+      "care": "Huduma na Ukarimu",
+      "discipleship": "Ufuasi"
+    }
+  }
+}

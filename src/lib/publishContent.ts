@@ -10,7 +10,6 @@
 // Idempotent: safe to re-run.
 //
 // Runs server-side with the service_role key (bypasses RLS).
-
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { translateBatch, TARGET_LOCALES, type Locale } from "./translate";
 
@@ -37,6 +36,8 @@ interface ContentSpec {
   fkColumn: string;
   /** translation field  ->  base-table column holding the English source */
   fieldMap: Record<string, string>;
+  /** translation fields whose source is HTML (translated with format:"html") */
+  htmlFields?: string[];
   /** how to flag the parent as published */
   publishUpdate: Record<string, unknown>;
 }
@@ -47,6 +48,7 @@ const SPECS: Record<string, ContentSpec> = {
     trTable: "devotion_translations",
     fkColumn: "devotion_id",
     fieldMap: { title: "title", body: "content", excerpt: "excerpt" },
+    htmlFields: ["body"],                    // body is rich text from the editor
     publishUpdate: { is_published: true },
   },
   quote: {
@@ -83,6 +85,7 @@ export async function publishContent(
 
   const trFields = Object.keys(spec.fieldMap);       // e.g. ['title','body','excerpt']
   const baseCols = Object.values(spec.fieldMap);     // e.g. ['title','content','excerpt']
+  const htmlFields = new Set(spec.htmlFields ?? []); // fields to translate as HTML
 
   // 1. Read the English source from the base row.
   const { data: base, error: baseErr } = await admin
@@ -117,14 +120,27 @@ export async function publishContent(
   const skipped: Locale[] = [];
 
   // 4. Machine-translate into each unprotected target.
+  //    HTML fields (e.g. a rich-text body) and plain-text fields are sent in
+  //    SEPARATE batches so Google preserves markup on the former without
+  //    escaping the latter.
   for (const target of TARGET_LOCALES) {
     if (protectedLocales.has(target)) { skipped.push(target); continue; }
 
-    // Translate only non-empty fields; keep empties as empty (avoids odd API output).
+    // Split non-empty fields by format.
     const nonEmpty = trFields.filter((f) => enText[f]?.trim());
-    const results = await translateBatch(nonEmpty.map((f) => enText[f]), target);
+    const textFields = nonEmpty.filter((f) => !htmlFields.has(f));
+    const richFields = nonEmpty.filter((f) => htmlFields.has(f));
+
     const byField: Record<string, string> = {};
-    nonEmpty.forEach((f, i) => { byField[f] = results[i]; });
+
+    if (textFields.length) {
+      const out = await translateBatch(textFields.map((f) => enText[f]), target, "text");
+      textFields.forEach((f, i) => { byField[f] = out[i]; });
+    }
+    if (richFields.length) {
+      const out = await translateBatch(richFields.map((f) => enText[f]), target, "html");
+      richFields.forEach((f, i) => { byField[f] = out[i]; });
+    }
 
     const row: Record<string, unknown> = {
       [spec.fkColumn]: id,

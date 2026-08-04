@@ -1,0 +1,248 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang Kami",
+    "devotions": "Renungan",
+    "programs": "Program",
+    "publications": "Publikasi",
+    "videos": "Video",
+    "gallery": "Galeri",
+    "donate": "Donasi",
+    "contact": "Kontak"
+  },
+  "programs": {
+    "missions": "Misi",
+    "discipleship": "Pemuridan",
+    "carePhilanthropy": "Kepedulian & Filantropi"
+  },
+  "pub": {
+    "books": "Buku",
+    "magazines": "Majalah",
+    "newsletters": "Buletin"
+  },
+  "common": {
+    "readMore": "Baca selengkapnya",
+    "read": "Baca",
+    "watch": "Tonton",
+    "download": "Unduh",
+    "subscribe": "Berlangganan",
+    "donate": "Donasi",
+    "send": "Kirim",
+    "search": "Cari",
+    "loading": "Memuat…",
+    "language": "Bahasa",
+    "viewAll": "Lihat semua",
+    "back": "Kembali",
+    "share": "Bagikan"
+  },
+  "home": {
+    "latestDevotions": "Renungan Terbaru",
+    "ourPrograms": "Program Kami",
+    "recentVideos": "Video Terbaru",
+    "getInvolved": "Ikut Terlibat",
+    "heroTitle": "Menyebarkan Injil ke Ujung Bumi",
+    "heroSubtitle": "Menjangkau yang belum terjangkau, memberi makan yang lapar, memuridkan bangsa-bangsa — satu misi pada satu waktu.",
+    "ourMission": "Misi Kami",
+    "supportUs": "Dukung Kami",
+    "programsSubtitle": "Bagaimana kami melayani komunitas di seluruh dunia",
+    "devotionsSubtitle": "Kata-kata penyemangat harian",
+    "stayConnected": "Tetap Terhubung",
+    "getUpdates": "Dapatkan Pembaruan Pelayanan",
+    "subscribeText": "Berlangganan untuk menerima renungan harian, buletin, dan berita pelayanan langsung di kotak masuk Anda.",
+    "supportMission": "Dukung Misi Kami",
+    "supportText": "Donasi Anda membantu kami menjangkau lebih banyak jiwa, memberi makan lebih banyak keluarga, dan menyebarkan Injil lebih jauh.",
+    "donateNow": "Donasi Sekarang",
+    "programs": [
+      {
+        "title": "Misi",
+        "desc": "Penginjilan dan penjangkauan Injil kepada komunitas yang belum terjangkau di berbagai pulau dan bangsa."
+      },
+      {
+        "title": "Program Pemberian Makan",
+        "desc": "Menyediakan makanan bergizi bagi yang lapar dan rentan di komunitas yang kurang terlayani."
+      },
+      {
+        "title": "Filantropi",
+        "desc": "Mendukung komunitas melalui pendidikan, layanan kesehatan, dan pembangunan sosial."
+      },
+      {
+        "title": "Pemuridan",
+        "desc": "Melatih dan memperlengkapi orang percaya untuk bertumbuh dalam iman dan memberitakan Injil."
+      }
+    ]
+  },
+  "footer": {
+    "subscribePrompt": "Berlangganan untuk pembaruan",
+    "rights": "Semua hak dilindungi",
+    "followUs": "Ikuti kami",
+    "quickLinks": "Tautan Cepat",
+    "newsletter": "Buletin",
+    "inboxUpdates": "Dapatkan pembaruan di kotak masuk Anda",
+    "aboutBlurb": "Menyebarkan Injil dan melayani komunitas melalui misi, filantropi, dan pemuridan."
+  },
+  "devotionsPage": {
+    "eyebrow": "Santapan Rohani",
+    "title": "Renungan",
+    "subtitle": "Santapan rohani harian dari Firman Tuhan",
+    "latest": "Renungan Terbaru",
+    "previous": "Renungan Sebelumnya",
+    "readDevotion": "Baca Renungan",
+    "comingSoon": "Renungan segera hadir. Kunjungi kembali setiap hari.",
+    "by": "Oleh",
+    "allDevotions": "Semua Renungan",
+    "moreDevotions": "Renungan Lainnya"
+  },
+  "aboutPage": {
+    "whoWeAre": "Siapa Kami",
+    "title": "Tentang The Righteous Vine Missions",
+    "heroSubtitle": "Berakar dalam iman. Bertumbuh dalam kasih. Berbuah bagi kerajaan Allah.",
+    "statSouls": "Jiwa Dimenangkan bagi Kerajaan",
+    "statIslands": "Pulau di Indonesia",
+    "statDays": "Hari di Ladang Misi",
+    "statYears": "Tahun Pelayanan",
+    "missionsIn": "Misi di",
+    "ourStory": "Kisah Kami",
+    "calledToNations": "Terpanggil bagi Bangsa-Bangsa",
+    "ourFoundation": "Dasar Kami",
+    "mission": "Misi",
+    "vision": "Visi",
+    "values": "Nilai",
+    "theTeam": "Tim Kami",
+    "leadership": "Kepemimpinan",
+    "teamComingSoon": "Anggota tim segera hadir.",
+    "unitedBy": "Dipersatukan oleh satu Tuhan, satu iman, satu baptisan.",
+    "scripture": "Akulah pokok anggur dan kamulah ranting-rantingnya. Barangsiapa tinggal di dalam Aku dan Aku di dalam dia, ia berbuah banyak, sebab di luar Aku kamu tidak dapat berbuat apa-apa.",
+    "scriptureRef": "Yohanes 15:5",
+    "partnerWithUs": "Bermitra dengan Kami",
+    "partnerText": "Dukungan Anda memampukan kami menjangkau lebih banyak jiwa, memberi makan lebih banyak keluarga, dan membangun komunitas yang lebih kuat bagi kemuliaan Allah.",
+    "getInTouch": "Hubungi Kami"
+  },
+  "publicationsPage": {
+    "eyebrow": "Sumber Daya",
+    "subtitle": "Buku, majalah, dan buletin dari The Righteous Vine Missions"
+  },
+  "publicationsClient": {
+    "by": "oleh",
+    "freeDownload": "Unduh Gratis",
+    "pdfNotAvailable": "PDF belum tersedia",
+    "buy": "Beli",
+    "comingSoonShort": "Segera hadir",
+    "booksComingSoon": "Buku segera hadir.",
+    "magazinesComingSoon": "Majalah segera hadir.",
+    "newslettersComingSoon": "Buletin segera hadir.",
+    "free": "GRATIS",
+    "issue": "Edisi",
+    "emailPrompt": "Masukkan alamat email Anda untuk menerima unduhan:",
+    "invalidEmail": "Silakan masukkan alamat email yang valid."
+  },
+  "videosPage": {
+    "eyebrow": "Media",
+    "subtitle": "Khotbah, laporan misi, kesaksian, dan lainnya dari The Righteous Vine Missions",
+    "comingSoon": "Segera Hadir",
+    "comingSoonText": "Kami sedang menyiapkan pelayanan video kami. Kunjungi kembali segera untuk khotbah, laporan misi, dan kesaksian dari ladang.",
+    "scripture": "Pergilah ke seluruh dunia, beritakanlah Injil kepada segala makhluk.",
+    "scriptureRef": "Markus 16:15",
+    "notifyTitle": "Dapatkan pemberitahuan saat video tersedia",
+    "notifyText": "Berlangganan milis kami dan jadilah yang pertama tahu."
+  },
+  "galleryPage": {
+    "eyebrow": "Momen dalam Pelayanan",
+    "subtitle": "Sekilas karya Tuhan melalui The Righteous Vine Missions"
+  },
+  "galleryClient": {
+    "all": "Semua",
+    "events": "Acara",
+    "noPhotos": "Belum ada foto di kategori ini."
+  },
+  "donateClient": {
+    "eyebrow": "Memberi untuk Kerajaan",
+    "title": "Dukung Misi Kami",
+    "scripture": "Hendaklah masing-masing memberikan menurut kerelaan hatinya, jangan dengan sedih hati atau karena paksaan, sebab Allah mengasihi orang yang memberi dengan sukacita.",
+    "scriptureRef": "2 Korintus 9:7",
+    "giveOnline": "Beri Secara Online",
+    "successTitle": "Tuhan Memberkati Anda!",
+    "successText": "Terima kasih atas donasi Anda yang murah hati kepada The Righteous Vine Missions. Pemberian Anda akan membantu menyebarkan Injil dan melayani komunitas.",
+    "giveAgain": "Beri Lagi",
+    "currency": "Mata Uang",
+    "selectAmount": "Pilih Jumlah",
+    "custom": "Lainnya",
+    "enterAmount": "Masukkan jumlah dalam",
+    "processing": "Memproses...",
+    "selectAnAmount": "Pilih Jumlah",
+    "securePayment": "Pembayaran aman didukung oleh Paystack",
+    "bankTransfer": "Transfer Bank",
+    "accountName": "Nama Rekening",
+    "accountNumber": "Nomor Rekening",
+    "branch": "Cabang",
+    "mobileMoney": "Mobile Money",
+    "name": "Nama",
+    "number": "Nomor",
+    "network": "Jaringan",
+    "bankComingSoon": "Detail bank segera hadir. Silakan gunakan opsi donasi online di atas atau hubungi kami.",
+    "ctaBefore": "Untuk donasi besar atau transfer internasional, silakan",
+    "ctaLink": "hubungi kami",
+    "ctaAfter": "secara langsung dan kami akan membantu Anda.",
+    "invalidAmount": "Silakan masukkan jumlah yang valid.",
+    "emailPrompt": "Silakan masukkan alamat email Anda:",
+    "invalidEmail": "Silakan masukkan alamat email yang valid.",
+    "currencies": {
+      "GHS": "Cedi Ghana (GHS)",
+      "USD": "Dolar AS (USD)",
+      "GBP": "Poundsterling Inggris (GBP)",
+      "EUR": "Euro (EUR)"
+    }
+  },
+  "contactPage": {
+    "eyebrow": "Hubungi Kami",
+    "title": "Kontak Kami",
+    "subtitle": "Kami senang mendengar dari Anda — untuk undangan, permohonan doa, pertanyaan, atau kemitraan"
+  },
+  "contactClient": {
+    "ourDetails": "Detail Kami",
+    "email": "Email",
+    "phone": "Telepon",
+    "location": "Lokasi",
+    "sendAMessage": "Kirim Pesan",
+    "messageSent": "Pesan Terkirim!",
+    "messageSentText": "Terima kasih telah menghubungi kami. Kami akan segera membalas Anda.",
+    "sendAnother": "Kirim Lagi",
+    "fullName": "Nama Lengkap",
+    "emailAddress": "Alamat Email",
+    "subject": "Subjek",
+    "message": "Pesan",
+    "yourName": "Nama Anda",
+    "emailPlaceholder": "email@anda.com",
+    "messagePlaceholder": "Tulis pesan Anda di sini...",
+    "sending": "Mengirim...",
+    "sendMessage": "Kirim Pesan",
+    "errorGeneric": "Terjadi kesalahan. Silakan email kami langsung di info@trvmissions.com",
+    "subjects": {
+      "General Enquiry": "Pertanyaan Umum",
+      "Invitation / Speaking Engagement": "Undangan / Pembicara",
+      "Prayer Request": "Permohonan Doa",
+      "Partnership / Collaboration": "Kemitraan / Kolaborasi",
+      "Donation Enquiry": "Pertanyaan Donasi",
+      "Volunteer": "Sukarelawan",
+      "Other": "Lainnya"
+    }
+  },
+  "programsPage": {
+    "eyebrow": "Yang Kami Lakukan",
+    "title": "Program Kami",
+    "subtitle": "Bagaimana kami melayani komunitas dan menyebarkan Injil di seluruh dunia",
+    "learnMore": "Pelajari Lebih Lanjut",
+    "allPrograms": "Semua Program",
+    "otherPrograms": "Program Lainnya",
+    "getInvolved": "Ikut Terlibat",
+    "getInvolvedText": "Dukung program kami melalui doa, menjadi sukarelawan, atau memberi.",
+    "contactUs": "Hubungi Kami",
+    "supportProgram": "Dukung Program Ini",
+    "supportProgramText": "Dukungan Anda membantu kami melanjutkan pekerjaan penting ini bagi kerajaan Allah.",
+    "getInTouch": "Hubungi Kami",
+    "names": {
+      "missions": "Misi",
+      "care": "Kepedulian & Filantropi",
+      "discipleship": "Pemuridan"
+    }
+  }
+}

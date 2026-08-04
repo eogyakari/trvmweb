@@ -3,9 +3,25 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { Devotion } from '@/lib/types'
 import Link from 'next/link'
+import RichTextEditor from '../components/RichTextEditor'
 
 function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+}
+
+// Turn the editor's HTML into a clean plain-text excerpt for emails / Facebook.
+function toPlainText(html: string, max = 200): string {
+  const text = html
+    .replace(/<\/(p|div|h[1-6]|li|blockquote)>/gi, ' ')
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/\s+/g, ' ')
+    .trim()
+  return text.length > max ? text.substring(0, max) + '...' : text
 }
 
 const inputStyle: React.CSSProperties = {
@@ -63,7 +79,7 @@ export default function AdminDevotionsPage() {
   }
 
   async function handleSave() {
-    if (!form.title || !form.content || !form.author || !form.date) {
+    if (!form.title || !toPlainText(form.content, 999999) || !form.author || !form.date) {
       alert('Please fill in Title, Content, Author and Date.')
       return
     }
@@ -86,7 +102,7 @@ export default function AdminDevotionsPage() {
       // Auto-notify subscribers for new devotions only
       const notify = confirm('Devotion saved! Notify subscribers by email?')
       if (notify) {
-        const summary = form.content.substring(0, 200) + '...'
+        const summary = toPlainText(form.content) // plain text, no HTML tags
         const devotionUrl = `https://trvmissions.com/devotions/${slug}`
         await fetch('/api/broadcast', {
           method: 'POST',
@@ -102,7 +118,7 @@ export default function AdminDevotionsPage() {
       // Auto-post to Facebook
       const postToFacebook = confirm('Post this devotion to TRVM Facebook page?')
       if (postToFacebook) {
-        const summary = form.content.substring(0, 200) + '...'
+        const summary = toPlainText(form.content) // plain text, no HTML tags
         const res = await fetch('/api/facebook/post', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -206,8 +222,7 @@ export default function AdminDevotionsPage() {
 
               <div>
                 <label style={labelStyle}>Content *</label>
-                <textarea rows={10} style={{ ...inputStyle, resize: 'vertical' }} value={form.content}
-                  onChange={e => setForm(f => ({ ...f, content: e.target.value }))} />
+                <RichTextEditor value={form.content} onChange={html => setForm(f => ({ ...f, content: html }))} />
               </div>
 
               <div>

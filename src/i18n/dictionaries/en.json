@@ -1,0 +1,248 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "devotions": "Devotions",
+    "programs": "Programs",
+    "publications": "Publications",
+    "videos": "Videos",
+    "gallery": "Gallery",
+    "donate": "Donate",
+    "contact": "Contact"
+  },
+  "programs": {
+    "missions": "Missions",
+    "discipleship": "Discipleship",
+    "carePhilanthropy": "Care & Philanthropy"
+  },
+  "pub": {
+    "books": "Books",
+    "magazines": "Magazines",
+    "newsletters": "Newsletters"
+  },
+  "common": {
+    "readMore": "Read more",
+    "read": "Read",
+    "watch": "Watch",
+    "download": "Download",
+    "subscribe": "Subscribe",
+    "donate": "Donate",
+    "send": "Send",
+    "search": "Search",
+    "loading": "Loading…",
+    "language": "Language",
+    "viewAll": "View all",
+    "back": "Back",
+    "share": "Share"
+  },
+  "home": {
+    "latestDevotions": "Latest Devotions",
+    "ourPrograms": "Our Programs",
+    "recentVideos": "Recent Videos",
+    "getInvolved": "Get Involved",
+    "heroTitle": "Spreading the Gospel to the Ends of the Earth",
+    "heroSubtitle": "Reaching the unreached, feeding the hungry, discipling the nations — one mission at a time.",
+    "ourMission": "Our Mission",
+    "supportUs": "Support Us",
+    "programsSubtitle": "How we serve communities around the world",
+    "devotionsSubtitle": "Daily words of encouragement",
+    "stayConnected": "Stay Connected",
+    "getUpdates": "Get Ministry Updates",
+    "subscribeText": "Subscribe to receive daily devotions, newsletters, and ministry news directly in your inbox.",
+    "supportMission": "Support Our Mission",
+    "supportText": "Your donation helps us reach more souls, feed more families, and spread the gospel further.",
+    "donateNow": "Donate Now",
+    "programs": [
+      {
+        "title": "Missions",
+        "desc": "Evangelism and gospel outreach to unreached communities across islands and nations."
+      },
+      {
+        "title": "Feeding Program",
+        "desc": "Providing nutritious meals to the hungry and vulnerable in underserved communities."
+      },
+      {
+        "title": "Philanthropy",
+        "desc": "Supporting communities through education, healthcare, and social development."
+      },
+      {
+        "title": "Discipleship",
+        "desc": "Training and equipping believers to grow in faith and share the gospel."
+      }
+    ]
+  },
+  "footer": {
+    "subscribePrompt": "Subscribe for updates",
+    "rights": "All rights reserved",
+    "followUs": "Follow us",
+    "quickLinks": "Quick Links",
+    "newsletter": "Newsletter",
+    "inboxUpdates": "Get updates in your inbox",
+    "aboutBlurb": "Spreading the gospel and serving communities through missions, philanthropy, and discipleship."
+  },
+  "devotionsPage": {
+    "eyebrow": "Daily Nourishment",
+    "title": "Devotions",
+    "subtitle": "Daily spiritual nourishment from God's Word",
+    "latest": "Latest Devotion",
+    "previous": "Previous Devotions",
+    "readDevotion": "Read Devotion",
+    "comingSoon": "Devotions coming soon. Check back daily.",
+    "by": "By",
+    "allDevotions": "All Devotions",
+    "moreDevotions": "More Devotions"
+  },
+  "aboutPage": {
+    "whoWeAre": "Who We Are",
+    "title": "About The Righteous Vine Missions",
+    "heroSubtitle": "Rooted in faith. Growing in love. Bearing fruit for God's kingdom.",
+    "statSouls": "Souls Won for the Kingdom",
+    "statIslands": "Islands in Indonesia",
+    "statDays": "Days in the Field",
+    "statYears": "Years of Ministry",
+    "missionsIn": "Missions in",
+    "ourStory": "Our Story",
+    "calledToNations": "Called to the Nations",
+    "ourFoundation": "Our Foundation",
+    "mission": "Mission",
+    "vision": "Vision",
+    "values": "Values",
+    "theTeam": "The Team",
+    "leadership": "Leadership",
+    "teamComingSoon": "Team members coming soon.",
+    "unitedBy": "United by one Lord, one faith, one baptism.",
+    "scripture": "I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing.",
+    "scriptureRef": "John 15:5",
+    "partnerWithUs": "Partner With Us",
+    "partnerText": "Your support enables us to reach more souls, feed more families, and build stronger communities for God's glory.",
+    "getInTouch": "Get in Touch"
+  },
+  "publicationsPage": {
+    "eyebrow": "Resources",
+    "subtitle": "Books, magazines and newsletters from The Righteous Vine Missions"
+  },
+  "publicationsClient": {
+    "by": "by",
+    "freeDownload": "Free Download",
+    "pdfNotAvailable": "PDF not available yet",
+    "buy": "Buy",
+    "comingSoonShort": "Coming soon",
+    "booksComingSoon": "Books coming soon.",
+    "magazinesComingSoon": "Magazines coming soon.",
+    "newslettersComingSoon": "Newsletters coming soon.",
+    "free": "FREE",
+    "issue": "Issue",
+    "emailPrompt": "Enter your email address to receive your download:",
+    "invalidEmail": "Please enter a valid email address."
+  },
+  "videosPage": {
+    "eyebrow": "Media",
+    "subtitle": "Sermons, mission reports, testimonies and more from The Righteous Vine Missions",
+    "comingSoon": "Coming Soon",
+    "comingSoonText": "We are currently setting up our video ministry. Check back soon for sermons, mission reports, and testimonies from the field.",
+    "scripture": "Go into all the world and preach the gospel to all creation.",
+    "scriptureRef": "Mark 16:15",
+    "notifyTitle": "Get notified when videos are available",
+    "notifyText": "Subscribe to our mailing list and be the first to know."
+  },
+  "galleryPage": {
+    "eyebrow": "Moments in Ministry",
+    "subtitle": "Glimpses of God's work through The Righteous Vine Missions"
+  },
+  "galleryClient": {
+    "all": "All",
+    "events": "Events",
+    "noPhotos": "No photos in this category yet."
+  },
+  "donateClient": {
+    "eyebrow": "Give to the Kingdom",
+    "title": "Support Our Mission",
+    "scripture": "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.",
+    "scriptureRef": "2 Corinthians 9:7",
+    "giveOnline": "Give Online",
+    "successTitle": "God Bless You!",
+    "successText": "Thank you for your generous donation to The Righteous Vine Missions. Your gift will help spread the Gospel and serve communities.",
+    "giveAgain": "Give Again",
+    "currency": "Currency",
+    "selectAmount": "Select Amount",
+    "custom": "Custom",
+    "enterAmount": "Enter amount in",
+    "processing": "Processing...",
+    "selectAnAmount": "Select an Amount",
+    "securePayment": "Secure payment powered by Paystack",
+    "bankTransfer": "Bank Transfer",
+    "accountName": "Account Name",
+    "accountNumber": "Account Number",
+    "branch": "Branch",
+    "mobileMoney": "Mobile Money",
+    "name": "Name",
+    "number": "Number",
+    "network": "Network",
+    "bankComingSoon": "Bank details coming soon. Please use the online donation option above or contact us.",
+    "ctaBefore": "For large donations or international transfers, please",
+    "ctaLink": "contact us",
+    "ctaAfter": "directly and we will assist you.",
+    "invalidAmount": "Please enter a valid amount.",
+    "emailPrompt": "Please enter your email address:",
+    "invalidEmail": "Please enter a valid email address.",
+    "currencies": {
+      "GHS": "Ghana Cedis (GHS)",
+      "USD": "US Dollar (USD)",
+      "GBP": "British Pound (GBP)",
+      "EUR": "Euro (EUR)"
+    }
+  },
+  "contactPage": {
+    "eyebrow": "Get In Touch",
+    "title": "Contact Us",
+    "subtitle": "We'd love to hear from you — for invitations, prayer requests, enquiries or partnerships"
+  },
+  "contactClient": {
+    "ourDetails": "Our Details",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location",
+    "sendAMessage": "Send a Message",
+    "messageSent": "Message Sent!",
+    "messageSentText": "Thank you for reaching out. We will get back to you as soon as possible.",
+    "sendAnother": "Send Another",
+    "fullName": "Full Name",
+    "emailAddress": "Email Address",
+    "subject": "Subject",
+    "message": "Message",
+    "yourName": "Your name",
+    "emailPlaceholder": "your@email.com",
+    "messagePlaceholder": "Write your message here...",
+    "sending": "Sending...",
+    "sendMessage": "Send Message",
+    "errorGeneric": "Something went wrong. Please email us directly at info@trvmissions.com",
+    "subjects": {
+      "General Enquiry": "General Enquiry",
+      "Invitation / Speaking Engagement": "Invitation / Speaking Engagement",
+      "Prayer Request": "Prayer Request",
+      "Partnership / Collaboration": "Partnership / Collaboration",
+      "Donation Enquiry": "Donation Enquiry",
+      "Volunteer": "Volunteer",
+      "Other": "Other"
+    }
+  },
+  "programsPage": {
+    "eyebrow": "What We Do",
+    "title": "Our Programs",
+    "subtitle": "How we serve communities and spread the Gospel around the world",
+    "learnMore": "Learn More",
+    "allPrograms": "All Programs",
+    "otherPrograms": "Other Programs",
+    "getInvolved": "Get Involved",
+    "getInvolvedText": "Support our programs through prayer, volunteering, or giving.",
+    "contactUs": "Contact Us",
+    "supportProgram": "Support This Program",
+    "supportProgramText": "Your support helps us continue this vital work for God's kingdom.",
+    "getInTouch": "Get in Touch",
+    "names": {
+      "missions": "Missions",
+      "care": "Care & Philanthropy",
+      "discipleship": "Discipleship"
+    }
+  }
+}

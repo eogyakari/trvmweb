@@ -1,12 +1,21 @@
 "use client"
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
+import { getDict, localize, localeFromPathname } from "@/i18n/client"
+import LanguageSwitcher from "./LanguageSwitcher"
 
+// Goes at: src/app/components/Navbar.tsx
 export default function Navbar() {
+  const pathname = usePathname()
+  const locale = localeFromPathname(pathname)
   const [menuOpen, setMenuOpen] = useState(false)
   const [programsOpen, setProgramsOpen] = useState(false)
   const [pubOpen, setPubOpen] = useState(false)
+
+  const d = getDict(locale)
+  const L = (href: string) => localize(href, locale)
 
   const dropdownStyle: React.CSSProperties = {
     position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)",
@@ -32,14 +41,14 @@ export default function Navbar() {
         display: "flex", alignItems: "center", justifyContent: "space-between", height: 70,
       }}>
         {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <Link href={L("/")} style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <Image src="/logo.png" alt="TRVM Logo" width={50} height={50} style={{ objectFit: "contain" }} />
         </Link>
 
         {/* Desktop Nav */}
         <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="desktop-nav">
-          {[{ label: "Home", href: "/" }, { label: "About", href: "/about" }].map(link => (
-            <Link key={link.href} href={link.href} style={{ fontSize: 13, fontWeight: 600, color: "#e0e0f0", letterSpacing: 1, textTransform: "uppercase", transition: "color 0.2s", textDecoration: "none" }}
+          {[{ label: d.nav.home, href: "/" }, { label: d.nav.about, href: "/about" }].map(link => (
+            <Link key={link.href} href={L(link.href)} style={{ fontSize: 13, fontWeight: 600, color: "#e0e0f0", letterSpacing: 1, textTransform: "uppercase", transition: "color 0.2s", textDecoration: "none" }}
               onMouseEnter={e => (e.currentTarget.style.color = "#F5A623")}
               onMouseLeave={e => (e.currentTarget.style.color = "#e0e0f0")}
             >{link.label}</Link>
@@ -49,18 +58,18 @@ export default function Navbar() {
           <div style={{ position: "relative" }}
             onMouseEnter={() => setProgramsOpen(true)}
             onMouseLeave={() => setProgramsOpen(false)}>
-            <Link href="/programs" style={{ fontSize: 13, fontWeight: 600, color: "#e0e0f0", letterSpacing: 1, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}
+            <Link href={L("/programs")} style={{ fontSize: 13, fontWeight: 600, color: "#e0e0f0", letterSpacing: 1, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}
               onMouseEnter={e => (e.currentTarget.style.color = "#F5A623")}
               onMouseLeave={e => (e.currentTarget.style.color = "#e0e0f0")}
-            >Programs <span style={{ fontSize: 10 }}>▾</span></Link>
+            >{d.nav.programs} <span style={{ fontSize: 10 }}>▾</span></Link>
             {programsOpen && (
               <div style={dropdownStyle}>
                 {[
-                  { label: "Missions", href: "/programs/missions", icon: "✝" },
-                  { label: "Care & Philanthropy", href: "/programs/care-philanthropy", icon: "🤝" },
-                  { label: "Discipleship", href: "/programs/discipleship", icon: "📖" },
+                  { label: d.programs.missions, href: "/programs/missions", icon: "✝" },
+                  { label: d.programs.carePhilanthropy, href: "/programs/care-philanthropy", icon: "🤝" },
+                  { label: d.programs.discipleship, href: "/programs/discipleship", icon: "📖" },
                 ].map(item => (
-                  <Link key={item.href} href={item.href} style={dropItemStyle}
+                  <Link key={item.href} href={L(item.href)} style={dropItemStyle}
                     onMouseEnter={e => { e.currentTarget.style.color = "#F5A623"; e.currentTarget.style.background = "rgba(245,166,35,0.08)" }}
                     onMouseLeave={e => { e.currentTarget.style.color = "#e0e0f0"; e.currentTarget.style.background = "transparent" }}
                   ><span>{item.icon}</span> {item.label}</Link>
@@ -73,18 +82,18 @@ export default function Navbar() {
           <div style={{ position: "relative" }}
             onMouseEnter={() => setPubOpen(true)}
             onMouseLeave={() => setPubOpen(false)}>
-            <Link href="/publications" style={{ fontSize: 13, fontWeight: 600, color: "#e0e0f0", letterSpacing: 1, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}
+            <Link href={L("/publications")} style={{ fontSize: 13, fontWeight: 600, color: "#e0e0f0", letterSpacing: 1, textTransform: "uppercase", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}
               onMouseEnter={e => (e.currentTarget.style.color = "#F5A623")}
               onMouseLeave={e => (e.currentTarget.style.color = "#e0e0f0")}
-            >Publications <span style={{ fontSize: 10 }}>▾</span></Link>
+            >{d.nav.publications} <span style={{ fontSize: 10 }}>▾</span></Link>
             {pubOpen && (
               <div style={dropdownStyle}>
                 {[
-                  { label: "Books", href: "/publications#books", icon: "📚" },
-                  { label: "Magazines", href: "/publications#magazines", icon: "📰" },
-                  { label: "Newsletters", href: "/publications#newsletters", icon: "✉️" },
+                  { label: d.pub.books, href: "/publications#books", icon: "📚" },
+                  { label: d.pub.magazines, href: "/publications#magazines", icon: "📰" },
+                  { label: d.pub.newsletters, href: "/publications#newsletters", icon: "✉️" },
                 ].map(item => (
-                  <Link key={item.href} href={item.href} style={dropItemStyle}
+                  <Link key={item.href} href={L(item.href)} style={dropItemStyle}
                     onMouseEnter={e => { e.currentTarget.style.color = "#F5A623"; e.currentTarget.style.background = "rgba(245,166,35,0.08)" }}
                     onMouseLeave={e => { e.currentTarget.style.color = "#e0e0f0"; e.currentTarget.style.background = "transparent" }}
                   ><span>{item.icon}</span> {item.label}</Link>
@@ -94,20 +103,23 @@ export default function Navbar() {
           </div>
 
           {[
-            { label: "Devotions", href: "/devotions" },
-            { label: "Gallery", href: "/gallery" },
-            { label: "Videos", href: "/videos" },
-            { label: "Contact", href: "/contact" },
+            { label: d.nav.devotions, href: "/devotions" },
+            { label: d.nav.gallery, href: "/gallery" },
+            { label: d.nav.videos, href: "/videos" },
+            { label: d.nav.contact, href: "/contact" },
           ].map(link => (
-            <Link key={link.href} href={link.href} style={{ fontSize: 13, fontWeight: 600, color: "#e0e0f0", letterSpacing: 1, textTransform: "uppercase", transition: "color 0.2s", textDecoration: "none" }}
+            <Link key={link.href} href={L(link.href)} style={{ fontSize: 13, fontWeight: 600, color: "#e0e0f0", letterSpacing: 1, textTransform: "uppercase", transition: "color 0.2s", textDecoration: "none" }}
               onMouseEnter={e => (e.currentTarget.style.color = "#F5A623")}
               onMouseLeave={e => (e.currentTarget.style.color = "#e0e0f0")}
             >{link.label}</Link>
           ))}
 
-          <Link href="/donate" style={{ background: "linear-gradient(135deg, #F5A623, #E8860A)", color: "#0D0D1A", padding: "8px 20px", borderRadius: 25, fontSize: 13, fontWeight: 800, letterSpacing: 1, textDecoration: "none" }}>
-            DONATE
+          <Link href={L("/donate")} style={{ background: "linear-gradient(135deg, #F5A623, #E8860A)", color: "#0D0D1A", padding: "8px 20px", borderRadius: 25, fontSize: 13, fontWeight: 800, letterSpacing: 1, textTransform: "uppercase", textDecoration: "none" }}>
+            {d.nav.donate}
           </Link>
+
+          {/* Language switcher */}
+          <LanguageSwitcher current={locale} />
         </div>
 
         {/* Mobile menu button */}
@@ -122,23 +134,23 @@ export default function Navbar() {
       {menuOpen && (
         <div style={{ background: "#1A0A2E", padding: "16px 24px", display: "flex", flexDirection: "column", gap: 2 }}>
           {[
-            { label: "Home", href: "/", sub: false },
-            { label: "About", href: "/about", sub: false },
-            { label: "Programs", href: "/programs", sub: false },
-            { label: "→ Missions", href: "/programs/missions", sub: true },
-            { label: "→ Care & Philanthropy", href: "/programs/care-philanthropy", sub: true },
-            { label: "→ Discipleship", href: "/programs/discipleship", sub: true },
-            { label: "Publications", href: "/publications", sub: false },
-            { label: "→ Books", href: "/publications#books", sub: true },
-            { label: "→ Magazines", href: "/publications#magazines", sub: true },
-            { label: "→ Newsletters", href: "/publications#newsletters", sub: true },
-            { label: "Devotions", href: "/devotions", sub: false },
-            { label: "Gallery", href: "/gallery", sub: false },
-             { label: "Videos", href: "/videos" },
-            { label: "Contact", href: "/contact", sub: false },
-            { label: "Donate", href: "/donate", sub: false },
+            { label: d.nav.home, href: "/", sub: false },
+            { label: d.nav.about, href: "/about", sub: false },
+            { label: d.nav.programs, href: "/programs", sub: false },
+            { label: "→ " + d.programs.missions, href: "/programs/missions", sub: true },
+            { label: "→ " + d.programs.carePhilanthropy, href: "/programs/care-philanthropy", sub: true },
+            { label: "→ " + d.programs.discipleship, href: "/programs/discipleship", sub: true },
+            { label: d.nav.publications, href: "/publications", sub: false },
+            { label: "→ " + d.pub.books, href: "/publications#books", sub: true },
+            { label: "→ " + d.pub.magazines, href: "/publications#magazines", sub: true },
+            { label: "→ " + d.pub.newsletters, href: "/publications#newsletters", sub: true },
+            { label: d.nav.devotions, href: "/devotions", sub: false },
+            { label: d.nav.gallery, href: "/gallery", sub: false },
+            { label: d.nav.videos, href: "/videos", sub: false },
+            { label: d.nav.contact, href: "/contact", sub: false },
+            { label: d.nav.donate, href: "/donate", sub: false },
           ].map(link => (
-            <Link key={link.href} href={link.href}
+            <Link key={link.href} href={L(link.href)}
               onClick={() => setMenuOpen(false)}
               style={{
                 color: link.sub ? "rgba(224,224,240,0.6)" : "#e0e0f0",
@@ -149,6 +161,11 @@ export default function Navbar() {
               }}
             >{link.label}</Link>
           ))}
+
+          {/* Language switcher (mobile) */}
+          <div style={{ marginTop: 14 }}>
+            <LanguageSwitcher current={locale} />
+          </div>
         </div>
       )}
 
