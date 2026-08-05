@@ -143,7 +143,9 @@
     "scripture": "Go into all the world and preach the gospel to all creation.",
     "scriptureRef": "Mark 16:15",
     "notifyTitle": "Get notified when videos are available",
-    "notifyText": "Subscribe to our mailing list and be the first to know."
+    "notifyText": "Subscribe to our mailing list and be the first to know.",
+    "latestVideos": "Latest Videos",
+    "watchOnYoutube": "Watch on YouTube"
   },
   "galleryPage": {
     "eyebrow": "Moments in Ministry",

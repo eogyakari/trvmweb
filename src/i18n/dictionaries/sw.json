@@ -143,7 +143,9 @@
     "scripture": "Enendeni ulimwenguni mwote, mkaihubiri Injili kwa kila kiumbe.",
     "scriptureRef": "Marko 16:15",
     "notifyTitle": "Pata arifa video zinapopatikana",
-    "notifyText": "Jiandikishe kwenye orodha yetu ya barua pepe na uwe wa kwanza kujua."
+    "notifyText": "Jiandikishe kwenye orodha yetu ya barua pepe na uwe wa kwanza kujua.",
+    "latestVideos": "Video za Hivi Karibuni",
+    "watchOnYoutube": "Tazama kwenye YouTube"
   },
   "galleryPage": {
     "eyebrow": "Nyakati katika Huduma",
