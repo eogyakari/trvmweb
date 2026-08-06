@@ -36,7 +36,7 @@ async function getLatestDevotions(): Promise<DevotionRow[]> {
     .from("devotions")
     .select("*, devotion_translations(locale, title, body)")
     .order("date", { ascending: false })
-    .limit(3)
+    .limit(4)
   return (data || []) as unknown as DevotionRow[]
 }
 
@@ -155,20 +155,12 @@ export default async function HomePage({
           <div style={{ maxWidth: 1200, margin: "0 auto" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48, flexWrap: "wrap", gap: 16 }}>
               <div>
-      {/* Hidden Netlify form for bot detection */}
-      <form name="contact" data-netlify="true" hidden>
-        <input type="text" name="name" />
-        <input type="email" name="email" />
-        <input type="text" name="phone" />
-        <input type="text" name="subject" />
-        <textarea name="message" />
-      </form>
                 <h2 style={{ fontSize: 36, fontWeight: 800, color: "#fff" }}>{h.latestDevotions}</h2>
                 <p style={{ color: "#a0a0b0", marginTop: 8 }}>{h.devotionsSubtitle}</p>
               </div>
               <Link href={L("/devotions")} style={{ color: "#F5A623", fontSize: 14, fontWeight: 600 }}>{dict.common.viewAll} →</Link>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 24 }}>
+            <div className="home-devotions-grid" style={{ display: "grid", gap: 24 }}>
               {devotions.map(d => {
                 const dt = pick(d, lang)
                 return (
@@ -190,6 +182,11 @@ export default async function HomePage({
               })}
             </div>
           </div>
+          <style>{`
+            .home-devotions-grid { grid-template-columns: repeat(4, 1fr); }
+            @media (max-width: 900px) { .home-devotions-grid { grid-template-columns: repeat(2, 1fr); } }
+            @media (max-width: 560px) { .home-devotions-grid { grid-template-columns: 1fr; } }
+          `}</style>
         </section>
       )}
 
