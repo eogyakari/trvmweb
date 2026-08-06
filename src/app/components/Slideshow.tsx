@@ -24,7 +24,7 @@ export default function Slideshow({ slides }: { slides: Slide[] }) {
   if (slides.length === 0) return null
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: 520, overflow: 'hidden', background: '#0D0D1A' }}>
+    <div className="trvm-slideshow" style={{ position: 'relative', width: '100%', overflow: 'hidden', background: '#0D0D1A' }}>
       {/* Previous slide fading out */}
       {prev !== null && (
         <div key={`prev-${prev}`} style={{
@@ -54,7 +54,7 @@ export default function Slideshow({ slides }: { slides: Slide[] }) {
 
         {/* Caption */}
         {slides[current].caption && (
-          <div style={{
+          <div className="trvm-slide-caption" style={{
             position: 'absolute', bottom: 56, left: 0, right: 0,
             textAlign: 'center', padding: '0 40px',
             animation: 'captionUp 1.4s ease-out forwards',
@@ -113,6 +113,16 @@ export default function Slideshow({ slides }: { slides: Slide[] }) {
       )}
 
       <style>{`
+        /* Height scales with width via aspect-ratio, so images aren't
+           squashed into a short band on portrait phones. */
+        .trvm-slideshow { aspect-ratio: 21 / 9; max-height: 620px; }
+        @media (max-width: 900px) { .trvm-slideshow { aspect-ratio: 16 / 9; } }
+        @media (max-width: 600px) {
+          .trvm-slideshow { aspect-ratio: 4 / 5; max-height: none; }
+          .trvm-slide-caption { bottom: 46px !important; padding: 0 22px !important; }
+          .trvm-slide-caption p { font-size: 0.95rem !important; }
+        }
+
         @keyframes fadeInZoom {
           0% { opacity: 0; transform: scale(1.06); }
           100% { opacity: 1; transform: scale(1); }
