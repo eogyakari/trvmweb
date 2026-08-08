@@ -1,10 +1,19 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import "./globals.css"
 import LayoutWrapper from "./components/layoutWrapper"
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import PwaRegister from "./components/PwaRegister"
 
 export const metadata: Metadata = {
   title: "The Righteous Vine Missions",
   description: "Spreading the Gospel to the ends of the earth through missions, care & philanthropy, and discipleship.",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "TRVM",
+  },
   openGraph: {
     title: "The Righteous Vine Missions",
     description: "Spreading the Gospel to the ends of the earth through missions, care & philanthropy, and discipleship.",
@@ -20,6 +29,10 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  themeColor: "#1A0A2E",
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -29,6 +42,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <LayoutWrapper>{children}</LayoutWrapper>
+        <PwaRegister />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
