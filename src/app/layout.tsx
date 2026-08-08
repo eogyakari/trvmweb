@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import PwaRegister from "./components/PwaRegister"
 import InstallPrompt from "./components/InstallPrompt"
 import IosSplashLinks from "./components/IosSplashLinks"
+import OfflineBanner from "./components/OfflineBanner"
 
 export const metadata: Metadata = {
   title: "The Righteous Vine Missions",
@@ -48,6 +49,7 @@ export default function RootLayout({
       <body>
         <LayoutWrapper>{children}</LayoutWrapper>
         <PwaRegister />
+        <OfflineBanner />
         <InstallPrompt />
         <Analytics />
         <SpeedInsights />
