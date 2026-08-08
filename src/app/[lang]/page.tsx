@@ -5,6 +5,7 @@ import Slideshow from "@/app/components/Slideshow"
 import SubscribeForm from "@/app/components/SubscribeForm"
 import { getDictionary } from "@/i18n/getDictionary"
 import { isLocale, type Locale } from "@/i18n/config"
+import { getQuoteOfDay } from "@/lib/getQuoteOfDay"
 
 
 export const revalidate = 60
@@ -40,6 +41,7 @@ async function getLatestDevotions(): Promise<DevotionRow[]> {
   return (data || []) as unknown as DevotionRow[]
 }
 
+
 async function getSlides() {
   const { data } = await supabase
     .from("slideshow")
@@ -56,6 +58,7 @@ export default async function HomePage({
   const { lang: rawLang } = await params
   const lang: Locale = isLocale(rawLang) ? rawLang : 'en'
   const dict = await getDictionary(lang)
+  const quote = await getQuoteOfDay(lang)
   const h = dict.home
   const dl = dateLocales[lang]
   const L = (p: string) => `/${lang}${p === '/' ? '' : p}`
@@ -148,6 +151,43 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+       {/* Quote of the Day */}
+      {quote && (
+        <section style={{
+          background: 'linear-gradient(135deg, #2A1043 0%, #1A0A2E 100%)',
+          padding: '72px 24px', textAlign: 'center',
+        }}>
+          <div style={{ maxWidth: 820, margin: '0 auto', position: 'relative' }}>
+            <p style={{
+              color: '#F5A623', fontSize: 12, fontWeight: 700,
+              letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 24,
+            }}>
+              {h.quoteOfDay}
+            </p>
+            <div style={{
+              fontFamily: 'Georgia, serif', color: '#F5A623',
+              fontSize: 64, lineHeight: 1, marginBottom: 8, opacity: 0.5,
+            }}>&ldquo;</div>
+            <blockquote style={{
+              color: 'white', fontSize: 'clamp(20px, 3vw, 30px)',
+              fontStyle: 'italic', fontFamily: 'Georgia, serif',
+              lineHeight: 1.6, margin: '0 0 24px',
+            }}>
+              {quote.text}
+            </blockquote>
+            {quote.author && (
+              <p style={{
+                color: 'rgba(255,255,255,0.7)', fontSize: 15, fontWeight: 600,
+                letterSpacing: '0.05em',
+              }}>
+                &mdash; {quote.author}
+              </p>
+            )}
+            <div style={{ width: 50, height: 3, background: '#F5A623', margin: '28px auto 0' }} />
+          </div>
+        </section>
+      )}
 
       {/* Latest Devotions */}
       {devotions.length > 0 && (
