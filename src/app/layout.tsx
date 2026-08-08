@@ -7,6 +7,7 @@ import PwaRegister from "./components/PwaRegister"
 import InstallPrompt from "./components/InstallPrompt"
 import IosSplashLinks from "./components/IosSplashLinks"
 import OfflineBanner from "./components/OfflineBanner"
+import BottomNav from "./components/BottomNav"
 
 export const metadata: Metadata = {
   title: "The Righteous Vine Missions",
@@ -48,6 +49,7 @@ export default function RootLayout({
       </head>
       <body>
         <LayoutWrapper>{children}</LayoutWrapper>
+        <BottomNav />
         <PwaRegister />
         <OfflineBanner />
         <InstallPrompt />

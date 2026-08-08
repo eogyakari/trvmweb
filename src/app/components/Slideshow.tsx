@@ -34,7 +34,7 @@ export default function Slideshow({ slides }: { slides: Slide[] }) {
           <img
             src={slides[prev].image_url}
             alt={slides[prev].caption || ''}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
           />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,13,26,0.75) 0%, rgba(13,13,26,0.1) 60%)' }} />
         </div>
@@ -48,7 +48,7 @@ export default function Slideshow({ slides }: { slides: Slide[] }) {
         <img
           src={slides[current].image_url}
           alt={slides[current].caption || ''}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
         />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,13,26,0.75) 0%, rgba(13,13,26,0.1) 60%)' }} />
 
@@ -113,12 +113,12 @@ export default function Slideshow({ slides }: { slides: Slide[] }) {
       )}
 
       <style>{`
-        /* Height scales with width via aspect-ratio, so images aren't
-           squashed into a short band on portrait phones. */
+        /* Portrait phones: 'contain' shows the whole image resized to fit,
+           with the dark container as slim framing. 16/9 keeps bars minimal. */
         .trvm-slideshow { aspect-ratio: 21 / 9; max-height: 620px; }
         @media (max-width: 900px) { .trvm-slideshow { aspect-ratio: 16 / 9; } }
         @media (max-width: 600px) {
-          .trvm-slideshow { aspect-ratio: 4 / 5; max-height: none; }
+          .trvm-slideshow { aspect-ratio: 16 / 9; max-height: none; }
           .trvm-slide-caption { bottom: 46px !important; padding: 0 22px !important; }
           .trvm-slide-caption p { font-size: 0.95rem !important; }
         }
