@@ -4,6 +4,8 @@ import LayoutWrapper from "./components/layoutWrapper"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import PwaRegister from "./components/PwaRegister"
+import InstallPrompt from "./components/InstallPrompt"
+import IosSplashLinks from "./components/IosSplashLinks"
 
 export const metadata: Metadata = {
   title: "The Righteous Vine Missions",
@@ -40,9 +42,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <IosSplashLinks />
+      </head>
       <body>
         <LayoutWrapper>{children}</LayoutWrapper>
         <PwaRegister />
+        <InstallPrompt />
         <Analytics />
         <SpeedInsights />
       </body>
