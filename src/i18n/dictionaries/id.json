@@ -8,7 +8,8 @@
     "videos": "Video",
     "gallery": "Galeri",
     "donate": "Donasi",
-    "contact": "Kontak"
+    "contact": "Kontak",
+    "news": "Berita"
   },
   "programs": {
     "missions": "Misi",
@@ -248,5 +249,16 @@
       "care": "Kepedulian & Filantropi",
       "discipleship": "Pemuridan"
     }
+  },
+  "newsPage": {
+    "eyebrow": "Berita Pelayanan",
+    "title": "Berita",
+    "subtitle": "Pembaruan dan kisah dari The Righteous Vine Missions",
+    "latestNews": "Berita Terbaru",
+    "readMore": "Baca Selengkapnya",
+    "viewAll": "Lihat Semua Berita",
+    "backToNews": "← Semua Berita",
+    "noNews": "Belum ada berita. Kunjungi lagi nanti.",
+    "by": "Oleh"
   }
 }

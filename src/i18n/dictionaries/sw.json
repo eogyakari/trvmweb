@@ -8,7 +8,8 @@
     "videos": "Video",
     "gallery": "Matunzio",
     "donate": "Changia",
-    "contact": "Wasiliana"
+    "contact": "Wasiliana",
+    "news": "Habari"
   },
   "programs": {
     "missions": "Misheni",
@@ -248,5 +249,16 @@
       "care": "Huduma na Ukarimu",
       "discipleship": "Ufuasi"
     }
+  },
+  "newsPage": {
+    "eyebrow": "Habari za Huduma",
+    "title": "Habari",
+    "subtitle": "Taarifa na hadithi kutoka The Righteous Vine Missions",
+    "latestNews": "Habari za Hivi Karibuni",
+    "readMore": "Soma Zaidi",
+    "viewAll": "Tazama Habari Zote",
+    "backToNews": "← Habari Zote",
+    "noNews": "Bado hakuna habari. Rudi tena hivi karibuni.",
+    "by": "Na"
   }
 }

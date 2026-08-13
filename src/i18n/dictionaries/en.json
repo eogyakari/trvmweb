@@ -8,7 +8,8 @@
     "videos": "Videos",
     "gallery": "Gallery",
     "donate": "Donate",
-    "contact": "Contact"
+    "contact": "Contact",
+    "news": "News"
   },
   "programs": {
     "missions": "Missions",
@@ -248,5 +249,16 @@
       "care": "Care & Philanthropy",
       "discipleship": "Discipleship"
     }
+  },
+  "newsPage": {
+    "eyebrow": "Ministry News",
+    "title": "News",
+    "subtitle": "Updates and stories from The Righteous Vine Missions",
+    "latestNews": "Latest News",
+    "readMore": "Read More",
+    "viewAll": "View All News",
+    "backToNews": "← All News",
+    "noNews": "No news yet. Check back soon.",
+    "by": "By"
   }
 }

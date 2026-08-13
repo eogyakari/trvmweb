@@ -68,6 +68,27 @@ export default async function HomePage({
     getSlides(),
   ])
 
+   const { data: newsRows } = await supabase
+    .from('news').select('id, title, slug, body, excerpt, cover_image, published_date')
+    .eq('is_published', true)
+    .order('published_date', { ascending: false })
+    .limit(3)
+ 
+  let newsTr: any[] = []
+  if (lang !== 'en' && newsRows && newsRows.length) {
+    const { data } = await supabase
+      .from('news_translations')
+      .select('news_id, locale, title, excerpt')
+      .in('news_id', newsRows.map((r:any) => r.id))
+      .eq('locale', lang)
+    newsTr = data || []
+  }
+  const pickNews = (row:any) => {
+    if (lang === 'en') return { title: row.title, excerpt: row.excerpt }
+    const t = newsTr.find((x:any) => x.news_id === row.id)
+    return { title: t?.title || row.title, excerpt: t?.excerpt || row.excerpt }
+  }
+
   // Icons + destination stay in code; titles/descriptions come from the dict.
   const progMeta = [
     { icon: "✝", href: "/programs" },
@@ -226,6 +247,54 @@ export default async function HomePage({
             .home-devotions-grid { grid-template-columns: repeat(4, 1fr); }
             @media (max-width: 900px) { .home-devotions-grid { grid-template-columns: repeat(2, 1fr); } }
             @media (max-width: 560px) { .home-devotions-grid { grid-template-columns: 1fr; } }
+          `}</style>
+        </section>
+      )}
+
+      {/* Latest News */}
+      {newsRows && newsRows.length > 0 && (
+        <section style={{ padding: '80px 24px', background: '#0D0D1A' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
+              <div>
+                <h2 style={{ fontSize: 36, fontWeight: 800, color: '#fff' }}>{dict.newsPage.latestNews}</h2>
+                <p style={{ color: '#a0a0b0', marginTop: 8 }}>{dict.newsPage.subtitle}</p>
+              </div>
+              <Link href={L('/news')} style={{ color: '#F5A623', fontSize: 14, fontWeight: 600 }}>{dict.newsPage.viewAll} →</Link>
+            </div>
+            <div className="home-news-grid" style={{ display: 'grid', gap: 24 }}>
+              {newsRows.map((row:any) => {
+                const c = pickNews(row)
+                return (
+                  <Link key={row.id} href={L(`/news/${row.slug}`)} style={{
+                    background: 'linear-gradient(135deg, #1A0A2E, #16213E)',
+                    border: '1px solid rgba(123,47,190,0.3)', borderRadius: 16,
+                    overflow: 'hidden', textDecoration: 'none', display: 'block',
+                  }}>
+                    {row.cover_image && (
+                      <div style={{ height: 170, overflow: 'hidden' }}>
+                        <img src={row.cover_image} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                    )}
+                    <div style={{ padding: 22 }}>
+                      <div style={{ fontSize: 11, color: '#9B59B6', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 8 }}>
+                        {new Date(row.published_date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </div>
+                      <h3 style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginBottom: 10, lineHeight: 1.35 }}>{c.title}</h3>
+                      <p style={{ color: '#a0a0b0', fontSize: 13, lineHeight: 1.7 }}>
+                        {(c.excerpt || stripHtml(row.body)).substring(0, 100)}...
+                      </p>
+                      <div style={{ marginTop: 14, color: '#F5A623', fontSize: 13, fontWeight: 600 }}>{dict.newsPage.readMore} →</div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+          <style>{`
+            .home-news-grid { grid-template-columns: repeat(3, 1fr); }
+            @media (max-width: 900px) { .home-news-grid { grid-template-columns: repeat(2, 1fr); } }
+            @media (max-width: 560px) { .home-news-grid { grid-template-columns: 1fr; } }
           `}</style>
         </section>
       )}
