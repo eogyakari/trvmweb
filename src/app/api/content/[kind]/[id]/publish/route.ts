@@ -9,7 +9,7 @@ import { publishContent } from "@/lib/publishContent";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const ALLOWED = ["devotion", "quote", "event", "gallery"];
+const ALLOWED = ["devotion", "quote", "event", "gallery", "news"];
 
 export async function POST(
   _req: NextRequest,
