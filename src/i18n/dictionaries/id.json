@@ -9,7 +9,8 @@
     "gallery": "Galeri",
     "donate": "Donasi",
     "contact": "Kontak",
-    "news": "Berita"
+    "news": "Berita",
+    "press": "Pers"
   },
   "programs": {
     "missions": "Misi",
@@ -259,6 +260,21 @@
     "viewAll": "Lihat Semua Berita",
     "backToNews": "← Semua Berita",
     "noNews": "Belum ada berita. Kunjungi lagi nanti.",
-    "by": "Oleh"
+    "by": "Oleh",
+    "filterAll": "Semua",
+    "filterNews": "Berita",
+    "filterPress": "Pernyataan Pers",
+    "pressBadge": "Pers"
+  },
+  "pressPage": {
+    "eyebrow": "Pernyataan Resmi",
+    "title": "Pernyataan Pers",
+    "subtitle": "Komunikasi resmi dari The Righteous Vine Missions",
+    "readMore": "Baca Pernyataan",
+    "viewAll": "Lihat Semua Pernyataan",
+    "by": "Dikeluarkan oleh",
+    "backToNews": "← Semua Pernyataan",
+    "noNews": "Belum ada pernyataan.",
+    "latestNews": "Pernyataan Pers"
   }
 }

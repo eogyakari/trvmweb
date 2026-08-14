@@ -9,7 +9,8 @@
     "gallery": "Gallery",
     "donate": "Donate",
     "contact": "Contact",
-    "news": "News"
+    "news": "News",
+    "press": "Press"
   },
   "programs": {
     "missions": "Missions",
@@ -259,6 +260,21 @@
     "viewAll": "View All News",
     "backToNews": "← All News",
     "noNews": "No news yet. Check back soon.",
-    "by": "By"
+    "by": "By",
+    "filterAll": "All",
+    "filterNews": "News",
+    "filterPress": "Press Statements",
+    "pressBadge": "Press"
+  },
+  "pressPage": {
+    "eyebrow": "Official Statements",
+    "title": "Press Statements",
+    "subtitle": "Official communications from The Righteous Vine Missions",
+    "readMore": "Read Statement",
+    "viewAll": "View All Statements",
+    "by": "Issued by",
+    "backToNews": "← All Statements",
+    "noNews": "No statements yet.",
+    "latestNews": "Press Statements"
   }
 }

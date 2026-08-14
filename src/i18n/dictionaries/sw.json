@@ -9,7 +9,8 @@
     "gallery": "Matunzio",
     "donate": "Changia",
     "contact": "Wasiliana",
-    "news": "Habari"
+    "news": "Habari",
+    "press": "Taarifa"
   },
   "programs": {
     "missions": "Misheni",
@@ -259,6 +260,21 @@
     "viewAll": "Tazama Habari Zote",
     "backToNews": "← Habari Zote",
     "noNews": "Bado hakuna habari. Rudi tena hivi karibuni.",
-    "by": "Na"
+    "by": "Na",
+    "filterAll": "Zote",
+    "filterNews": "Habari",
+    "filterPress": "Taarifa",
+    "pressBadge": "Taarifa"
+  },
+  "pressPage": {
+    "eyebrow": "Taarifa Rasmi",
+    "title": "Taarifa kwa Vyombo vya Habari",
+    "subtitle": "Mawasiliano rasmi kutoka The Righteous Vine Missions",
+    "readMore": "Soma Taarifa",
+    "viewAll": "Tazama Taarifa Zote",
+    "by": "Imetolewa na",
+    "backToNews": "← Taarifa Zote",
+    "noNews": "Bado hakuna taarifa.",
+    "latestNews": "Taarifa kwa Vyombo vya Habari"
   }
 }
