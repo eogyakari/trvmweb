@@ -10,7 +10,8 @@
     "donate": "Donate",
     "contact": "Contact",
     "news": "News",
-    "press": "Press"
+    "press": "Press",
+    "membership": "Membership"
   },
   "programs": {
     "missions": "Missions",
@@ -276,5 +277,24 @@
     "backToNews": "← All Statements",
     "noNews": "No statements yet.",
     "latestNews": "Press Statements"
+  },
+  "membershipPage": {
+    "eyebrow": "Join Us",
+    "title": "Become a Member",
+    "subtitle": "Join the TRVM family and grow with us in faith and mission",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location (City, Country)",
+    "homeChurch": "Home Church / Fellowship",
+    "howHeard": "How did you hear about TRVM?",
+    "interests": "Areas of Interest",
+    "interestsHint": "e.g. missions, discipleship, volunteering",
+    "message": "Anything you'd like us to know?",
+    "submit": "Submit Enrollment",
+    "submitting": "Submitting...",
+    "successTitle": "Welcome to the Family!",
+    "successText": "Thank you for enrolling. We've received your details and will be in touch soon.",
+    "errorGeneric": "Something went wrong. Please try again or email info@trvmissions.com"
   }
 }

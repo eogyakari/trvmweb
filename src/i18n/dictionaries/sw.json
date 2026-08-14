@@ -10,7 +10,8 @@
     "donate": "Changia",
     "contact": "Wasiliana",
     "news": "Habari",
-    "press": "Taarifa"
+    "press": "Taarifa",
+    "membership": "Uanachama"
   },
   "programs": {
     "missions": "Misheni",
@@ -276,5 +277,24 @@
     "backToNews": "← Taarifa Zote",
     "noNews": "Bado hakuna taarifa.",
     "latestNews": "Taarifa kwa Vyombo vya Habari"
+  },
+  "membershipPage": {
+    "eyebrow": "Jiunge Nasi",
+    "title": "Kuwa Mwanachama",
+    "subtitle": "Jiunge na familia ya TRVM na ukue nasi katika imani na misheni",
+    "fullName": "Jina Kamili",
+    "email": "Barua Pepe",
+    "phone": "Simu",
+    "location": "Mahali (Mji, Nchi)",
+    "homeChurch": "Kanisa / Ushirika",
+    "howHeard": "Ulijuaje kuhusu TRVM?",
+    "interests": "Maeneo ya Kupendezwa",
+    "interestsHint": "mf. misheni, ufuasi, kujitolea",
+    "message": "Kuna jambo ungependa kutuambia?",
+    "submit": "Wasilisha Usajili",
+    "submitting": "Inawasilisha...",
+    "successTitle": "Karibu Familia!",
+    "successText": "Asante kwa kujisajili. Tumepokea maelezo yako na tutawasiliana nawe hivi karibuni.",
+    "errorGeneric": "Hitilafu imetokea. Tafadhali jaribu tena au tuma barua pepe info@trvmissions.com"
   }
 }

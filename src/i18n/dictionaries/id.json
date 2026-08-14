@@ -10,7 +10,8 @@
     "donate": "Donasi",
     "contact": "Kontak",
     "news": "Berita",
-    "press": "Pers"
+    "press": "Pers",
+    "membership": "Keanggotaan"
   },
   "programs": {
     "missions": "Misi",
@@ -276,5 +277,24 @@
     "backToNews": "← Semua Pernyataan",
     "noNews": "Belum ada pernyataan.",
     "latestNews": "Pernyataan Pers"
+  },
+  "membershipPage": {
+    "eyebrow": "Bergabunglah",
+    "title": "Menjadi Anggota",
+    "subtitle": "Bergabunglah dengan keluarga TRVM dan bertumbuh bersama kami dalam iman dan misi",
+    "fullName": "Nama Lengkap",
+    "email": "Email",
+    "phone": "Telepon",
+    "location": "Lokasi (Kota, Negara)",
+    "homeChurch": "Gereja / Persekutuan",
+    "howHeard": "Bagaimana Anda mengetahui TRVM?",
+    "interests": "Bidang Minat",
+    "interestsHint": "mis. misi, pemuridan, kesukarelaan",
+    "message": "Ada yang ingin Anda sampaikan?",
+    "submit": "Kirim Pendaftaran",
+    "submitting": "Mengirim...",
+    "successTitle": "Selamat Datang di Keluarga!",
+    "successText": "Terima kasih telah mendaftar. Kami telah menerima data Anda dan akan segera menghubungi.",
+    "errorGeneric": "Terjadi kesalahan. Silakan coba lagi atau email info@trvmissions.com"
   }
 }
