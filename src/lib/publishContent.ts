@@ -57,7 +57,7 @@ const SPECS: Record<string, ContentSpec> = {
     trTable: "news_translations",
     fkColumn: "news_id",
     fieldMap: { title: "title", body: "body", excerpt: "excerpt" },
-    htmlFields: ["body"],                    // body is rich text from the editor
+    htmlFields: ["body"],                    
     publishUpdate: { is_published: true },
   },
   

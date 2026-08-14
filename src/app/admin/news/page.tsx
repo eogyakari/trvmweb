@@ -115,7 +115,7 @@ export default function AdminNewsPage() {
       const notify = confirm('News saved! Notify subscribers by email?')
       if (notify) {
         const summary = toPlainText(form.body)
-        const url = `https://trvmissions.com/news/${slug}`
+        const url = `https://trvmissions.com/en/news/${slug}`
         await fetch('/api/broadcast', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
