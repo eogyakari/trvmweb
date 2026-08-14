@@ -5,6 +5,7 @@ import Link from 'next/link'
 import RichTextEditor from '../components/RichTextEditor'
 
 type NewsItem = {
+  category: string
   id: string
   title: string
   slug: string
@@ -47,7 +48,7 @@ export default function AdminNewsPage() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<NewsItem | null>(null)
-  const [form, setForm] = useState({ title: '', slug: '', body: '', excerpt: '', author: '', published_date: '', cover_image: '' })
+  const [form, setForm] = useState({ title: '', slug: '', body: '', excerpt: '', author: '', published_date: '', cover_image: '', category: 'news' })
   const [saving, setSaving] = useState(false)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
@@ -63,14 +64,14 @@ export default function AdminNewsPage() {
 
   function openNew() {
     setEditing(null)
-    setForm({ title: '', slug: '', body: '', excerpt: '', author: 'TRVM', published_date: new Date().toISOString().split('T')[0], cover_image: '' })
+    setForm({ title: '', slug: '', body: '', excerpt: '', author: 'TRVM', published_date: new Date().toISOString().split('T')[0], cover_image: '', category: 'news' })
     setImageFile(null)
     setShowForm(true)
   }
 
   function openEdit(d: NewsItem) {
     setEditing(d)
-    setForm({ title: d.title, slug: d.slug, body: d.body, excerpt: d.excerpt || '', author: d.author, published_date: d.published_date, cover_image: d.cover_image || '' })
+    setForm({ title: d.title, slug: d.slug, body: d.body, excerpt: d.excerpt || '', author: d.author, published_date: d.published_date, cover_image: d.cover_image || '', category: d.category || 'news' })
     setImageFile(null)
     setShowForm(true)
   }
@@ -95,10 +96,7 @@ export default function AdminNewsPage() {
     const imageUrl = await uploadImage()
     const slug = form.slug || slugify(form.title)
     const excerpt = form.excerpt || toPlainText(form.body, 200)
-    const payload = {
-      title: form.title, slug, body: form.body, excerpt,
-      author: form.author, published_date: form.published_date, cover_image: imageUrl,
-    }
+    const payload = { title: form.title, slug, body: form.body, excerpt, author: form.author, published_date: form.published_date, cover_image: imageUrl, category: form.category }
 
     let newsId: string
 
@@ -204,6 +202,14 @@ export default function AdminNewsPage() {
                     onChange={e => setForm(f => ({ ...f, published_date: e.target.value }))} />
                 </div>
               </div>
+              <div>
+  <label style={labelStyle}>Type</label>
+  <select style={inputStyle} value={form.category}
+    onChange={e => setForm(f => ({ ...f, category: e.target.value }))}>
+    <option value="news">News Article</option>
+    <option value="press">Press Statement</option>
+  </select>
+</div>
 
               <div>
                 <label style={labelStyle}>Slug (URL) — auto-generated if left blank</label>
