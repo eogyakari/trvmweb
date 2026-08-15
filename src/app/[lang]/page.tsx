@@ -299,6 +299,26 @@ export default async function HomePage({
         </section>
       )}
 
+      {/* Get Involved */}
+<section style={{ background: 'linear-gradient(135deg, #7B2FBE 0%, #F5A623 100%)', padding: '72px 24px', textAlign: 'center' }}>
+  <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>
+    {dict.membershipPage.eyebrow}
+  </p>
+  <h2 style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'white', marginBottom: 16 }}>
+    {dict.membershipPage.title}
+  </h2>
+  <p style={{ color: 'rgba(255,255,255,0.9)', maxWidth: 560, margin: '0 auto 32px', lineHeight: 1.8 }}>
+    {dict.membershipPage.subtitle}
+  </p>
+  <Link href={L('/membership')} style={{
+    background: 'white', color: '#7B2FBE', padding: '15px 40px', borderRadius: 30,
+    fontSize: 15, fontWeight: 800, letterSpacing: 1, display: 'inline-block',
+    textDecoration: 'none', textTransform: 'uppercase',
+  }}>
+    {dict.membershipPage.submit}
+  </Link>
+</section>
+
       {/* Subscribe */}
       <section style={{ background: '#1A0A2E', padding: '72px 24px', textAlign: 'center' }}>
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
