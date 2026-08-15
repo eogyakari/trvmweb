@@ -333,5 +333,11 @@
     "discipleshipTitle": "Discipleship",
     "discipleshipText": "Take the next step in your walk with Christ through our discipleship program.",
     "discipleshipCta": "Join now"
+  },
+  "homeHero": {
+    "eyebrow": "The Righteous Vine Missions",
+    "line1": "Jesus is",
+    "line2": "LORD",
+    "cta": "Join Us"
   }
 }

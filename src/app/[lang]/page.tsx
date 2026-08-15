@@ -6,6 +6,7 @@ import SubscribeForm from "@/app/components/SubscribeForm"
 import { getDictionary } from "@/i18n/getDictionary"
 import { isLocale, type Locale } from "@/i18n/config"
 import { getQuoteOfDay } from "@/lib/getQuoteOfDay"
+import HomeHero from '@/app/components/HomeHero'
 
 
 export const revalidate = 60
@@ -99,55 +100,7 @@ export default async function HomePage({
 
   return (
     <div>
-      {/* Hero */}
-      <section style={{
-        background: "linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 50%, #0D1A2E 100%)",
-        minHeight: "90vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        padding: "80px 24px",
-        position: "relative",
-        overflow: "hidden",
-      }}>
-        <div style={{
-          position: "absolute",
-          width: 600, height: 600,
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(123,47,190,0.15) 0%, transparent 70%)",
-          top: "50%", left: "50%",
-          transform: "translate(-50%, -50%)",
-        }} />
-        <div style={{ position: "relative", maxWidth: 800 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#F5A623", letterSpacing: 4, textTransform: "uppercase", marginBottom: 16 }}>
-            ✝ The Righteous Vine Missions
-          </div>
-          <h1 style={{
-            fontSize: "clamp(36px, 6vw, 72px)",
-            fontWeight: 800, lineHeight: 1.1, marginBottom: 24,
-            background: "linear-gradient(135deg, #F5A623, #9B59B6)",
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-          }}>
-            {h.heroTitle}
-          </h1>
-          <p style={{ fontSize: 18, color: "#a0a0b0", lineHeight: 1.8, marginBottom: 40, maxWidth: 600, margin: "0 auto 40px" }}>
-            {h.heroSubtitle}
-          </p>
-          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href={L("/about")} style={{
-              background: "linear-gradient(135deg, #7B2FBE, #9B59B6)",
-              color: "#fff", padding: "14px 32px", borderRadius: 30,
-              fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase",
-            }}>{h.ourMission}</Link>
-            <Link href={L("/donate")} style={{
-              background: "linear-gradient(135deg, #F5A623, #E8860A)",
-              color: "#0D0D1A", padding: "14px 32px", borderRadius: 30,
-              fontSize: 14, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase",
-            }}>{h.supportUs}</Link>
-          </div>
-        </div>
-      </section>
+      <HomeHero lang={lang} />
 
       {/* Photo Slideshow */}
       {slides.length > 0 && <Slideshow slides={slides} />}

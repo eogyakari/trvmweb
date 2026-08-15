@@ -115,12 +115,12 @@ export default function Slideshow({ slides }: { slides: Slide[] }) {
       <style>{`
         /* Portrait phones: 'contain' shows the whole image resized to fit,
            with the dark container as slim framing. 16/9 keeps bars minimal. */
-        .trvm-slideshow { aspect-ratio: 21 / 9; max-height: 620px; }
-        @media (max-width: 900px) { .trvm-slideshow { aspect-ratio: 16 / 9; } }
+        .trvm-slideshow { aspect-ratio: 32 / 9; max-height: 380px; }
+        @media (max-width: 900px) { .trvm-slideshow { aspect-ratio: 24 / 9; max-height: 300px; } }
         @media (max-width: 600px) {
-          .trvm-slideshow { aspect-ratio: 16 / 9; max-height: none; }
-          .trvm-slide-caption { bottom: 46px !important; padding: 0 22px !important; }
-          .trvm-slide-caption p { font-size: 0.95rem !important; }
+          .trvm-slideshow { aspect-ratio: 16 / 9; max-height: 240px; }
+          .trvm-slide-caption { bottom: 40px !important; padding: 0 20px !important; }
+          .trvm-slide-caption p { font-size: 0.9rem !important; }
         }
 
         @keyframes fadeInZoom {
