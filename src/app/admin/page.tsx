@@ -154,6 +154,7 @@ export default function AdminPage() {
     { href: '/admin/settings', icon: '⚙️', label: 'Site Settings', count: null },
     { href: '/admin/news', label: 'News & Press', icon: '📰' },
     { href: '/admin/memberships', label: 'Memberships', icon: '👥' },
+    { href: '/admin/discipleship', label: 'Discipleship', icon: '📖' },
   ]
 
   return (

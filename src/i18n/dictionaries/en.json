@@ -11,7 +11,8 @@
     "contact": "Contact",
     "news": "News",
     "press": "Press",
-    "membership": "Membership"
+    "membership": "Membership",
+    "discipleship": "Discipleship"
   },
   "programs": {
     "missions": "Missions",
@@ -302,5 +303,35 @@
     "successTitle": "Welcome to the Family!",
     "successText": "Thank you for enrolling. We've received your details and will be in touch soon.",
     "errorGeneric": "Something went wrong. Please try again or email info@trvmissions.com"
+  },
+  "discipleshipPage": {
+    "eyebrow": "Grow With Us",
+    "title": "Discipleship Enrollment",
+    "subtitle": "Take the next step in your walk with Christ — enroll in discipleship",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location (City, Country)",
+    "track": "Track / Level of Interest",
+    "trackHint": "e.g. new believer, leadership, Bible study",
+    "availability": "Your Availability",
+    "availabilityHint": "e.g. weekday evenings, weekends",
+    "whyInterested": "Why do you want to join?",
+    "message": "Anything else you'd like us to know?",
+    "submit": "Enroll in Discipleship",
+    "submitting": "Submitting...",
+    "successTitle": "Enrollment Received!",
+    "successText": "Thank you for enrolling in discipleship. We'll be in touch about next steps soon.",
+    "errorGeneric": "Something went wrong. Please try again or email info@trvmissions.com"
+  },
+  "getInvolved": {
+    "eyebrow": "Get Involved",
+    "title": "Join the Mission",
+    "membershipTitle": "Become a Member",
+    "membershipText": "Join the TRVM family and grow with us in faith, fellowship, and mission.",
+    "membershipCta": "Enroll now",
+    "discipleshipTitle": "Discipleship",
+    "discipleshipText": "Take the next step in your walk with Christ through our discipleship program.",
+    "discipleshipCta": "Join now"
   }
 }

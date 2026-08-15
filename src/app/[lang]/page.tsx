@@ -300,23 +300,58 @@ export default async function HomePage({
       )}
 
       {/* Get Involved */}
-<section style={{ background: 'linear-gradient(135deg, #7B2FBE 0%, #F5A623 100%)', padding: '72px 24px', textAlign: 'center' }}>
-  <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>
-    {dict.membershipPage.eyebrow}
-  </p>
-  <h2 style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'white', marginBottom: 16 }}>
-    {dict.membershipPage.title}
-  </h2>
-  <p style={{ color: 'rgba(255,255,255,0.9)', maxWidth: 560, margin: '0 auto 32px', lineHeight: 1.8 }}>
-    {dict.membershipPage.subtitle}
-  </p>
-  <Link href={L('/membership')} style={{
-    background: 'white', color: '#7B2FBE', padding: '15px 40px', borderRadius: 30,
-    fontSize: 15, fontWeight: 800, letterSpacing: 1, display: 'inline-block',
-    textDecoration: 'none', textTransform: 'uppercase',
-  }}>
-    {dict.membershipPage.submit}
-  </Link>
+<section style={{ padding: '80px 24px', background: '#0D0D1A' }}>
+  <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <div style={{ textAlign: 'center', marginBottom: 48 }}>
+      <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>
+        {dict.getInvolved.eyebrow}
+      </p>
+      <h2 style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'white' }}>
+        {dict.getInvolved.title}
+      </h2>
+      <div style={{ width: 50, height: 3, background: '#F5A623', margin: '16px auto 0' }} />
+    </div>
+
+    <div className="get-involved-grid" style={{ display: 'grid', gap: 24 }}>
+      <Link href={L('/membership')} style={{
+        background: 'linear-gradient(135deg, #1A0A2E, #16213E)',
+        border: '1px solid rgba(123,47,190,0.35)', borderRadius: 16,
+        padding: 36, textDecoration: 'none', display: 'block',
+      }}>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>🙌</div>
+        <h3 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginBottom: 10 }}>
+          {dict.getInvolved.membershipTitle}
+        </h3>
+        <p style={{ color: '#a0a0b0', fontSize: 14, lineHeight: 1.8, marginBottom: 18 }}>
+          {dict.getInvolved.membershipText}
+        </p>
+        <span style={{ color: '#F5A623', fontSize: 14, fontWeight: 700 }}>
+          {dict.getInvolved.membershipCta} →
+        </span>
+      </Link>
+
+      <Link href={L('/discipleship')} style={{
+        background: 'linear-gradient(135deg, #1A0A2E, #16213E)',
+        border: '1px solid rgba(123,47,190,0.35)', borderRadius: 16,
+        padding: 36, textDecoration: 'none', display: 'block',
+      }}>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>📖</div>
+        <h3 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginBottom: 10 }}>
+          {dict.getInvolved.discipleshipTitle}
+        </h3>
+        <p style={{ color: '#a0a0b0', fontSize: 14, lineHeight: 1.8, marginBottom: 18 }}>
+          {dict.getInvolved.discipleshipText}
+        </p>
+        <span style={{ color: '#F5A623', fontSize: 14, fontWeight: 700 }}>
+          {dict.getInvolved.discipleshipCta} →
+        </span>
+      </Link>
+    </div>
+  </div>
+  <style>{`
+    .get-involved-grid { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 700px) { .get-involved-grid { grid-template-columns: 1fr; } }
+  `}</style>
 </section>
 
       {/* Subscribe */}

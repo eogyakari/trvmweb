@@ -11,7 +11,8 @@
     "contact": "Kontak",
     "news": "Berita",
     "press": "Pers",
-    "membership": "Keanggotaan"
+    "membership": "Keanggotaan",
+    "discipleship": "Pemuridan"
   },
   "programs": {
     "missions": "Misi",
@@ -302,5 +303,35 @@
     "successTitle": "Selamat Datang di Keluarga!",
     "successText": "Terima kasih telah mendaftar. Kami telah menerima data Anda dan akan segera menghubungi.",
     "errorGeneric": "Terjadi kesalahan. Silakan coba lagi atau email info@trvmissions.com"
+  },
+  "discipleshipPage": {
+    "eyebrow": "Bertumbuh Bersama Kami",
+    "title": "Pendaftaran Pemuridan",
+    "subtitle": "Ambil langkah berikutnya dalam perjalanan Anda bersama Kristus — daftar pemuridan",
+    "fullName": "Nama Lengkap",
+    "email": "Email",
+    "phone": "Telepon",
+    "location": "Lokasi (Kota, Negara)",
+    "track": "Jalur / Tingkat Minat",
+    "trackHint": "mis. petobat baru, kepemimpinan, pendalaman Alkitab",
+    "availability": "Ketersediaan Anda",
+    "availabilityHint": "mis. malam hari kerja, akhir pekan",
+    "whyInterested": "Mengapa Anda ingin bergabung?",
+    "message": "Ada hal lain yang ingin Anda sampaikan?",
+    "submit": "Daftar Pemuridan",
+    "submitting": "Mengirim...",
+    "successTitle": "Pendaftaran Diterima!",
+    "successText": "Terima kasih telah mendaftar pemuridan. Kami akan segera menghubungi Anda tentang langkah berikutnya.",
+    "errorGeneric": "Terjadi kesalahan. Silakan coba lagi atau email info@trvmissions.com"
+  },
+  "getInvolved": {
+    "eyebrow": "Terlibat",
+    "title": "Bergabung dalam Misi",
+    "membershipTitle": "Menjadi Anggota",
+    "membershipText": "Bergabunglah dengan keluarga TRVM dan bertumbuh bersama kami dalam iman, persekutuan, dan misi.",
+    "membershipCta": "Daftar sekarang",
+    "discipleshipTitle": "Pemuridan",
+    "discipleshipText": "Ambil langkah berikutnya dalam perjalanan Anda bersama Kristus melalui program pemuridan kami.",
+    "discipleshipCta": "Gabung sekarang"
   }
 }

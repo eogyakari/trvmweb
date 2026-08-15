@@ -11,7 +11,8 @@
     "contact": "Wasiliana",
     "news": "Habari",
     "press": "Taarifa",
-    "membership": "Uanachama"
+    "membership": "Uanachama",
+    "discipleship": "Ufuasi"
   },
   "programs": {
     "missions": "Misheni",
@@ -302,5 +303,35 @@
     "successTitle": "Karibu Familia!",
     "successText": "Asante kwa kujisajili. Tumepokea maelezo yako na tutawasiliana nawe hivi karibuni.",
     "errorGeneric": "Hitilafu imetokea. Tafadhali jaribu tena au tuma barua pepe info@trvmissions.com"
+  },
+  "discipleshipPage": {
+    "eyebrow": "Kua Nasi",
+    "title": "Usajili wa Ufuasi",
+    "subtitle": "Chukua hatua inayofuata katika safari yako na Kristo — jisajili kwa ufuasi",
+    "fullName": "Jina Kamili",
+    "email": "Barua Pepe",
+    "phone": "Simu",
+    "location": "Mahali (Mji, Nchi)",
+    "track": "Njia / Kiwango cha Kupendezwa",
+    "trackHint": "mf. mwamini mpya, uongozi, somo la Biblia",
+    "availability": "Upatikanaji Wako",
+    "availabilityHint": "mf. jioni za siku za kazi, wikendi",
+    "whyInterested": "Kwa nini unataka kujiunga?",
+    "message": "Kuna jambo lingine ungependa kutuambia?",
+    "submit": "Jisajili kwa Ufuasi",
+    "submitting": "Inawasilisha...",
+    "successTitle": "Usajili Umepokewa!",
+    "successText": "Asante kwa kujisajili kwa ufuasi. Tutawasiliana nawe kuhusu hatua zinazofuata hivi karibuni.",
+    "errorGeneric": "Hitilafu imetokea. Tafadhali jaribu tena au tuma barua pepe info@trvmissions.com"
+  },
+  "getInvolved": {
+    "eyebrow": "Shiriki",
+    "title": "Jiunge na Misheni",
+    "membershipTitle": "Kuwa Mwanachama",
+    "membershipText": "Jiunge na familia ya TRVM na ukue nasi katika imani, ushirika, na misheni.",
+    "membershipCta": "Jisajili sasa",
+    "discipleshipTitle": "Ufuasi",
+    "discipleshipText": "Chukua hatua inayofuata katika safari yako na Kristo kupitia programu yetu ya ufuasi.",
+    "discipleshipCta": "Jiunge sasa"
   }
 }
