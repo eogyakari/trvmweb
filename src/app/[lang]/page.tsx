@@ -103,8 +103,9 @@ export default async function HomePage({
       <HomeHero lang={lang} />
 
       {/* Photo Slideshow */}
-      {slides.length > 0 && <Slideshow slides={slides} />}
-
+       <div style={{ background: '#2A1145', paddingBottom: 40 }}>
+         <Slideshow slides={slides} />
+         </div>
       {/* Programs */}
       <section style={{ padding: "80px 24px", background: "#0D0D1A" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
