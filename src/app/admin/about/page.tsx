@@ -48,6 +48,8 @@ export default function AdminAboutPage() {
   const [savingMember, setSavingMember] = useState(false)
   const storyPhotoRef = useRef<HTMLInputElement>(null)
   const [translating, setTranslating] = useState(false)
+  const [autoTranslate, setAutoTranslate] = useState(false)
+  
 
   useEffect(() => { load() }, [])
 
@@ -60,6 +62,7 @@ export default function AdminAboutPage() {
     const map: Record<string, string> = {}
     for (const row of settingsData || []) map[row.key] = row.value
     setSettings(map)
+    setAutoTranslate((map['about_autotranslate'] || 'off') === 'on')
     setTeam(teamData || [])
     setLoading(false)
   }
@@ -81,6 +84,9 @@ export default function AdminAboutPage() {
     for (const key of allKeys) {
       await supabase.from('site_settings').upsert({ key, value: settings[key] || '' }, { onConflict: 'key' })
     }
+    if (autoTranslate) {
+      await runTranslate()
+    }
     setSaving(false)
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
@@ -97,6 +103,26 @@ export default function AdminAboutPage() {
       } else {
         alert('Translation failed: ' + (data.error || 'unknown error'))
       }
+    } catch (e: any) {
+      alert('Translation request failed: ' + e.message)
+    }
+    setTranslating(false)
+  }
+
+  async function toggleAutoTranslate() {
+    const next = !autoTranslate
+    setAutoTranslate(next)
+    await supabase.from('site_settings')
+      .upsert({ key: 'about_autotranslate', value: next ? 'on' : 'off' }, { onConflict: 'key' })
+    if (next) await runTranslate()
+  }
+ 
+  async function runTranslate() {
+    setTranslating(true)
+    try {
+      const res = await fetch('/api/translate-about', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) alert('Translation failed: ' + (data.error || 'unknown'))
     } catch (e: any) {
       alert('Translation request failed: ' + e.message)
     }
@@ -171,14 +197,25 @@ export default function AdminAboutPage() {
         </button>
       </div>
 
-      <button onClick={handleTranslateAbout} disabled={translating} style={{
-    background: '#7B2FBE', color: 'white', padding: '10px 20px',
-    border: 'none', borderRadius: 6, fontWeight: 700, fontSize: 13,
-    cursor: translating ? 'not-allowed' : 'pointer', fontFamily: 'Georgia, serif',
-    opacity: translating ? 0.7 : 1,
-  }}>
-    {translating ? 'Translating…' : '🌍 Translate About to ID/SW'}
-  </button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+    <span style={{ fontSize: 13, fontWeight: 600, color: '#444' }}>
+      Auto-translate About (ID/SW)
+    </span>
+    <button onClick={toggleAutoTranslate} disabled={translating} style={{
+      position: 'relative', width: 52, height: 28, borderRadius: 14,
+      border: 'none', cursor: translating ? 'wait' : 'pointer',
+      background: autoTranslate ? '#2e7d32' : '#bbb', transition: 'background 0.2s',
+    }}>
+      <span style={{
+        position: 'absolute', top: 3, left: autoTranslate ? 27 : 3,
+        width: 22, height: 22, borderRadius: '50%', background: 'white',
+        transition: 'left 0.2s',
+      }} />
+    </button>
+    <span style={{ fontSize: 12, fontWeight: 700, color: autoTranslate ? '#2e7d32' : '#999' }}>
+      {translating ? 'Translating…' : autoTranslate ? 'ON' : 'OFF'}
+    </span>
+  </div>
 
       {/* Story Photo */}
       <div style={{ background: 'white', borderRadius: 12, padding: 32, boxShadow: '0 2px 12px rgba(0,0,0,0.07)', marginBottom: 20, border: '1px solid #f0ebe0' }}>

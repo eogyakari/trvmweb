@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: "The Righteous Vine Missions",
   description: "Spreading the Gospel to the ends of the earth through missions, care & philanthropy, and discipleship.",
   manifest: "/manifest.webmanifest",
+  other: {
+    google: "notranslate",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
