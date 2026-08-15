@@ -47,6 +47,7 @@ export default function AdminAboutPage() {
   const [memberPhotoPreview, setMemberPhotoPreview] = useState<string | null>(null)
   const [savingMember, setSavingMember] = useState(false)
   const storyPhotoRef = useRef<HTMLInputElement>(null)
+  const [translating, setTranslating] = useState(false)
 
   useEffect(() => { load() }, [])
 
@@ -83,6 +84,23 @@ export default function AdminAboutPage() {
     setSaving(false)
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
+  }
+
+  async function handleTranslateAbout() {
+    if (!confirm('Generate Indonesian & Swahili translations for all About content and team bios? This overwrites existing auto-translations.')) return
+    setTranslating(true)
+    try {
+      const res = await fetch('/api/translate-about', { method: 'POST' })
+      const data = await res.json()
+      if (res.ok) {
+        alert(`Done! Translated ${data.settingsTranslated} content blocks and ${data.biosTranslated} bios into ID + SW.`)
+      } else {
+        alert('Translation failed: ' + (data.error || 'unknown error'))
+      }
+    } catch (e: any) {
+      alert('Translation request failed: ' + e.message)
+    }
+    setTranslating(false)
   }
 
   function openNewMember() {
@@ -152,6 +170,15 @@ export default function AdminAboutPage() {
           {saving ? 'Saving...' : saved ? '✓ Saved!' : 'Save Changes'}
         </button>
       </div>
+
+      <button onClick={handleTranslateAbout} disabled={translating} style={{
+    background: '#7B2FBE', color: 'white', padding: '10px 20px',
+    border: 'none', borderRadius: 6, fontWeight: 700, fontSize: 13,
+    cursor: translating ? 'not-allowed' : 'pointer', fontFamily: 'Georgia, serif',
+    opacity: translating ? 0.7 : 1,
+  }}>
+    {translating ? 'Translating…' : '🌍 Translate About to ID/SW'}
+  </button>
 
       {/* Story Photo */}
       <div style={{ background: 'white', borderRadius: 12, padding: 32, boxShadow: '0 2px 12px rgba(0,0,0,0.07)', marginBottom: 20, border: '1px solid #f0ebe0' }}>

@@ -153,9 +153,9 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
                   <div style={{ padding: '20px 16px' }}>
                     <h3 style={{ fontWeight: 800, color: 'white', fontSize: '1rem' }}>{member.name}</h3>
                     <p style={{ color: '#F5A623', fontSize: 12, marginTop: 6, fontWeight: 600 }}>{member.title}</p>
-                    {member.bio && (
+                     {(member[`bio_${lang}`] || member.bio) && (
                       <TeamBio
-                        bio={member.bio}
+                        bio={member[`bio_${lang}`] || member.bio}
                         readMoreLabel={a.readMore}
                         readLessLabel={a.readLess}
                       />
