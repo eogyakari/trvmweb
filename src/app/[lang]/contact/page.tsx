@@ -2,7 +2,6 @@ import ContactClient from './ContactClient'
 import { getDictionary } from '@/i18n/getDictionary'
 import { isLocale, type Locale } from '@/i18n/config'
 
-// Goes at: src/app/[lang]/contact/page.tsx
 export default async function ContactPage({
   params,
 }: {

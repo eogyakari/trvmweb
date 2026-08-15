@@ -1,4 +1,7 @@
 import { supabase } from '@/lib/supabase'
+import TeamBio from './TeamBio'
+import { getDictionary } from '@/i18n/getDictionary'
+import { isLocale, type Locale } from '@/i18n/config'
 
 export const revalidate = 60
 
@@ -12,20 +15,27 @@ async function getData() {
   return { s, team: teamData || [] }
 }
 
-export default async function AboutPage() {
+export default async function AboutPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang: rawLang } = await params
+  const lang: Locale = isLocale(rawLang) ? rawLang : 'en'
+  const dict = await getDictionary(lang)
+  const a = dict.aboutPage
+
   const { s, team } = await getData()
+  // Per-language settings value: prefer about_x_id / about_x_sw, fall back to English about_x.
+  const sv = (key: string) => s[`${key}_${lang}`] || s[key] || ''
 
   return (
     <>
       {/* Hero */}
       <div style={{ background: 'linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 100%)', padding: '72px 24px', textAlign: 'center' }}>
-        <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>✝ Who We Are</p>
+        <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>✝ {a.eyebrow}</p>
         <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 900, color: 'white', marginBottom: 16, lineHeight: 1.2 }}>
-          About The Righteous Vine Missions
+          {a.heroTitle}
         </h1>
         <div style={{ width: 50, height: 3, background: '#F5A623', margin: '0 auto 20px' }} />
         <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.05rem', maxWidth: 580, margin: '0 auto', fontStyle: 'italic', lineHeight: 1.8 }}>
-          Rooted in faith. Growing in love. Bearing fruit for God&apos;s kingdom.
+          {a.heroTagline}
         </p>
       </div>
 
@@ -33,10 +43,10 @@ export default async function AboutPage() {
       <div style={{ background: '#F5A623', padding: '28px 24px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 24, textAlign: 'center' }}>
           {[
-            { num: s.stat_souls || '10,000+', label: 'Souls Won for the Kingdom' },
-            { num: s.stat_islands || '6', label: 'Islands in Indonesia' },
-            { num: s.stat_days || '61', label: 'Days in the Field' },
-            { num: s.stat_years || '10+', label: 'Years of Ministry' },
+            { num: s.stat_souls || '10,000+', label: a.statSouls },
+            { num: s.stat_islands || '6', label: a.statIslands },
+            { num: s.stat_days || '61', label: a.statDays },
+            { num: s.stat_years || '10+', label: a.statYears },
           ].map(stat => (
             <div key={stat.label}>
               <div style={{ fontSize: 36, fontWeight: 900, color: '#0D0D1A' }}>{stat.num}</div>
@@ -49,7 +59,7 @@ export default async function AboutPage() {
       {/* Missions Banner */}
       <div style={{ background: '#1A0A2E', padding: '20px 24px', textAlign: 'center' }}>
         <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.95rem', letterSpacing: '0.05em' }}>
-          🌍 Missions in <span style={{ color: '#F5A623', fontWeight: 700 }}>{s.about_missions_banner || 'Liberia · Kenya · Ghana · Indonesia (6 Islands)'}</span>
+          🌍 {a.missionsIn} <span style={{ color: '#F5A623', fontWeight: 700 }}>{sv('about_missions_banner') || 'Liberia · Kenya · Ghana · Indonesia (6 Islands)'}</span>
         </p>
       </div>
 
@@ -75,15 +85,15 @@ export default async function AboutPage() {
             )}
           </div>
           <div>
-            <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>Our Story</p>
+            <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>{a.ourStory}</p>
             <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 800, color: 'white', marginBottom: 20, lineHeight: 1.3 }}>
-              {s.about_story_title || 'Called to the Nations'}
+              {sv('about_story_title') || a.calledToNations}
             </h2>
             <div style={{ width: 40, height: 3, background: '#F5A623', marginBottom: 24 }} />
             <div style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.9, fontSize: '1rem' }}>
-              {s.about_story_p1 && <p style={{ marginBottom: 16 }}>{s.about_story_p1}</p>}
-              {s.about_story_p2 && <p style={{ marginBottom: 16 }}>{s.about_story_p2}</p>}
-              {s.about_story_p3 && <p>{s.about_story_p3}</p>}
+              {sv('about_story_p1') && <p style={{ marginBottom: 16 }}>{sv('about_story_p1')}</p>}
+              {sv('about_story_p2') && <p style={{ marginBottom: 16 }}>{sv('about_story_p2')}</p>}
+              {sv('about_story_p3') && <p>{sv('about_story_p3')}</p>}
             </div>
           </div>
         </div>
@@ -92,26 +102,26 @@ export default async function AboutPage() {
       {/* Scripture */}
       <section style={{ background: '#1A0A2E', padding: '56px 24px', textAlign: 'center' }}>
         <p style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', color: 'white', fontStyle: 'italic', maxWidth: 700, margin: '0 auto', lineHeight: 1.9 }}>
-          &ldquo;I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing.&rdquo;
+          &ldquo;{a.scripture}&rdquo;
         </p>
-        <p style={{ color: '#F5A623', marginTop: 16, fontWeight: 700, letterSpacing: '0.1em', fontSize: 14 }}>— John 15:5</p>
+        <p style={{ color: '#F5A623', marginTop: 16, fontWeight: 700, letterSpacing: '0.1em', fontSize: 14 }}>— {a.scriptureRef}</p>
       </section>
 
       {/* Mission Vision Values */}
       <section style={{ padding: '72px 24px', background: '#0D0D1A' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 800, textAlign: 'center', color: 'white', marginBottom: 8 }}>Our Foundation</h2>
+          <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 800, textAlign: 'center', color: 'white', marginBottom: 8 }}>{a.ourFoundation}</h2>
           <div style={{ width: 50, height: 3, background: '#F5A623', margin: '0 auto 48px' }} />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 28 }}>
             {[
-              { icon: '🎯', title: 'Mission', key: 'about_mission_text' },
-              { icon: '👁️', title: 'Vision', key: 'about_vision_text' },
-              { icon: '🌱', title: 'Values', key: 'about_values_text' },
+              { icon: '🎯', title: a.mission, key: 'about_mission_text' },
+              { icon: '👁️', title: a.vision, key: 'about_vision_text' },
+              { icon: '🌱', title: a.values, key: 'about_values_text' },
             ].map(item => (
               <div key={item.title} style={{ background: 'linear-gradient(135deg, #1A0A2E, #16213E)', border: '1px solid rgba(245, 166, 35, 0.3)', borderRadius: 16, padding: 32, textAlign: 'center' }}>
                 <div style={{ fontSize: 42, marginBottom: 16 }}>{item.icon}</div>
                 <h3 style={{ fontWeight: 800, color: '#F5A623', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 14 }}>{item.title}</h3>
-                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>{s[item.key] || ''}</p>
+                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>{sv(item.key)}</p>
               </div>
             ))}
           </div>
@@ -121,12 +131,12 @@ export default async function AboutPage() {
       {/* Leadership */}
       <section style={{ padding: '72px 24px', background: '#1A0A2E' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center' }}>
-          <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>The Team</p>
-          <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 800, color: 'white', marginBottom: 8 }}>Leadership</h2>
+          <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>{a.theTeam}</p>
+          <h2 style={{ fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 800, color: 'white', marginBottom: 8 }}>{a.teamHeading}</h2>
           <div style={{ width: 50, height: 3, background: '#F5A623', margin: '0 auto 48px' }} />
 
           {team.length === 0 ? (
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontStyle: 'italic' }}>Team members coming soon.</p>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontStyle: 'italic' }}>{a.teamComingSoon}</p>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 28 }}>
               {team.map(member => (
@@ -144,7 +154,11 @@ export default async function AboutPage() {
                     <h3 style={{ fontWeight: 800, color: 'white', fontSize: '1rem' }}>{member.name}</h3>
                     <p style={{ color: '#F5A623', fontSize: 12, marginTop: 6, fontWeight: 600 }}>{member.title}</p>
                     {member.bio && (
-                      <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 12, marginTop: 10, lineHeight: 1.7 }}>{member.bio}</p>
+                      <TeamBio
+                        bio={member.bio}
+                        readMoreLabel={a.readMore}
+                        readLessLabel={a.readLess}
+                      />
                     )}
                   </div>
                 </div>
@@ -153,19 +167,19 @@ export default async function AboutPage() {
           )}
 
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, marginTop: 40, fontStyle: 'italic' }}>
-            United by one Lord, one faith, one baptism.
+            {a.unitedBy}
           </p>
         </div>
       </section>
 
       {/* CTA */}
       <section style={{ background: 'linear-gradient(135deg, #7B2FBE 0%, #F5A623 100%)', padding: '72px 24px', textAlign: 'center' }}>
-        <h2 style={{ fontSize: 36, fontWeight: 800, color: 'white', marginBottom: 16 }}>Partner With Us</h2>
+        <h2 style={{ fontSize: 36, fontWeight: 800, color: 'white', marginBottom: 16 }}>{a.partnerWithUs}</h2>
         <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 500, margin: '0 auto 32px', lineHeight: 1.8, fontSize: '1.05rem' }}>
-          Your support enables us to reach more souls, feed more families, and build stronger communities for God&apos;s glory.
+          {a.partnerText}
         </p>
-        <a href="/contact" style={{ background: 'white', color: '#7B2FBE', padding: '14px 36px', borderRadius: 30, fontSize: 14, fontWeight: 800, letterSpacing: 1, display: 'inline-block', textDecoration: 'none' }}>
-          GET IN TOUCH
+        <a href={`/${lang}/contact`} style={{ background: 'white', color: '#7B2FBE', padding: '14px 36px', borderRadius: 30, fontSize: 14, fontWeight: 800, letterSpacing: 1, display: 'inline-block', textDecoration: 'none' }}>
+          {a.getInTouch.toUpperCase()}
         </a>
       </section>
     </>

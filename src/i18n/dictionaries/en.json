@@ -120,7 +120,13 @@
     "scriptureRef": "John 15:5",
     "partnerWithUs": "Partner With Us",
     "partnerText": "Your support enables us to reach more souls, feed more families, and build stronger communities for God's glory.",
-    "getInTouch": "Get in Touch"
+    "getInTouch": "Get in Touch",
+    "teamHeading": "Leadership and Partners",
+    "readMore": "Read more",
+    "readLess": "Read less",
+    "eyebrow": "Who We Are",
+    "heroTitle": "About The Righteous Vine Missions",
+    "heroTagline": "Rooted in faith. Growing in love. Bearing fruit for God's kingdom."
   },
   "publicationsPage": {
     "eyebrow": "Resources",
