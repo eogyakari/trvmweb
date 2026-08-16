@@ -340,5 +340,18 @@
     "line2": "BWANA",
     "cta": "Jiunge Nasi",
     "cta2": "Toa"
+  },
+  "eventPage": {
+    "eyebrow": "Tukio Lijalo",
+    "upcoming": "Tukio Lijalo",
+    "learnMore": "Jifunze Zaidi",
+    "none": "Hakuna tukio lijalo kwa sasa.",
+    "overview": "Muhtasari",
+    "duration": "Muda",
+    "locations": "Maeneo",
+    "activities": "Shughuli",
+    "partners": "Washirika wa Huduma",
+    "moreInfo": "Maelezo Zaidi",
+    "cta": "Wasiliana Nasi Kujiunga"
   }
 }

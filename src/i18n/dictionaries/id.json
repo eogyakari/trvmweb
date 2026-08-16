@@ -340,5 +340,18 @@
     "line2": "TUHAN",
     "cta": "Bergabung",
     "cta2": "Beri"
+  },
+  "eventPage": {
+    "eyebrow": "Acara Mendatang",
+    "upcoming": "Acara Mendatang",
+    "learnMore": "Pelajari Lebih Lanjut",
+    "none": "Belum ada acara mendatang.",
+    "overview": "Ikhtisar",
+    "duration": "Durasi",
+    "locations": "Lokasi",
+    "activities": "Kegiatan",
+    "partners": "Mitra Pelayanan",
+    "moreInfo": "Informasi Lebih Lanjut",
+    "cta": "Hubungi Kami untuk Bergabung"
   }
 }

@@ -90,6 +90,9 @@ export default async function HomePage({
     return { title: t?.title || row.title, excerpt: t?.excerpt || row.excerpt }
   }
 
+  const { data: featuredEvent } = await supabase
+    .from('featured_event').select('*').eq('is_active', true).limit(1).maybeSingle()
+
   // Icons + destination stay in code; titles/descriptions come from the dict.
   const progMeta = [
     { icon: "✝", href: "/programs" },
@@ -100,6 +103,16 @@ export default async function HomePage({
 
   return (
     <div>
+      {featuredEvent && (
+        <Link href={L('/event')} style={{
+          display: 'block', background: 'linear-gradient(90deg, #F5A623, #E8860A)',
+          color: '#1A0A2E', textDecoration: 'none', textAlign: 'center',
+          padding: '10px 20px', fontSize: 14, fontWeight: 700,
+        }}>
+          📣 {featuredEvent.strip_text || featuredEvent.title}
+          <span style={{ marginLeft: 10, textDecoration: 'underline' }}>{dict.eventPage.learnMore} →</span>
+        </Link>
+      )}
       <HomeHero lang={lang} />
 
       {/* Photo Slideshow */}
@@ -307,6 +320,34 @@ export default async function HomePage({
     @media (max-width: 700px) { .get-involved-grid { grid-template-columns: 1fr; } }
   `}</style>
 </section>
+
+ {featuredEvent && (
+        <section style={{ padding: '72px 24px', background: '#1A0A2E' }}>
+          <div style={{ maxWidth: 1000, margin: '0 auto',
+            background: 'linear-gradient(135deg, #2A1145, #16213E)',
+            border: '1px solid rgba(245,166,35,0.35)', borderRadius: 20,
+            overflow: 'hidden', display: 'grid',
+            gridTemplateColumns: featuredEvent.cover_image ? '1fr 1fr' : '1fr',
+          }} className="featured-event-card">
+            {featuredEvent.cover_image && (
+              <div style={{ minHeight: 260, backgroundImage: `url(${featuredEvent.cover_image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+            )}
+            <div style={{ padding: 40 }}>
+              <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>
+                {dict.eventPage.upcoming}
+              </p>
+              <h2 style={{ color: 'white', fontSize: 32, fontWeight: 900, marginBottom: 12 }}>{featuredEvent.title}</h2>
+              {featuredEvent.tagline && <p style={{ color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, marginBottom: 20 }}>{featuredEvent.tagline}</p>}
+              <Link href={L('/event')} style={{
+                background: 'linear-gradient(135deg, #F5A623, #E8860A)', color: '#1A0A2E',
+                padding: '13px 32px', borderRadius: 30, fontWeight: 800, fontSize: 14,
+                textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 1, display: 'inline-block',
+              }}>{dict.eventPage.learnMore} →</Link>
+            </div>
+          </div>
+          <style>{`@media (max-width: 700px){ .featured-event-card { grid-template-columns: 1fr !important; } }`}</style>
+        </section>
+      )}
 
       {/* Subscribe */}
       <section style={{ background: '#1A0A2E', padding: '72px 24px', textAlign: 'center' }}>

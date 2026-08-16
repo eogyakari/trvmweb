@@ -340,5 +340,18 @@
     "line2": "LORD",
     "cta": "Join Us",
     "cta2": "Give"
+  },
+  "eventPage": {
+    "eyebrow": "Upcoming Event",
+    "upcoming": "Upcoming Event",
+    "learnMore": "Learn More",
+    "none": "No upcoming event right now.",
+    "overview": "Overview",
+    "duration": "Duration",
+    "locations": "Locations",
+    "activities": "Activities",
+    "partners": "Partner Ministries",
+    "moreInfo": "More Information",
+    "cta": "Get in Touch to Join"
   }
 }
