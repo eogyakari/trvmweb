@@ -34,3 +34,20 @@ a {
   color: inherit;
   text-decoration: none;
 }
+/* Featured event announcement strip */
+.trvm-event-strip { transition: background 0.3s; }
+.trvm-event-strip:hover .trvm-strip-arrow { transform: translateX(4px); }
+.trvm-strip-shimmer {
+  position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(245,166,35,0.15), transparent);
+  transform: skewX(-20deg); animation: trvmShimmer 5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes trvmShimmer {
+  0%, 100% { left: -60%; }
+  50% { left: 120%; }
+}
+@media (max-width: 560px) {
+  .trvm-event-strip { gap: 8px !important; padding: 9px 12px !important; font-size: 12px !important; }
+  .trvm-event-strip .trvm-strip-cta { display: none !important; }
+}
