@@ -269,9 +269,9 @@ export default function AdminAboutPage() {
       <div style={{ background: 'white', borderRadius: 12, padding: 32, boxShadow: '0 2px 12px rgba(0,0,0,0.07)', marginBottom: 20, border: '1px solid #f0ebe0' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, paddingBottom: 12, borderBottom: '2px solid #f0ebe0' }}>
           <h2 style={{ fontWeight: 700, color: '#0f2419', fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Leadership and Partners ({team.length}/5)
+            Leadership and Partners ({team.length}/20)
           </h2>
-          {team.length < 5 && (
+          {team.length < 20 && (
             <button onClick={openNewMember} style={{
               background: '#c9a84c', color: '#0f2419', padding: '8px 18px',
               border: 'none', borderRadius: 6, fontWeight: 700, fontSize: 13,
