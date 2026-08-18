@@ -101,6 +101,23 @@ export default async function HomePage({
     { icon: "📖", href: "/programs" },
   ]
 
+  const pathStyle: React.CSSProperties = {
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    gap: 24, padding: '28px 0', textDecoration: 'none',
+  }
+  const pathTitle: React.CSSProperties = {
+    color: 'white', fontSize: 'clamp(20px, 2.5vw, 26px)', fontWeight: 700,
+    marginBottom: 6, fontFamily: 'Georgia, serif',
+  }
+  const pathText: React.CSSProperties = {
+    color: 'rgba(255,255,255,0.6)', fontSize: 15, lineHeight: 1.6, maxWidth: 440,
+  }
+  const pathArrow: React.CSSProperties = {
+    color: '#F5A623', fontSize: 28, fontWeight: 700, flexShrink: 0,
+    transition: 'transform 0.2s',
+  }
+ 
+
   return (
     <div>
       {featuredEvent && (
@@ -165,38 +182,38 @@ export default async function HomePage({
       </section>
 
        {/* Quote of the Day */}
-      {quote && (
+       {quote && (
         <section style={{
-          background: 'linear-gradient(135deg, #2A1043 0%, #1A0A2E 100%)',
-          padding: '72px 24px', textAlign: 'center',
+          background: '#1A0A2E',
+          padding: 'clamp(80px, 12vw, 140px) 24px',
+          position: 'relative', overflow: 'hidden',
         }}>
-          <div style={{ maxWidth: 820, margin: '0 auto', position: 'relative' }}>
+          {/* subtle oversized quotation mark, decorative */}
+          <div aria-hidden style={{
+            position: 'absolute', top: 'clamp(20px, 4vw, 60px)', left: '50%',
+            transform: 'translateX(-50%)', fontFamily: 'Georgia, serif',
+            fontSize: 'clamp(120px, 20vw, 280px)', lineHeight: 1,
+            color: 'rgba(245,166,35,0.10)', pointerEvents: 'none', userSelect: 'none',
+          }}>“</div>
+ 
+          <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
             <p style={{
-              color: '#F5A623', fontSize: 12, fontWeight: 700,
-              letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 24,
-            }}>
-              {h.quoteOfDay}
-            </p>
-            <div style={{
-              fontFamily: 'Georgia, serif', color: '#F5A623',
-              fontSize: 64, lineHeight: 1, marginBottom: 8, opacity: 0.5,
-            }}>&ldquo;</div>
-            <blockquote style={{
-              color: 'white', fontSize: 'clamp(20px, 3vw, 30px)',
-              fontStyle: 'italic', fontFamily: 'Georgia, serif',
-              lineHeight: 1.6, margin: '0 0 24px',
+              color: 'rgba(255,255,255,0.95)', fontFamily: 'Georgia, serif',
+              fontStyle: 'italic', fontWeight: 400,
+              fontSize: 'clamp(24px, 3.5vw, 42px)', lineHeight: 1.5,
+              letterSpacing: '0.01em', marginBottom: 32,
             }}>
               {quote.text}
-            </blockquote>
+            </p>
+            <div style={{ width: 60, height: 2, background: '#F5A623', margin: '0 auto 20px' }} />
             {quote.author && (
               <p style={{
-                color: 'rgba(255,255,255,0.7)', fontSize: 15, fontWeight: 600,
-                letterSpacing: '0.05em',
+                color: '#F5A623', fontSize: 'clamp(13px, 1.6vw, 16px)', fontWeight: 700,
+                letterSpacing: '0.15em', textTransform: 'uppercase',
               }}>
-                &mdash; {quote.author}
+                {quote.author}
               </p>
             )}
-            <div style={{ width: 50, height: 3, background: '#F5A623', margin: '28px auto 0' }} />
           </div>
         </section>
       )}
@@ -291,59 +308,49 @@ export default async function HomePage({
       )}
 
       {/* Get Involved */}
-<section style={{ padding: '80px 24px', background: '#0D0D1A' }}>
-  <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-    <div style={{ textAlign: 'center', marginBottom: 48 }}>
-      <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>
-        {dict.getInvolved.eyebrow}
-      </p>
-      <h2 style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'white' }}>
-        {dict.getInvolved.title}
-      </h2>
-      <div style={{ width: 50, height: 3, background: '#F5A623', margin: '16px auto 0' }} />
-    </div>
-
-    <div className="get-involved-grid" style={{ display: 'grid', gap: 24 }}>
-      <Link href={L('/membership')} style={{
-        background: 'linear-gradient(135deg, #1A0A2E, #16213E)',
-        border: '1px solid rgba(123,47,190,0.35)', borderRadius: 16,
-        padding: 36, textDecoration: 'none', display: 'block',
+<section style={{
+        background: 'linear-gradient(135deg, #2A1145 0%, #1A0A2E 100%)',
+        padding: 'clamp(72px, 10vw, 120px) 24px',
       }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>🙌</div>
-        <h3 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginBottom: 10 }}>
-          {dict.getInvolved.membershipTitle}
-        </h3>
-        <p style={{ color: '#a0a0b0', fontSize: 14, lineHeight: 1.8, marginBottom: 18 }}>
-          {dict.getInvolved.membershipText}
-        </p>
-        <span style={{ color: '#F5A623', fontSize: 14, fontWeight: 700 }}>
-          {dict.getInvolved.membershipCta} →
-        </span>
-      </Link>
-
-      <Link href={L('/discipleship')} style={{
-        background: 'linear-gradient(135deg, #1A0A2E, #16213E)',
-        border: '1px solid rgba(123,47,190,0.35)', borderRadius: 16,
-        padding: 36, textDecoration: 'none', display: 'block',
-      }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>📖</div>
-        <h3 style={{ color: 'white', fontSize: 20, fontWeight: 800, marginBottom: 10 }}>
-          {dict.getInvolved.discipleshipTitle}
-        </h3>
-        <p style={{ color: '#a0a0b0', fontSize: 14, lineHeight: 1.8, marginBottom: 18 }}>
-          {dict.getInvolved.discipleshipText}
-        </p>
-        <span style={{ color: '#F5A623', fontSize: 14, fontWeight: 700 }}>
-          {dict.getInvolved.discipleshipCta} →
-        </span>
-      </Link>
-    </div>
-  </div>
-  <style>{`
-    .get-involved-grid { grid-template-columns: repeat(2, 1fr); }
-    @media (max-width: 700px) { .get-involved-grid { grid-template-columns: 1fr; } }
-  `}</style>
-</section>
+        <div className="ed-getinvolved" style={{
+          maxWidth: 1100, margin: '0 auto',
+          display: 'grid', gap: 'clamp(40px, 6vw, 80px)', alignItems: 'center',
+        }}>
+          {/* Left: statement */}
+          <div>
+            <p style={{ color: '#F5A623', fontSize: 13, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 16 }}>
+              {dict.getInvolved.eyebrow}
+            </p>
+            <h2 style={{ color: 'white', fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 800, lineHeight: 1.15, fontFamily: 'Georgia, serif' }}>
+              {dict.getInvolved.title}
+            </h2>
+          </div>
+ 
+          {/* Right: the two paths as editorial links, not cards */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Link href={L('/membership')} className="ed-path" style={pathStyle}>
+              <div>
+                <h3 style={pathTitle}>{dict.getInvolved.membershipTitle}</h3>
+                <p style={pathText}>{dict.getInvolved.membershipText}</p>
+              </div>
+              <span style={pathArrow}>→</span>
+            </Link>
+            <div style={{ height: 1, background: 'rgba(255,255,255,0.12)' }} />
+            <Link href={L('/discipleship')} className="ed-path" style={pathStyle}>
+              <div>
+                <h3 style={pathTitle}>{dict.getInvolved.discipleshipTitle}</h3>
+                <p style={pathText}>{dict.getInvolved.discipleshipText}</p>
+              </div>
+              <span style={pathArrow}>→</span>
+            </Link>
+          </div>
+        </div>
+        <style>{`
+          .ed-getinvolved { grid-template-columns: 1fr 1.2fr; }
+          @media (max-width: 800px) { .ed-getinvolved { grid-template-columns: 1fr; } }
+          .ed-path:hover span { transform: translateX(6px); }
+        `}</style>
+      </section>
 
  {featuredEvent && (
         <section style={{ padding: '72px 24px', background: '#1A0A2E' }}>
