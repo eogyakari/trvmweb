@@ -83,32 +83,35 @@ export default function SubscribeForm({ compact = false }: Props) {
     )
   }
 
+  const underline: React.CSSProperties = {
+    background: 'transparent', border: 'none',
+    borderBottom: '2px solid rgba(255,255,255,0.25)',
+    color: 'white', fontSize: 16, padding: '12px 2px', outline: 'none',
+    fontFamily: 'Georgia, serif', width: '100%',
+  }
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 480, margin: '0 auto' }}>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 28, maxWidth: 520, margin: '0 auto' }}>
       <input
         type="text" placeholder="Your name (optional)"
         value={name} onChange={e => setName(e.target.value)}
-        style={{
-          padding: '12px 16px', background: 'rgba(255,255,255,0.08)',
-          border: '1px solid rgba(255,255,255,0.15)', borderRadius: 8,
-          color: 'white', fontSize: 14, fontFamily: 'Georgia, serif', outline: 'none'
-        }}
+        style={underline}
+        onFocus={e => (e.currentTarget.style.borderBottomColor = '#F5A623')}
+        onBlur={e => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.25)')}
       />
       <input
         type="email" required placeholder="Your email address"
         value={email} onChange={e => setEmail(e.target.value)}
-        style={{
-          padding: '12px 16px', background: 'rgba(255,255,255,0.08)',
-          border: '1px solid rgba(255,255,255,0.15)', borderRadius: 8,
-          color: 'white', fontSize: 14, fontFamily: 'Georgia, serif', outline: 'none'
-        }}
+        style={underline}
+        onFocus={e => (e.currentTarget.style.borderBottomColor = '#F5A623')}
+        onBlur={e => (e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.25)')}
       />
       <button type="submit" disabled={submitting} style={{
+        alignSelf: 'center', marginTop: 8,
         background: 'linear-gradient(135deg, #F5A623, #E8860A)',
-        color: '#0D0D1A', padding: '14px', border: 'none', borderRadius: 8,
+        color: '#0D0D1A', padding: '15px 44px', border: 'none', borderRadius: 40,
         fontWeight: 800, fontSize: 14, cursor: submitting ? 'not-allowed' : 'pointer',
-        fontFamily: 'Georgia, serif', textTransform: 'uppercase', letterSpacing: '0.05em',
-        opacity: submitting ? 0.7 : 1
+        fontFamily: 'Georgia, serif', textTransform: 'uppercase', letterSpacing: '0.08em',
+        opacity: submitting ? 0.7 : 1, boxShadow: '0 8px 24px rgba(245,166,35,0.3)',
       }}>
         {submitting ? 'Subscribing...' : 'Subscribe to Updates'}
       </button>

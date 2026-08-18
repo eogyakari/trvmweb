@@ -353,48 +353,59 @@ export default async function HomePage({
       </section>
 
  {featuredEvent && (
-        <section style={{ padding: '72px 24px', background: '#1A0A2E' }}>
-          <div style={{ maxWidth: 1000, margin: '0 auto',
-            background: 'linear-gradient(135deg, #2A1145, #16213E)',
-            border: '1px solid rgba(245,166,35,0.35)', borderRadius: 20,
-            overflow: 'hidden', display: 'grid',
-            gridTemplateColumns: featuredEvent.cover_image ? '1fr 1fr' : '1fr',
-          }} className="featured-event-card">
+        <section style={{ background: '#0D0D1A' }}>
+          <div className="ed-event" style={{ display: 'grid', minHeight: 'clamp(360px, 45vw, 520px)' }}>
+            {/* Image side — spans to the edge */}
             {featuredEvent.cover_image && (
-              <div style={{ minHeight: 260, backgroundImage: `url(${featuredEvent.cover_image})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+              <div style={{
+                backgroundImage: `url(${featuredEvent.cover_image})`,
+                backgroundSize: 'cover', backgroundPosition: 'center',
+                minHeight: 280,
+              }} />
             )}
-            <div style={{ padding: 40 }}>
-              <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>
+            {/* Text side — generous padding */}
+            <div style={{
+              display: 'flex', flexDirection: 'column', justifyContent: 'center',
+              padding: 'clamp(40px, 6vw, 90px)',
+              background: 'linear-gradient(135deg, #2A1145, #16213E)',
+            }}>
+              <p style={{ color: '#F5A623', fontSize: 13, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>
                 {dict.eventPage.upcoming}
               </p>
-              <h2 style={{ color: 'white', fontSize: 32, fontWeight: 900, marginBottom: 12 }}>{featuredEvent.title}</h2>
-              {featuredEvent.tagline && <p style={{ color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, marginBottom: 20 }}>{featuredEvent.tagline}</p>}
+              <h2 style={{ color: 'white', fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 800, lineHeight: 1.1, marginBottom: 20, fontFamily: 'Georgia, serif' }}>
+                {featuredEvent.title}
+              </h2>
+              {featuredEvent.tagline && (
+                <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(15px, 2vw, 19px)', lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}>
+                  {featuredEvent.tagline}
+                </p>
+              )}
               <Link href={L('/event')} style={{
-                background: 'linear-gradient(135deg, #F5A623, #E8860A)', color: '#1A0A2E',
-                padding: '13px 32px', borderRadius: 30, fontWeight: 800, fontSize: 14,
-                textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 1, display: 'inline-block',
-              }}>{dict.eventPage.learnMore} →</Link>
+                alignSelf: 'flex-start',
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                color: '#F5A623', fontSize: 15, fontWeight: 800,
+                letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none',
+                borderBottom: '2px solid #F5A623', paddingBottom: 4,
+              }}>
+                {dict.eventPage.learnMore} →
+              </Link>
             </div>
           </div>
-          <style>{`@media (max-width: 700px){ .featured-event-card { grid-template-columns: 1fr !important; } }`}</style>
+          <style>{`
+            .ed-event { grid-template-columns: 1fr 1fr; }
+            @media (max-width: 800px) { .ed-event { grid-template-columns: 1fr; } }
+          `}</style>
         </section>
       )}
 
       {/* Subscribe */}
-      <section style={{ background: '#1A0A2E', padding: '72px 24px', textAlign: 'center' }}>
-        <div style={{ maxWidth: 600, margin: '0 auto' }}>
-          <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>{h.stayConnected}</p>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: 'white', marginBottom: 12 }}>
-            {h.getUpdates}
-          </h2>
-          <div style={{ width: 50, height: 3, background: '#F5A623', margin: '0 auto 20px' }} />
-          <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '1rem', marginBottom: 32, lineHeight: 1.8 }}>
-            {h.subscribeText}
-          </p>
-          <SubscribeForm />
-        </div>
-      </section>
-
+       <section style={{
+  background: 'linear-gradient(135deg, #1A0A2E, #2A1145)',
+  padding: 'clamp(72px, 10vw, 120px) 24px',
+}}>
+  <SubscribeForm />
+</section>
+ 
       {/* CTA */}
       <section style={{
         background: "linear-gradient(135deg, #7B2FBE 0%, #F5A623 100%)",
