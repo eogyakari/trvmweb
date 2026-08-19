@@ -7,6 +7,7 @@ import { getDictionary } from "@/i18n/getDictionary"
 import { isLocale, type Locale } from "@/i18n/config"
 import { getQuoteOfDay } from "@/lib/getQuoteOfDay"
 import CinematicHero from "../components/CinematicHero"
+import GiveModalTrigger from "../components/GiveModalTrigger"
 
 
 
@@ -90,6 +91,11 @@ export default async function HomePage({
     const t = newsTr.find((x:any) => x.news_id === row.id)
     return { title: t?.title || row.title, excerpt: t?.excerpt || row.excerpt }
   }
+
+  const { data: bankData } = await supabase.from('site_settings').select('key, value')
+  .in('key', ['bank1_name','bank1_account_name','bank1_account_number','bank1_branch','bank2_name','bank2_account_name','bank2_account_number','bank2_branch','momo_name','momo_number','momo_network'])
+const bankDetails: Record<string,string> = {}
+for (const row of bankData || []) bankDetails[row.key] = row.value
 
   const { data: featuredEvent } = await supabase
     .from('featured_event').select('*').eq('is_active', true).limit(1).maybeSingle()
@@ -407,6 +413,8 @@ export default async function HomePage({
           `}</style>
         </section>
       )}
+
+      <GiveModalTrigger lang={lang} bankDetails={bankDetails} />
 
       {/* Subscribe */}
        <section style={{

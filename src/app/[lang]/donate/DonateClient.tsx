@@ -11,11 +11,12 @@ const SUGGESTED_AMOUNTS = [50, 100, 200, 500, 1000]
 const CURRENCY_CODES = ['GHS', 'USD', 'GBP', 'EUR']
 
 type Props = {
-  lang: Locale
-  bankDetails: Record<string, string>
-}
-
-export default function DonateClient({ lang, bankDetails }: Props) {
+    lang: Locale
+    bankDetails: Record<string, string>
+    inModal?: boolean
+  }
+ 
+  export default function DonateClient({ lang, bankDetails, inModal = false }: Props) {
   const dict = getDict(lang)
   const d = dict.donateClient
   const cur = (code: string) => (d.currencies as Record<string, string>)[code] || code
@@ -79,6 +80,7 @@ export default function DonateClient({ lang, bankDetails }: Props) {
   return (
     <div>
       {/* Hero */}
+      {!inModal && (
       <div style={{
         background: 'linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 100%)',
         padding: '72px 24px', textAlign: 'center'
@@ -90,9 +92,10 @@ export default function DonateClient({ lang, bankDetails }: Props) {
           &ldquo;{d.scripture}&rdquo; — {d.scriptureRef}
         </p>
       </div>
+      )}
 
-      <div style={{ background: '#0D0D1A', padding: '64px 24px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 48 }}>
+      <div style={{ background: '#0D0D1A', padding: inModal ? '32px 24px' : '64px 24px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: inModal ? '1fr' : 'repeat(auto-fit, minmax(320px, 1fr))', gap: inModal ? 32 : 48 }}>
 
           {/* Online Donation */}
           <div>
@@ -258,14 +261,15 @@ export default function DonateClient({ lang, bankDetails }: Props) {
         </div>
       </div>
 
-      {/* Bottom CTA */}
-      <div style={{ background: '#1A0A2E', padding: '48px 24px', textAlign: 'center' }}>
-        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem', maxWidth: 600, margin: '0 auto', lineHeight: 1.8 }}>
-          {d.ctaBefore}{' '}
-          <a href={`/${lang}/contact`} style={{ color: '#F5A623', fontWeight: 700 }}>{d.ctaLink}</a>{' '}
-          {d.ctaAfter}
-        </p>
-      </div>
+       {!inModal && (
+        <div style={{ background: '#1A0A2E', padding: '48px 24px', textAlign: 'center' }}>
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem', maxWidth: 600, margin: '0 auto', lineHeight: 1.8 }}>
+            {d.ctaBefore}{' '}
+            <a href={`/${lang}/contact`} style={{ color: '#F5A623', fontWeight: 700 }}>{d.ctaLink}</a>{' '}
+            {d.ctaAfter}
+          </p>
+        </div>
+      )}
     </div>
   )
 }

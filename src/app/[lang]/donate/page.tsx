@@ -2,7 +2,6 @@ import { supabase } from '@/lib/supabase'
 import DonateClient from './DonateClient'
 import { isLocale, type Locale } from '@/i18n/config'
 
-// Goes at: src/app/[lang]/donate/page.tsx
 export const revalidate = 60
 
 async function getBankDetails() {

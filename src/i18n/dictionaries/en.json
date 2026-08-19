@@ -362,5 +362,11 @@
     "line1": "Taking the Gospel beyond borders.",
     "line2": "Serving people. Transforming communities.",
     "cta": "Explore Our Mission"
+  },
+  "giveSection": {
+    "eyebrow": "Be Part of the Mission",
+    "title": "You Can Be Part of the Mission",
+    "subtitle": "Every journey begins with someone willing to send, serve, pray, and give.",
+    "cta": "Give Towards the Mission"
   }
 }

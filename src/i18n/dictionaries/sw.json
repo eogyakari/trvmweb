@@ -362,5 +362,11 @@
     "line1": "Kupeleka Injili ng'ambo ya mipaka.",
     "line2": "Kuhudumia watu. Kubadilisha jamii.",
     "cta": "Chunguza Misheni Yetu"
+  },
+  "giveSection": {
+    "eyebrow": "Kuwa Sehemu ya Misheni",
+    "title": "Unaweza Kuwa Sehemu ya Misheni",
+    "subtitle": "Kila safari huanza na mtu aliye tayari kutuma, kuhudumu, kuomba, na kutoa.",
+    "cta": "Toa kwa Ajili ya Misheni"
   }
 }
