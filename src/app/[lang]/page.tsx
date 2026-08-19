@@ -10,6 +10,7 @@ import CinematicHero from "../components/CinematicHero"
 import GiveModalTrigger from "../components/GiveModalTrigger"
 import StoryStrip from "../components/StoryStrip"
 import WelcomeSection from "../components/WelcomeSection"
+import MissionContinues from "../components/MissionContinues"
 
 
 
@@ -381,21 +382,8 @@ for (const row of bankData || []) bankDetails[row.key] = row.value
   <SubscribeForm />
 </section>
  
-      {/* CTA */}
-      <section style={{
-        background: "linear-gradient(135deg, #7B2FBE 0%, #F5A623 100%)",
-        padding: "80px 24px", textAlign: "center",
-      }}>
-        <h2 style={{ fontSize: 40, fontWeight: 800, color: "#fff", marginBottom: 16 }}>{h.supportMission}</h2>
-        <p style={{ fontSize: 18, color: "rgba(255,255,255,0.85)", marginBottom: 40, maxWidth: 600, margin: "0 auto 40px" }}>
-          {h.supportText}
-        </p>
-        <Link href={L("/donate")} style={{
-          background: "#fff", color: "#7B2FBE",
-          padding: "16px 40px", borderRadius: 30,
-          fontSize: 16, fontWeight: 800, letterSpacing: 1, display: "inline-block", textTransform: "uppercase",
-        }}>{h.donateNow}</Link>
-      </section>
+            {/* Mission Continues */}
+      <MissionContinues lang={lang} />
     </div>
   )
 }

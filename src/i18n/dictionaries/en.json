@@ -401,5 +401,10 @@
     "title": "It is time to take your next step in Jesus",
     "text": "TRVM offers you the opportunity to fulfil your divine mandate through guided missions and church building.",
     "cta": "Take the Next Step"
+  },
+  "missionContinues": {
+    "title": "The Mission Continues.",
+    "subtitle": "Come with us.",
+    "cta": "Explore TRV Missions"
   }
 }
