@@ -15,19 +15,19 @@ export default function MissionContinues({ lang }: { lang: Locale }) {
     }}>
       {/* Photo — upper-right, clipped along a curved wave on its lower-left edge */}
       <div className="mc-photo" style={{
-        position: 'absolute', top: 0, right: 0, height: '100%', width: '62%',
+        position: 'absolute', top: 0, right: 0, height: '100%', width: '68%',
         backgroundImage: 'url(/mission-continues/mission-family.jpg)',
         backgroundSize: 'cover', backgroundPosition: 'center top',
         // Curved wave clip: straight along top/right, curved sweep on the lower-left
-        WebkitClipPath: 'path("M 120,0 L 2000,0 L 2000,2000 L 0,2000 C 40,1400 260,900 120,0 Z")',
-        clipPath: 'path("M 120,0 L 2000,0 L 2000,2000 L 0,2000 C 40,1400 260,900 120,0 Z")',
+        WebkitClipPath: 'path("M 60,0 L 2000,0 L 2000,2000 L 0,2000 C 20,1500 120,700 60,0 Z")',
+        clipPath: 'path("M 60,0 L 2000,0 L 2000,2000 L 0,2000 C 20,1500 120,700 60,0 Z")',
       }} />
       {/* Subtle dark scrim on the photo's left edge so the curve blends into the text side */}
       <div className="mc-photo-scrim" style={{
-        position: 'absolute', top: 0, right: 0, height: '100%', width: '62%',
+        position: 'absolute', top: 0, right: 0, height: '100%', width: '68%',
         background: 'linear-gradient(90deg, rgba(13,13,26,0.85) 0%, rgba(13,13,26,0.15) 22%, transparent 45%)',
-        WebkitClipPath: 'path("M 120,0 L 2000,0 L 2000,2000 L 0,2000 C 40,1400 260,900 120,0 Z")',
-        clipPath: 'path("M 120,0 L 2000,0 L 2000,2000 L 0,2000 C 40,1400 260,900 120,0 Z")',
+        WebkitClipPath: 'path("M 60,0 L 2000,0 L 2000,2000 L 0,2000 C 20,1500 120,700 60,0 Z")',
+        clipPath: 'path("M 60,0 L 2000,0 L 2000,2000 L 0,2000 C 20,1500 120,700 60,0 Z")',
         pointerEvents: 'none',
       }} />
 

@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { supabase } from "@/lib/supabase"
 import type { Devotion } from "@/lib/types"
-import Slideshow from "@/app/components/Slideshow"
 import SubscribeForm from "@/app/components/SubscribeForm"
 import { getDictionary } from "@/i18n/getDictionary"
 import { isLocale, type Locale } from "@/i18n/config"
