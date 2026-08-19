@@ -395,5 +395,11 @@
     ],
     "finalHeadline": "Ini lebih dari sekadar perjalanan.",
     "finalText": "Ini adalah misi."
+  },
+  "welcomeSection": {
+    "eyebrow": "Perjalananmu dimulai di sini",
+    "title": "Inilah saatnya mengambil langkah berikutnya dalam Yesus",
+    "text": "TRVM memberi Anda kesempatan untuk memenuhi mandat ilahi Anda melalui misi terpandu dan pembangunan gereja.",
+    "cta": "Ambil Langkah Berikutnya"
   }
 }

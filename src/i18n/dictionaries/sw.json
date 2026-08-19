@@ -395,5 +395,11 @@
     ],
     "finalHeadline": "Hii ni zaidi ya safari.",
     "finalText": "Hii ni dhamira."
+  },
+  "welcomeSection": {
+    "eyebrow": "Safari yako inaanzia hapa",
+    "title": "Ni wakati wa kuchukua hatua yako inayofuata katika Yesu",
+    "text": "TRVM inakupa fursa ya kutimiza wito wako wa kimungu kupitia misheni yenye mwongozo na ujenzi wa kanisa.",
+    "cta": "Chukua Hatua Inayofuata"
   }
 }

@@ -9,6 +9,7 @@ import { getQuoteOfDay } from "@/lib/getQuoteOfDay"
 import CinematicHero from "../components/CinematicHero"
 import GiveModalTrigger from "../components/GiveModalTrigger"
 import StoryStrip from "../components/StoryStrip"
+import WelcomeSection from "../components/WelcomeSection"
 
 
 
@@ -129,11 +130,7 @@ for (const row of bankData || []) bankDetails[row.key] = row.value
   return (
     <div>
       <CinematicHero lang={lang} />
-      {/* Photo Slideshow */}
-       <div style={{ background: '#2A1145', paddingBottom: 40 }}>
-         <Slideshow slides={slides} />
-         </div>
-      
+      <WelcomeSection lang={lang} />
       <StoryStrip lang={lang} />
 
        {/* Quote of the Day */}

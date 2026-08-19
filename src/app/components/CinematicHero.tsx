@@ -19,8 +19,8 @@ export default function CinematicHero({ lang }: { lang: Locale }) {
       <div style={{
         position: 'absolute', inset: 0,
         background: `
-          linear-gradient(180deg, rgba(13,13,26,0.75) 0%, rgba(13,13,26,0.15) 30%, rgba(13,13,26,0.55) 75%, rgba(13,13,26,0.92) 100%),
-          linear-gradient(90deg, rgba(13,13,26,0.7) 0%, rgba(13,13,26,0.1) 55%, transparent 100%)
+          linear-gradient(180deg, rgba(26,10,46,0.78) 0%, rgba(26,10,46,0.18) 32%, rgba(42,17,69,0.45) 72%, rgba(13,13,26,0.92) 100%),
+          linear-gradient(90deg, rgba(26,10,46,0.72) 0%, rgba(42,17,69,0.12) 55%, transparent 100%)
         `,
       }} />
 

@@ -395,5 +395,11 @@
     ],
     "finalHeadline": "This is more than a journey.",
     "finalText": "This is a mission."
+  },
+  "welcomeSection": {
+    "eyebrow": "Your journey begins here",
+    "title": "It is time to take your next step in Jesus",
+    "text": "TRVM offers you the opportunity to fulfil your divine mandate through guided missions and church building.",
+    "cta": "Take the Next Step"
   }
 }
