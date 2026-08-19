@@ -368,5 +368,32 @@
     "title": "Anda Dapat Menjadi Bagian dari Misi",
     "subtitle": "Setiap perjalanan dimulai dengan seseorang yang bersedia mengutus, melayani, berdoa, dan memberi.",
     "cta": "Beri untuk Misi"
+  },
+  "storyStrip": {
+    "title": "SATU MISI. BANYAK BANGSA.",
+    "slides": [
+      {
+        "country": "Ghana",
+        "headline": "SEMUA BERMULA DARI SEBUAH “YA”.",
+        "text": "Beban menjadi panggilan. Panggilan menjadi misi."
+      },
+      {
+        "country": "Liberia",
+        "headline": "LALU KAMI MELANGKAH LEBIH JAUH.",
+        "text": "Karena Injil tidak pernah dimaksudkan untuk berhenti di perbatasan."
+      },
+      {
+        "country": "Indonesia",
+        "headline": "KAMI MENEMBUS JARAK.",
+        "text": "Bahasa berbeda. Budaya berbeda. Harapan yang sama."
+      },
+      {
+        "country": "Kenya",
+        "headline": "DAN KISAH INI BERLANJUT.",
+        "text": "Satu misi. Banyak bangsa. Tak terhitung jiwa."
+      }
+    ],
+    "finalHeadline": "INI LEBIH DARI SEKADAR PERJALANAN.",
+    "finalText": "INI ADALAH MISI."
   }
 }

@@ -368,5 +368,32 @@
     "title": "Unaweza Kuwa Sehemu ya Misheni",
     "subtitle": "Kila safari huanza na mtu aliye tayari kutuma, kuhudumu, kuomba, na kutoa.",
     "cta": "Toa kwa Ajili ya Misheni"
+  },
+  "storyStrip": {
+    "title": "DHAMIRA MOJA. MATAIFA MENGI.",
+    "slides": [
+      {
+        "country": "Ghana",
+        "headline": "YALIANZA NA NDIYO.",
+        "text": "Mzigo ukawa wito. Wito ukawa dhamira."
+      },
+      {
+        "country": "Liberia",
+        "headline": "KISHA TUKASONGA MBELE ZAIDI.",
+        "text": "Kwa sababu Injili haikukusudiwa kuishia mpakani."
+      },
+      {
+        "country": "Indonesia",
+        "headline": "TULIVUKA UMBALI.",
+        "text": "Lugha tofauti. Utamaduni tofauti. Tumaini lile lile."
+      },
+      {
+        "country": "Kenya",
+        "headline": "NA HADITHI INAENDELEA.",
+        "text": "Dhamira moja. Mataifa mengi. Maisha yasiyohesabika."
+      }
+    ],
+    "finalHeadline": "HII NI ZAIDI YA SAFARI.",
+    "finalText": "HII NI DHAMIRA."
   }
 }

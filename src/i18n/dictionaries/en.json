@@ -368,5 +368,32 @@
     "title": "You Can Be Part of the Mission",
     "subtitle": "Every journey begins with someone willing to send, serve, pray, and give.",
     "cta": "Give Towards the Mission"
+  },
+  "storyStrip": {
+    "title": "ONE MISSION. MANY NATIONS.",
+    "slides": [
+      {
+        "country": "Ghana",
+        "headline": "IT STARTED WITH A YES.",
+        "text": "A burden became a calling. A calling became a mission."
+      },
+      {
+        "country": "Liberia",
+        "headline": "THEN WE WENT FURTHER.",
+        "text": "Because the Gospel was never meant to stop at a border."
+      },
+      {
+        "country": "Indonesia",
+        "headline": "WE CROSSED THE DISTANCE.",
+        "text": "Different language. Different culture. The same hope."
+      },
+      {
+        "country": "Kenya",
+        "headline": "AND THE STORY CONTINUES.",
+        "text": "One mission. Many nations. Countless lives."
+      }
+    ],
+    "finalHeadline": "THIS IS MORE THAN A JOURNEY.",
+    "finalText": "THIS IS A MISSION."
   }
 }

@@ -8,6 +8,7 @@ import { isLocale, type Locale } from "@/i18n/config"
 import { getQuoteOfDay } from "@/lib/getQuoteOfDay"
 import CinematicHero from "../components/CinematicHero"
 import GiveModalTrigger from "../components/GiveModalTrigger"
+import StoryStrip from "../components/StoryStrip"
 
 
 
@@ -132,49 +133,8 @@ for (const row of bankData || []) bankDetails[row.key] = row.value
        <div style={{ background: '#2A1145', paddingBottom: 40 }}>
          <Slideshow slides={slides} />
          </div>
-      {/* Programs */}
-      <section style={{ padding: 'clamp(72px, 10vw, 120px) 24px', background: '#0D0D1A' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 'clamp(48px, 7vw, 80px)' }}>
-            <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, marginBottom: 14, color: '#fff', fontFamily: 'Georgia, serif' }}>
-              {h.ourPrograms}
-            </h2>
-            <p style={{ color: '#a0a0b0', fontSize: 'clamp(15px, 2vw, 18px)', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
-              {h.programsSubtitle}
-            </p>
-          </div>
- 
-          <div className="ed-programs" style={{ display: 'grid', gap: 'clamp(32px, 5vw, 64px)' }}>
-            {h.programs.map((prog, i) => (
-              <Link key={i} href={L(progMeta[i].href)} className="ed-program" style={{
-                display: 'block', textDecoration: 'none',
-                borderTop: '2px solid rgba(245,166,35,0.4)', paddingTop: 28,
-              }}>
-                <div style={{ fontSize: 40, marginBottom: 20 }}>{progMeta[i].icon}</div>
-                <h3 style={{ fontSize: 'clamp(20px, 2.6vw, 26px)', fontWeight: 700, color: '#fff', marginBottom: 14, fontFamily: 'Georgia, serif' }}>
-                  {prog.title}
-                </h3>
-                <p style={{ color: '#a0a0b0', fontSize: 15, lineHeight: 1.9, marginBottom: 20 }}>
-                  {prog.desc}
-                </p>
-                <span className="ed-program-more" style={{
-                  color: '#F5A623', fontSize: 13, fontWeight: 800, letterSpacing: '0.08em',
-                  textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center', gap: 8,
-                }}>
-                  Learn More <span className="ed-program-arrow" style={{ transition: 'transform 0.2s' }}>→</span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-        <style>{`
-          .ed-programs { grid-template-columns: repeat(3, 1fr); }
-          @media (max-width: 800px) { .ed-programs { grid-template-columns: 1fr; } }
-          .ed-program:hover .ed-program-arrow { transform: translateX(5px); }
-          .ed-program { transition: border-color 0.2s; }
-          .ed-program:hover { border-top-color: #F5A623; }
-        `}</style>
-      </section>
+      
+      <StoryStrip lang={lang} />
 
        {/* Quote of the Day */}
        {quote && (
