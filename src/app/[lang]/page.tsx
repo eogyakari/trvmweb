@@ -121,42 +121,7 @@ export default async function HomePage({
 
   return (
     <div>
-      {featuredEvent && (
-        <Link href={L('/event')} className="trvm-event-strip" style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
-          background: 'linear-gradient(90deg, #1A0A2E 0%, #2A1145 50%, #1A0A2E 100%)',
-          borderBottom: '1px solid rgba(245,166,35,0.4)',
-          color: 'white', textDecoration: 'none',
-          padding: '11px 20px', fontSize: 14, position: 'relative', overflow: 'hidden',
-        }}>
-          {/* Badge */}
-          <span style={{
-            background: 'linear-gradient(135deg, #F5A623, #E8860A)', color: '#1A0A2E',
-            fontSize: 10, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
-            padding: '4px 10px', borderRadius: 20, flexShrink: 0, whiteSpace: 'nowrap',
-          }}>
-            📣 {dict.eventPage.upcoming}
-          </span>
- 
-          {/* Event text */}
-          <span style={{ fontWeight: 600, color: 'rgba(255,255,255,0.95)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {featuredEvent.strip_text || featuredEvent.title}
-          </span>
- 
-          {/* Arrow pill */}
-          <span className="trvm-strip-cta" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6, flexShrink: 0,
-            color: '#F5A623', fontWeight: 800, fontSize: 13, whiteSpace: 'nowrap',
-          }}>
-            {dict.eventPage.learnMore} <span className="trvm-strip-arrow" style={{ transition: 'transform 0.2s' }}>→</span>
-          </span>
- 
-          {/* Shimmer sweep */}
-          <span className="trvm-strip-shimmer" />
-        </Link>
-      )}
       <CinematicHero lang={lang} />
-
       {/* Photo Slideshow */}
        <div style={{ background: '#2A1145', paddingBottom: 40 }}>
          <Slideshow slides={slides} />

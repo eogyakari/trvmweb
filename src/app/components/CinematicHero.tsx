@@ -38,11 +38,13 @@ export default function CinematicHero({ lang }: { lang: Locale }) {
         </p>
 
         <h1 style={{
-          color: 'white', fontFamily: 'Georgia, serif', fontWeight: 700,
-          fontSize: 'clamp(32px, 5.5vw, 68px)', lineHeight: 1.12, margin: 0, marginBottom: 36,
-          maxWidth: 900, textShadow: '0 2px 24px rgba(0,0,0,0.5)',
+          color: 'white', fontFamily: 'Georgia, serif', fontWeight: 400,
+          fontSize: 'clamp(24px, 3.4vw, 44px)', lineHeight: 1.3, margin: 0, marginBottom: 40,
+          maxWidth: 720, letterSpacing: '0.005em',
+          textShadow: '0 2px 20px rgba(0,0,0,0.5)',
         }}>
-          {h.line1}<br />{h.line2}
+          <span style={{ display: 'block' }}>{h.line1}</span>
+          <span style={{ display: 'block', color: 'rgba(255,255,255,0.82)' }}>{h.line2}</span>
         </h1>
 
         <Link href={L('/programs/missions')} style={{
