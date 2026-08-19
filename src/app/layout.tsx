@@ -8,6 +8,7 @@ import InstallPrompt from "./components/InstallPrompt"
 import IosSplashLinks from "./components/IosSplashLinks"
 import OfflineBanner from "./components/OfflineBanner"
 import BottomNav from "./components/BottomNav"
+import { Playfair_Display } from "next/font/google"
 
 export const metadata: Metadata = {
   title: "The Righteous Vine Missions",
@@ -36,6 +37,13 @@ export const metadata: Metadata = {
   },
 }
 
+const playfair = Playfair_Display({
+    subsets: ["latin"],
+    weight: ["400", "500", "700", "800"],
+    variable: "--font-playfair",
+    display: "swap",
+  })
+
 export const viewport: Viewport = {
   themeColor: "#1A0A2E",
 }
@@ -46,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={playfair.variable}>
       <head>
         <IosSplashLinks />
       </head>

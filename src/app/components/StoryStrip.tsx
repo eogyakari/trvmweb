@@ -39,8 +39,8 @@ export default function StoryStrip({ lang }: { lang: Locale }) {
       {/* Title above */}
       <div style={{ textAlign: 'center', padding: '0 24px', marginBottom: 'clamp(36px, 5vw, 56px)' }}>
         <h2 style={{
-          color: '#fff', fontFamily: 'Georgia, serif', fontWeight: 800,
-          fontSize: 'clamp(28px, 5vw, 54px)', letterSpacing: '0.02em', lineHeight: 1.1, margin: 0,
+          color: '#fff', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 800,
+          fontSize: 'clamp(28px, 5vw, 54px)', letterSpacing: '0.01em', lineHeight: 1.1, margin: 0,
         }}>
           {s.title}
         </h2>
@@ -78,10 +78,10 @@ export default function StoryStrip({ lang }: { lang: Locale }) {
         }}>
           {isFinal ? (
             <div>
-              <h3 style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'Georgia, serif', fontWeight: 400, fontSize: 'clamp(22px, 3.5vw, 40px)', lineHeight: 1.25, margin: 0 }}>
+              <h3 style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: 'clamp(22px, 3.5vw, 40px)', lineHeight: 1.25, margin: 0 }}>
                 {s.finalHeadline}
               </h3>
-              <p style={{ color: '#F5A623', fontFamily: 'Georgia, serif', fontWeight: 800, fontSize: 'clamp(30px, 5.5vw, 64px)', lineHeight: 1.1, margin: '10px 0 0' }}>
+              <p style={{ color: '#F5A623', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 800, fontSize: 'clamp(30px, 5.5vw, 64px)', lineHeight: 1.1, margin: '10px 0 0' }}>
                 {s.finalText}
               </p>
             </div>
@@ -90,7 +90,7 @@ export default function StoryStrip({ lang }: { lang: Locale }) {
               <p style={{ color: '#F5A623', fontSize: 'clamp(12px, 1.6vw, 16px)', fontWeight: 700, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 14 }}>
                 {s.slides[i].country}
               </p>
-              <h3 style={{ color: '#fff', fontFamily: 'Georgia, serif', fontWeight: 800, fontSize: 'clamp(26px, 4.5vw, 52px)', lineHeight: 1.12, margin: 0, marginBottom: 14, textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>
+              <h3 style={{ color: '#fff', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 800, fontSize: 'clamp(26px, 4.5vw, 52px)', lineHeight: 1.1, margin: 0, marginBottom: 16, letterSpacing: '0.005em', textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>
                 {s.slides[i].headline}
               </h3>
               <p style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(15px, 2.2vw, 22px)', lineHeight: 1.6, margin: 0, maxWidth: 620, textShadow: '0 2px 16px rgba(0,0,0,0.5)' }}>
