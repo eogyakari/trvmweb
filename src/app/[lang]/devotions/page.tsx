@@ -110,29 +110,33 @@ export default async function DevotionsPage({ params }: { params: Promise<{ lang
                 <p style={{ fontSize: 12, color: '#F5A623', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: 28 }}>
                   {t.previous}
                 </p>
-                <div className="dev-grid" style={{ display: 'grid', gap: 'clamp(32px, 4vw, 48px)' }}>
-                  {devotions.slice(1).map(d => {
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  {devotions.slice(1).map((d, i) => {
                     const dt = pick(d, lang)
                     return (
-                      <Link key={d.id} href={`/${lang}/devotions/${d.slug}`} className="dev-item" style={{ display: 'block', textDecoration: 'none', borderTop: '2px solid rgba(245,166,35,0.35)', paddingTop: 22 }}>
-                        {d.cover_image && (
-                          <div style={{ aspectRatio: '16/10', borderRadius: 10, overflow: 'hidden', marginBottom: 18 }}>
-                            <img src={d.cover_image} alt={dt.title} className="dev-item-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s' }} />
-                          </div>
-                        )}
-                        <p style={{ fontSize: 11, color: '#9B59B6', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10 }}>
-                          {new Date(d.date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
-                        </p>
-                        <h3 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(18px, 2.2vw, 22px)', fontWeight: 700, color: 'white', marginBottom: 12, lineHeight: 1.3 }}>
-                          {dt.title}
-                        </h3>
-                        <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.8, marginBottom: 14 }}>
-                          {stripHtml(dt.content).substring(0, 110)}...
-                        </p>
-                        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 12 }}>{t.by} {d.author}</p>
-                        <span className="dev-more" style={{ color: '#F5A623', fontSize: 13, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 7 }}>
-                          {dict.common.readMore} <span className="dev-arrow" style={{ transition: 'transform 0.2s' }}>→</span>
-                        </span>
+                      <Link key={d.id} href={`/${lang}/devotions/${d.slug}`} className="dev-row" style={{
+                        display: 'flex', alignItems: 'center', gap: 24, padding: '24px 0',
+                        textDecoration: 'none', borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                      }}>
+                        {/* Round thumbnail */}
+                        <div style={{ width: 92, height: 92, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, background: 'linear-gradient(135deg, #1A0A2E, #2A1145)', border: '2px solid rgba(245,166,35,0.4)' }}>
+                          {d.cover_image && (
+                            <img src={d.cover_image} alt={dt.title} className="dev-row-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s' }} />
+                          )}
+                        </div>
+                        {/* Text */}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ fontSize: 11, color: '#9B59B6', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 7 }}>
+                            {new Date(d.date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
+                          </p>
+                          <h3 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(18px, 2.2vw, 22px)', fontWeight: 700, color: 'white', marginBottom: 6, lineHeight: 1.3 }}>
+                            {dt.title}
+                          </h3>
+                          <p className="dev-row-excerpt" style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: 0 }}>
+                            {stripHtml(dt.content).substring(0, 120)}...
+                          </p>
+                        </div>
+                        <span className="dev-row-arrow" style={{ color: '#F5A623', fontSize: 22, flexShrink: 0, transition: 'transform 0.2s' }}>→</span>
                       </Link>
                     )
                   })}
@@ -145,14 +149,11 @@ export default async function DevotionsPage({ params }: { params: Promise<{ lang
 
       <style>{`
         .dev-featured { grid-template-columns: 1.1fr 1fr; }
-        .dev-grid { grid-template-columns: repeat(3, 1fr); }
-        @media (max-width: 820px) { .dev-featured { grid-template-columns: 1fr; } .dev-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 540px) { .dev-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 820px) { .dev-featured { grid-template-columns: 1fr; } }
         .dev-featured:hover .dev-feat-img { transform: scale(1.04); }
-        .dev-item:hover .dev-item-img { transform: scale(1.05); }
-        .dev-item:hover .dev-arrow { transform: translateX(5px); }
-        .dev-item { transition: border-color 0.2s; }
-        .dev-item:hover { border-top-color: #F5A623; }
+        .dev-row:hover .dev-row-img { transform: scale(1.08); }
+        .dev-row:hover .dev-row-arrow { transform: translateX(5px); }
+        @media (max-width: 560px) { .dev-row { gap: 16px !important; } .dev-row-excerpt { display: none !important; } }
       `}</style>
     </div>
   )
