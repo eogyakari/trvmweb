@@ -78,7 +78,7 @@ export default function StoryStrip({ lang }: { lang: Locale }) {
         }}>
           {isFinal ? (
             <div>
-              <h3 style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: 'clamp(22px, 3.5vw, 40px)', lineHeight: 1.25, margin: 0 }}>
+              <h3 style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontStyle: 'italic', fontSize: 'clamp(22px, 3.5vw, 40px)', lineHeight: 1.25, margin: 0 }}>
                 {s.finalHeadline}
               </h3>
               <p style={{ color: '#F5A623', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 800, fontSize: 'clamp(30px, 5.5vw, 64px)', lineHeight: 1.1, margin: '10px 0 0' }}>

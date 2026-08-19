@@ -370,30 +370,30 @@
     "cta": "Give Towards the Mission"
   },
   "storyStrip": {
-    "title": "ONE MISSION. MANY NATIONS.",
+    "title": "One mission. Many nations.",
     "slides": [
       {
         "country": "Ghana",
-        "headline": "IT STARTED WITH A YES.",
+        "headline": "It started with a yes.",
         "text": "A burden became a calling. A calling became a mission."
       },
       {
         "country": "Liberia",
-        "headline": "THEN WE WENT FURTHER.",
+        "headline": "Then we went further.",
         "text": "Because the Gospel was never meant to stop at a border."
       },
       {
         "country": "Indonesia",
-        "headline": "WE CROSSED THE DISTANCE.",
+        "headline": "We crossed the distance.",
         "text": "Different language. Different culture. The same hope."
       },
       {
         "country": "Kenya",
-        "headline": "AND THE STORY CONTINUES.",
+        "headline": "And the story continues.",
         "text": "One mission. Many nations. Countless lives."
       }
     ],
-    "finalHeadline": "THIS IS MORE THAN A JOURNEY.",
-    "finalText": "THIS IS A MISSION."
+    "finalHeadline": "This is more than a journey.",
+    "finalText": "This is a mission."
   }
 }

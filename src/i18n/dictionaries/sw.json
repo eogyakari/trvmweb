@@ -370,30 +370,30 @@
     "cta": "Toa kwa Ajili ya Misheni"
   },
   "storyStrip": {
-    "title": "DHAMIRA MOJA. MATAIFA MENGI.",
+    "title": "Dhamira moja. Mataifa mengi.",
     "slides": [
       {
         "country": "Ghana",
-        "headline": "YALIANZA NA NDIYO.",
+        "headline": "Yalianza na ndiyo.",
         "text": "Mzigo ukawa wito. Wito ukawa dhamira."
       },
       {
         "country": "Liberia",
-        "headline": "KISHA TUKASONGA MBELE ZAIDI.",
+        "headline": "Kisha tukasonga mbele zaidi.",
         "text": "Kwa sababu Injili haikukusudiwa kuishia mpakani."
       },
       {
         "country": "Indonesia",
-        "headline": "TULIVUKA UMBALI.",
+        "headline": "Tulivuka umbali.",
         "text": "Lugha tofauti. Utamaduni tofauti. Tumaini lile lile."
       },
       {
         "country": "Kenya",
-        "headline": "NA HADITHI INAENDELEA.",
+        "headline": "Na hadithi inaendelea.",
         "text": "Dhamira moja. Mataifa mengi. Maisha yasiyohesabika."
       }
     ],
-    "finalHeadline": "HII NI ZAIDI YA SAFARI.",
-    "finalText": "HII NI DHAMIRA."
+    "finalHeadline": "Hii ni zaidi ya safari.",
+    "finalText": "Hii ni dhamira."
   }
 }

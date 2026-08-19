@@ -370,30 +370,30 @@
     "cta": "Beri untuk Misi"
   },
   "storyStrip": {
-    "title": "SATU MISI. BANYAK BANGSA.",
+    "title": "Satu misi. Banyak bangsa.",
     "slides": [
       {
         "country": "Ghana",
-        "headline": "SEMUA BERMULA DARI SEBUAH “YA”.",
+        "headline": "Semua bermula dari sebuah “ya”.",
         "text": "Beban menjadi panggilan. Panggilan menjadi misi."
       },
       {
         "country": "Liberia",
-        "headline": "LALU KAMI MELANGKAH LEBIH JAUH.",
+        "headline": "Lalu kami melangkah lebih jauh.",
         "text": "Karena Injil tidak pernah dimaksudkan untuk berhenti di perbatasan."
       },
       {
         "country": "Indonesia",
-        "headline": "KAMI MENEMBUS JARAK.",
+        "headline": "Kami menembus jarak.",
         "text": "Bahasa berbeda. Budaya berbeda. Harapan yang sama."
       },
       {
         "country": "Kenya",
-        "headline": "DAN KISAH INI BERLANJUT.",
+        "headline": "Dan kisah ini berlanjut.",
         "text": "Satu misi. Banyak bangsa. Tak terhitung jiwa."
       }
     ],
-    "finalHeadline": "INI LEBIH DARI SEKADAR PERJALANAN.",
-    "finalText": "INI ADALAH MISI."
+    "finalHeadline": "Ini lebih dari sekadar perjalanan.",
+    "finalText": "Ini adalah misi."
   }
 }
