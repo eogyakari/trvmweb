@@ -161,24 +161,47 @@ export default async function HomePage({
          <Slideshow slides={slides} />
          </div>
       {/* Programs */}
-      <section style={{ padding: "80px 24px", background: "#0D0D1A" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h2 style={{ fontSize: 36, fontWeight: 800, textAlign: "center", marginBottom: 8, color: "#fff" }}>{h.ourPrograms}</h2>
-          <p style={{ textAlign: "center", color: "#a0a0b0", marginBottom: 48 }}>{h.programsSubtitle}</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 24 }}>
+      <section style={{ padding: 'clamp(72px, 10vw, 120px) 24px', background: '#0D0D1A' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 'clamp(48px, 7vw, 80px)' }}>
+            <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, marginBottom: 14, color: '#fff', fontFamily: 'Georgia, serif' }}>
+              {h.ourPrograms}
+            </h2>
+            <p style={{ color: '#a0a0b0', fontSize: 'clamp(15px, 2vw, 18px)', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+              {h.programsSubtitle}
+            </p>
+          </div>
+ 
+          <div className="ed-programs" style={{ display: 'grid', gap: 'clamp(32px, 5vw, 64px)' }}>
             {h.programs.map((prog, i) => (
-              <Link key={i} href={L(progMeta[i].href)} style={{
-                background: "linear-gradient(135deg, #1A0A2E, #16213E)",
-                border: "1px solid rgba(123, 47, 190, 0.3)",
-                borderRadius: 16, padding: 32, display: "block", textDecoration: "none",
+              <Link key={i} href={L(progMeta[i].href)} className="ed-program" style={{
+                display: 'block', textDecoration: 'none',
+                borderTop: '2px solid rgba(245,166,35,0.4)', paddingTop: 28,
               }}>
-                <div style={{ fontSize: 36, marginBottom: 16 }}>{progMeta[i].icon}</div>
-                <h3 style={{ fontSize: 20, fontWeight: 700, color: "#F5A623", marginBottom: 12 }}>{prog.title}</h3>
-                <p style={{ color: "#a0a0b0", fontSize: 14, lineHeight: 1.8 }}>{prog.desc}</p>
+                <div style={{ fontSize: 40, marginBottom: 20 }}>{progMeta[i].icon}</div>
+                <h3 style={{ fontSize: 'clamp(20px, 2.6vw, 26px)', fontWeight: 700, color: '#fff', marginBottom: 14, fontFamily: 'Georgia, serif' }}>
+                  {prog.title}
+                </h3>
+                <p style={{ color: '#a0a0b0', fontSize: 15, lineHeight: 1.9, marginBottom: 20 }}>
+                  {prog.desc}
+                </p>
+                <span className="ed-program-more" style={{
+                  color: '#F5A623', fontSize: 13, fontWeight: 800, letterSpacing: '0.08em',
+                  textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center', gap: 8,
+                }}>
+                  Learn More <span className="ed-program-arrow" style={{ transition: 'transform 0.2s' }}>→</span>
+                </span>
               </Link>
             ))}
           </div>
         </div>
+        <style>{`
+          .ed-programs { grid-template-columns: repeat(3, 1fr); }
+          @media (max-width: 800px) { .ed-programs { grid-template-columns: 1fr; } }
+          .ed-program:hover .ed-program-arrow { transform: translateX(5px); }
+          .ed-program { transition: border-color 0.2s; }
+          .ed-program:hover { border-top-color: #F5A623; }
+        `}</style>
       </section>
 
        {/* Quote of the Day */}
@@ -220,32 +243,33 @@ export default async function HomePage({
 
       {/* Latest Devotions */}
       {devotions.length > 0 && (
-        <section style={{ padding: "80px 24px", background: "#1A0A2E" }}>
-          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48, flexWrap: "wrap", gap: 16 }}>
+        <section style={{ padding: 'clamp(72px, 10vw, 120px) 24px', background: '#1A0A2E' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 'clamp(40px, 6vw, 64px)', flexWrap: 'wrap', gap: 16 }}>
               <div>
-                <h2 style={{ fontSize: 36, fontWeight: 800, color: "#fff" }}>{h.latestDevotions}</h2>
-                <p style={{ color: "#a0a0b0", marginTop: 8 }}>{h.devotionsSubtitle}</p>
+                <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, color: '#fff', fontFamily: 'Georgia, serif' }}>{h.latestDevotions}</h2>
+                <p style={{ color: '#a0a0b0', marginTop: 10, fontSize: 'clamp(15px, 2vw, 18px)' }}>{h.devotionsSubtitle}</p>
               </div>
-              <Link href={L("/devotions")} style={{ color: "#F5A623", fontSize: 14, fontWeight: 600 }}>{dict.common.viewAll} →</Link>
+              <Link href={L('/devotions')} style={{ color: '#F5A623', fontSize: 14, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', borderBottom: '2px solid #F5A623', paddingBottom: 4 }}>{dict.common.viewAll} →</Link>
             </div>
-            <div className="home-devotions-grid" style={{ display: "grid", gap: 24 }}>
+            <div className="home-devotions-grid" style={{ display: 'grid', gap: 'clamp(32px, 4vw, 48px)' }}>
               {devotions.map(d => {
                 const dt = pick(d, lang)
                 return (
-                  <Link key={d.id} href={L(`/devotions/${d.slug}`)} style={{
-                    background: "linear-gradient(135deg, #0D0D1A, #1A0A2E)",
-                    border: "1px solid rgba(123, 47, 190, 0.3)",
-                    borderRadius: 16, padding: 24, display: "block", textDecoration: "none",
+                  <Link key={d.id} href={L(`/devotions/${d.slug}`)} className="ed-devotion" style={{
+                    display: 'block', textDecoration: 'none',
+                    borderTop: '2px solid rgba(245,166,35,0.35)', paddingTop: 22,
                   }}>
-                    <div style={{ fontSize: 11, color: "#9B59B6", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
-                      {new Date(d.date).toLocaleDateString(dl, { day: "numeric", month: "long", year: "numeric" })}
+                    <div style={{ fontSize: 11, color: '#9B59B6', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 }}>
+                      {new Date(d.date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
                     </div>
-                    <h3 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 12 }}>{dt.title}</h3>
-                    <p style={{ color: "#a0a0b0", fontSize: 13, lineHeight: 1.8 }}>
+                    <h3 style={{ fontSize: 'clamp(18px, 2.2vw, 22px)', fontWeight: 700, color: '#fff', marginBottom: 14, lineHeight: 1.3, fontFamily: 'Georgia, serif' }}>{dt.title}</h3>
+                    <p style={{ color: '#a0a0b0', fontSize: 14, lineHeight: 1.85, marginBottom: 18 }}>
                       {stripHtml(dt.content).substring(0, 100)}...
                     </p>
-                    <div style={{ marginTop: 16, color: "#F5A623", fontSize: 13, fontWeight: 600 }}>{dict.common.readMore} →</div>
+                    <span className="ed-dev-more" style={{ color: '#F5A623', fontSize: 13, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+                      {dict.common.readMore} <span className="ed-dev-arrow" style={{ transition: 'transform 0.2s' }}>→</span>
+                    </span>
                   </Link>
                 )
               })}
@@ -255,57 +279,57 @@ export default async function HomePage({
             .home-devotions-grid { grid-template-columns: repeat(4, 1fr); }
             @media (max-width: 900px) { .home-devotions-grid { grid-template-columns: repeat(2, 1fr); } }
             @media (max-width: 560px) { .home-devotions-grid { grid-template-columns: 1fr; } }
+            .ed-devotion { transition: border-color 0.2s; }
+            .ed-devotion:hover { border-top-color: #F5A623; }
+            .ed-devotion:hover .ed-dev-arrow { transform: translateX(5px); }
           `}</style>
         </section>
       )}
 
       {/* Latest News */}
-      {newsRows && newsRows.length > 0 && (
-        <section style={{ padding: '80px 24px', background: '#0D0D1A' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
-              <div>
-                <h2 style={{ fontSize: 36, fontWeight: 800, color: '#fff' }}>{dict.newsPage.latestNews}</h2>
-                <p style={{ color: '#a0a0b0', marginTop: 8 }}>{dict.newsPage.subtitle}</p>
-              </div>
-              <Link href={L('/news')} style={{ color: '#F5A623', fontSize: 14, fontWeight: 600 }}>{dict.newsPage.viewAll} →</Link>
+      <section style={{ padding: 'clamp(72px, 10vw, 120px) 24px', background: '#0D0D1A' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 'clamp(40px, 6vw, 64px)', flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, color: '#fff', fontFamily: 'Georgia, serif' }}>{dict.newsPage.latestNews}</h2>
+              <p style={{ color: '#a0a0b0', marginTop: 10, fontSize: 'clamp(15px, 2vw, 18px)' }}>{dict.newsPage.subtitle}</p>
             </div>
-            <div className="home-news-grid" style={{ display: 'grid', gap: 24 }}>
-              {newsRows.map((row:any) => {
-                const c = pickNews(row)
-                return (
-                  <Link key={row.id} href={L(`/news/${row.slug}`)} style={{
-                    background: 'linear-gradient(135deg, #1A0A2E, #16213E)',
-                    border: '1px solid rgba(123,47,190,0.3)', borderRadius: 16,
-                    overflow: 'hidden', textDecoration: 'none', display: 'block',
-                  }}>
-                    {row.cover_image && (
-                      <div style={{ height: 170, overflow: 'hidden' }}>
-                        <img src={row.cover_image} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      </div>
-                    )}
-                    <div style={{ padding: 22 }}>
-                      <div style={{ fontSize: 11, color: '#9B59B6', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 8 }}>
-                        {new Date(row.published_date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
-                      </div>
-                      <h3 style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginBottom: 10, lineHeight: 1.35 }}>{c.title}</h3>
-                      <p style={{ color: '#a0a0b0', fontSize: 13, lineHeight: 1.7 }}>
-                        {(c.excerpt || stripHtml(row.body)).substring(0, 100)}...
-                      </p>
-                      <div style={{ marginTop: 14, color: '#F5A623', fontSize: 13, fontWeight: 600 }}>{dict.newsPage.readMore} →</div>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
+            <Link href={L('/news')} style={{ color: '#F5A623', fontSize: 14, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', borderBottom: '2px solid #F5A623', paddingBottom: 4 }}>{dict.newsPage.viewAll} →</Link>
           </div>
-          <style>{`
-            .home-news-grid { grid-template-columns: repeat(3, 1fr); }
-            @media (max-width: 900px) { .home-news-grid { grid-template-columns: repeat(2, 1fr); } }
-            @media (max-width: 560px) { .home-news-grid { grid-template-columns: 1fr; } }
-          `}</style>
-        </section>
-      )}
+          <div className="home-news-grid" style={{ display: 'grid', gap: 'clamp(32px, 4vw, 48px)' }}>
+            {(newsRows || []).map((row:any) => {
+              const c = pickNews(row)
+              const isPress = row.category === 'press'
+              return (
+                <Link key={row.id} href={L(`/news/${row.slug}`)} className="ed-news" style={{ display: 'block', textDecoration: 'none' }}>
+                  <div style={{ aspectRatio: '16/10', borderRadius: 10, overflow: 'hidden', marginBottom: 18, background: '#1A0A2E' }}>
+                    {row.cover_image
+                      ? <img src={row.cover_image} alt={c.title} className="ed-news-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s' }} />
+                      : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1A0A2E, #2A1145)' }} />}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                    {isPress && <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', color: '#1A0A2E', background: '#F5A623', padding: '2px 8px', borderRadius: 4 }}>{dict.newsPage.pressBadge}</span>}
+                    <span style={{ fontSize: 11, color: '#9B59B6', letterSpacing: 2, textTransform: 'uppercase' }}>
+                      {new Date(row.published_date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </span>
+                  </div>
+                  <h3 style={{ fontSize: 'clamp(18px, 2.2vw, 22px)', fontWeight: 700, color: '#fff', marginBottom: 12, lineHeight: 1.3, fontFamily: 'Georgia, serif' }}>{c.title}</h3>
+                  <p style={{ color: '#a0a0b0', fontSize: 14, lineHeight: 1.85 }}>
+                    {(c.excerpt || stripHtml(row.body)).substring(0, 100)}...
+                  </p>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+        <style>{`
+          .home-news-grid { grid-template-columns: repeat(3, 1fr); }
+          @media (max-width: 900px) { .home-news-grid { grid-template-columns: repeat(2, 1fr); } }
+          @media (max-width: 560px) { .home-news-grid { grid-template-columns: 1fr; } }
+          .ed-news:hover .ed-news-img { transform: scale(1.05); }
+        `}</style>
+      </section>
+      )
 
       {/* Get Involved */}
 <section style={{
