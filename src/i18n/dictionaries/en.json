@@ -12,7 +12,10 @@
     "news": "News",
     "press": "Press",
     "membership": "Membership",
-    "discipleship": "Discipleship"
+    "discipleship": "Discipleship",
+    "missions": "Missions",
+    "media": "Media",
+    "give": "Give"
   },
   "programs": {
     "missions": "Missions",
@@ -353,5 +356,11 @@
     "partners": "Partner Ministries",
     "moreInfo": "More Information",
     "cta": "Get in Touch to Join"
+  },
+  "cinematicHero": {
+    "eyebrow": "This Is What We Do",
+    "line1": "Taking the Gospel beyond borders.",
+    "line2": "Serving people. Transforming communities.",
+    "cta": "Explore Our Mission"
   }
 }

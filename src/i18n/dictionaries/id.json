@@ -12,7 +12,10 @@
     "news": "Berita",
     "press": "Pers",
     "membership": "Keanggotaan",
-    "discipleship": "Pemuridan"
+    "discipleship": "Pemuridan",
+    "missions": "Misi",
+    "media": "Media",
+    "give": "Beri"
   },
   "programs": {
     "missions": "Misi",
@@ -353,5 +356,11 @@
     "partners": "Mitra Pelayanan",
     "moreInfo": "Informasi Lebih Lanjut",
     "cta": "Hubungi Kami untuk Bergabung"
+  },
+  "cinematicHero": {
+    "eyebrow": "Inilah yang Kami Lakukan",
+    "line1": "Membawa Injil melampaui batas.",
+    "line2": "Melayani sesama. Mengubah komunitas.",
+    "cta": "Jelajahi Misi Kami"
   }
 }

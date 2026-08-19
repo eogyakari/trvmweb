@@ -12,7 +12,10 @@
     "news": "Habari",
     "press": "Taarifa",
     "membership": "Uanachama",
-    "discipleship": "Ufuasi"
+    "discipleship": "Ufuasi",
+    "missions": "Misheni",
+    "media": "Media",
+    "give": "Toa"
   },
   "programs": {
     "missions": "Misheni",
@@ -353,5 +356,11 @@
     "partners": "Washirika wa Huduma",
     "moreInfo": "Maelezo Zaidi",
     "cta": "Wasiliana Nasi Kujiunga"
+  },
+  "cinematicHero": {
+    "eyebrow": "Hiki Ndicho Tunachofanya",
+    "line1": "Kupeleka Injili ng'ambo ya mipaka.",
+    "line2": "Kuhudumia watu. Kubadilisha jamii.",
+    "cta": "Chunguza Misheni Yetu"
   }
 }
