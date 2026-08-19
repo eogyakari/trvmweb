@@ -2,55 +2,40 @@ import Link from 'next/link'
 import type { Locale } from '@/i18n/config'
 import { getDict, localize } from '@/i18n/client'
 
-// Goes at: src/app/components/MissionContinues.tsx
-// Text upper-left, family photo fills lower-right, divided by a gentle
-// gold S-wave (thin gold line traces the divide). Replaces old CTA.
-// Photo: /mission-continues/mission-family.jpg
-//
-// The wave path (in a 1000x600 viewBox) sweeps from the left edge (~38% down)
-// gently down to the right edge (~62% down). The photo is clipped BELOW that
-// wave; a thin gold stroke is drawn ON the wave.
 export default function MissionContinues({ lang }: { lang: Locale }) {
   const dict = getDict(lang)
   const m = dict.missionContinues
   const L = (href: string) => localize(href, lang)
 
-  // S-wave across a 1000x600 box: start left at y=230, dip and rise, end right at y=370
-  const wave = 'M0,230 C 250,140 420,300 560,300 S 830,420 1000,360'
-  // Closed path for the photo region (below the wave): wave line, then down the right, across the bottom, up the left
-  const photoClip = 'M0,230 C 250,140 420,300 560,300 S 830,420 1000,360 L1000,600 L0,600 Z'
-
   return (
     <section style={{
       position: 'relative', overflow: 'hidden',
       background: 'linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 100%)',
-      minHeight: 'clamp(560px, 66vw, 760px)',
+      minHeight: 'clamp(520px, 62vw, 680px)',
     }}>
-      {/* SVG defines the photo clip + draws the gold wave line. Fills the whole section. */}
-      <svg viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1 }}>
-        <defs>
-          <clipPath id="mcWave" clipPathUnits="userSpaceOnUse">
-            <path d={photoClip} />
-          </clipPath>
-          <pattern id="mcImg" patternUnits="userSpaceOnUse" width="1000" height="600">
-            <image href="/mission-continues/mission-family.jpg" x="0" y="0" width="1000" height="600"
-              preserveAspectRatio="xMidYMin slice" />
-          </pattern>
-        </defs>
-        {/* Photo, clipped to below the wave */}
-        <rect x="0" y="0" width="1000" height="600" fill="url(#mcImg)" clipPath="url(#mcWave)" />
-        {/* subtle dark scrim over the photo bottom-left for depth (optional, light) */}
-        <rect x="0" y="0" width="1000" height="600" clipPath="url(#mcWave)" fill="rgba(13,13,26,0.12)" />
-        {/* The thin gold wavy line ON the divide */}
-        <path d={wave} fill="none" stroke="#F5A623" strokeWidth="3" vectorEffect="non-scaling-stroke" />
-      </svg>
+      {/* Photo — upper-right, clipped along a curved wave on its lower-left edge */}
+      <div className="mc-photo" style={{
+        position: 'absolute', top: 0, right: 0, height: '100%', width: '68%',
+        backgroundImage: 'url(/mission-continues/mission-family.jpg)',
+        backgroundSize: 'cover', backgroundPosition: 'center top',
+        WebkitClipPath: 'path("M 60,0 L 2000,0 L 2000,2000 L 0,2000 C 20,1500 120,700 60,0 Z")',
+        clipPath: 'path("M 60,0 L 2000,0 L 2000,2000 L 0,2000 C 20,1500 120,700 60,0 Z")',
+      }} />
+      {/* Subtle dark scrim on the photo's left edge so the curve blends into the text side */}
+      <div className="mc-photo-scrim" style={{
+        position: 'absolute', top: 0, right: 0, height: '100%', width: '68%',
+        background: 'linear-gradient(90deg, rgba(13,13,26,0.85) 0%, rgba(13,13,26,0.15) 22%, transparent 45%)',
+        WebkitClipPath: 'path("M 60,0 L 2000,0 L 2000,2000 L 0,2000 C 20,1500 120,700 60,0 Z")',
+        clipPath: 'path("M 60,0 L 2000,0 L 2000,2000 L 0,2000 C 20,1500 120,700 60,0 Z")',
+        pointerEvents: 'none',
+      }} />
 
-      {/* Text — upper-left, above the wave */}
-      <div style={{
+      {/* Text — lower-left */}
+      <div className="mc-text" style={{
         position: 'relative', zIndex: 2,
-        maxWidth: 1280, margin: '0 auto',
-        padding: 'clamp(56px, 8vw, 96px) clamp(24px, 5vw, 64px) 0',
+        maxWidth: 1280, margin: '0 auto', minHeight: 'clamp(520px, 62vw, 680px)',
+        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+        padding: '0 clamp(24px, 5vw, 64px) clamp(56px, 8vw, 96px)',
       }}>
         <div style={{ maxWidth: 440 }}>
           <h2 style={{
@@ -61,7 +46,7 @@ export default function MissionContinues({ lang }: { lang: Locale }) {
           </h2>
           <p style={{
             color: 'rgba(255,255,255,0.8)', fontFamily: 'var(--font-playfair), Georgia, serif',
-            fontStyle: 'italic', fontSize: 'clamp(20px, 3vw, 30px)', lineHeight: 1.3, margin: 0, marginBottom: 32,
+            fontStyle: 'italic', fontSize: 'clamp(20px, 3vw, 30px)', lineHeight: 1.3, margin: 0, marginBottom: 34,
           }}>
             {m.subtitle}
           </p>
@@ -76,6 +61,21 @@ export default function MissionContinues({ lang }: { lang: Locale }) {
           </Link>
         </div>
       </div>
+
+      <style>{`
+        /* On phones: stack — photo on top (no clip), text below on the dark bg */
+        @media (max-width: 760px) {
+          .mc-photo, .mc-photo-scrim {
+            position: relative !important; width: 100% !important; height: 300px !important;
+            -webkit-clip-path: none !important; clip-path: none !important;
+          }
+          .mc-photo-scrim { display: none !important; }
+          .mc-text {
+            min-height: 0 !important; justify-content: flex-start !important;
+            padding-top: 40px !important; padding-bottom: 56px !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }
