@@ -2,6 +2,14 @@ import Link from 'next/link'
 import type { Locale } from '@/i18n/config'
 import { getDict, localize } from '@/i18n/client'
 
+// Goes at: src/app/components/MissionContinues.tsx
+// Text upper-left, family photo fills lower-right, divided by a gentle
+// gold S-wave (thin gold line traces the divide). Replaces old CTA.
+// Photo: /mission-continues/mission-family.jpg
+//
+// The wave path (in a 1000x600 viewBox) sweeps from the left edge (~38% down)
+// gently down to the right edge (~62% down). The photo is clipped BELOW that
+// wave; a thin gold stroke is drawn ON the wave.
 export default function MissionContinues({ lang }: { lang: Locale }) {
   const dict = getDict(lang)
   const m = dict.missionContinues
