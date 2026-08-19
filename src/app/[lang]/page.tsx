@@ -70,10 +70,10 @@ export default async function HomePage({
   ])
 
    const { data: newsRows } = await supabase
-    .from('news').select('id, title, slug, body, excerpt, cover_image, published_date')
-    .eq('is_published', true)
-    .order('published_date', { ascending: false })
-    .limit(3)
+  .from('news').select('id, title, slug, body, excerpt, cover_image, published_date, category')
+  .eq('is_published', true)
+  .order('published_date', { ascending: false })
+  .limit(3)
  
   let newsTr: any[] = []
   if (lang !== 'en' && newsRows && newsRows.length) {
@@ -287,49 +287,69 @@ export default async function HomePage({
       )}
 
       {/* Latest News */}
-      <section style={{ padding: 'clamp(72px, 10vw, 120px) 24px', background: '#0D0D1A' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 'clamp(40px, 6vw, 64px)', flexWrap: 'wrap', gap: 16 }}>
-            <div>
-              <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, color: '#fff', fontFamily: 'Georgia, serif' }}>{dict.newsPage.latestNews}</h2>
-              <p style={{ color: '#a0a0b0', marginTop: 10, fontSize: 'clamp(15px, 2vw, 18px)' }}>{dict.newsPage.subtitle}</p>
+      {newsRows && newsRows.length > 0 && (
+        <section style={{ padding: 'clamp(72px, 10vw, 120px) 24px', background: '#0D0D1A' }}>
+          <div style={{ maxWidth: 860, margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 'clamp(36px, 5vw, 56px)', flexWrap: 'wrap', gap: 16 }}>
+              <div>
+                <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 48px)', fontWeight: 800, color: '#fff', fontFamily: 'Georgia, serif' }}>{dict.newsPage.latestNews}</h2>
+                <p style={{ color: '#a0a0b0', marginTop: 10, fontSize: 'clamp(15px, 2vw, 18px)' }}>{dict.newsPage.subtitle}</p>
+              </div>
+              <Link href={L('/news')} style={{ color: '#F5A623', fontSize: 14, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', borderBottom: '2px solid #F5A623', paddingBottom: 4 }}>{dict.newsPage.viewAll} →</Link>
             </div>
-            <Link href={L('/news')} style={{ color: '#F5A623', fontSize: 14, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', borderBottom: '2px solid #F5A623', paddingBottom: 4 }}>{dict.newsPage.viewAll} →</Link>
+ 
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {newsRows.map((row:any, i:number) => {
+                const c = pickNews(row)
+                const isPress = row.category === 'press'
+                return (
+                  <Link key={row.id} href={L(`/news/${row.slug}`)} className="ed-newsrow" style={{
+                    display: 'flex', alignItems: 'center', gap: 24,
+                    padding: '24px 0', textDecoration: 'none',
+                    borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                  }}>
+                    {/* Round thumbnail */}
+                    <div style={{
+                      width: 88, height: 88, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
+                      background: 'linear-gradient(135deg, #1A0A2E, #2A1145)',
+                      border: '2px solid rgba(245,166,35,0.4)',
+                    }}>
+                      {row.cover_image && (
+                        <img src={row.cover_image} alt={c.title} className="ed-newsrow-img"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s' }} />
+                      )}
+                    </div>
+ 
+                    {/* Text */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                        {isPress && <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', color: '#1A0A2E', background: '#F5A623', padding: '2px 7px', borderRadius: 4 }}>{dict.newsPage.pressBadge}</span>}
+                        <span style={{ fontSize: 11, color: '#9B59B6', letterSpacing: 2, textTransform: 'uppercase' }}>
+                          {new Date(row.published_date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
+                        </span>
+                      </div>
+                      <h3 style={{ fontSize: 'clamp(17px, 2.2vw, 21px)', fontWeight: 700, color: '#fff', marginBottom: 6, lineHeight: 1.3, fontFamily: 'Georgia, serif' }}>{c.title}</h3>
+                      <p className="ed-newsrow-excerpt" style={{ color: '#a0a0b0', fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                        {(c.excerpt || stripHtml(row.body)).substring(0, 110)}...
+                      </p>
+                    </div>
+ 
+                    <span className="ed-newsrow-arrow" style={{ color: '#F5A623', fontSize: 22, flexShrink: 0, transition: 'transform 0.2s' }}>→</span>
+                  </Link>
+                )
+              })}
+            </div>
           </div>
-          <div className="home-news-grid" style={{ display: 'grid', gap: 'clamp(32px, 4vw, 48px)' }}>
-            {(newsRows || []).map((row:any) => {
-              const c = pickNews(row)
-              const isPress = row.category === 'press'
-              return (
-                <Link key={row.id} href={L(`/news/${row.slug}`)} className="ed-news" style={{ display: 'block', textDecoration: 'none' }}>
-                  <div style={{ aspectRatio: '16/10', borderRadius: 10, overflow: 'hidden', marginBottom: 18, background: '#1A0A2E' }}>
-                    {row.cover_image
-                      ? <img src={row.cover_image} alt={c.title} className="ed-news-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s' }} />
-                      : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1A0A2E, #2A1145)' }} />}
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                    {isPress && <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', color: '#1A0A2E', background: '#F5A623', padding: '2px 8px', borderRadius: 4 }}>{dict.newsPage.pressBadge}</span>}
-                    <span style={{ fontSize: 11, color: '#9B59B6', letterSpacing: 2, textTransform: 'uppercase' }}>
-                      {new Date(row.published_date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
-                    </span>
-                  </div>
-                  <h3 style={{ fontSize: 'clamp(18px, 2.2vw, 22px)', fontWeight: 700, color: '#fff', marginBottom: 12, lineHeight: 1.3, fontFamily: 'Georgia, serif' }}>{c.title}</h3>
-                  <p style={{ color: '#a0a0b0', fontSize: 14, lineHeight: 1.85 }}>
-                    {(c.excerpt || stripHtml(row.body)).substring(0, 100)}...
-                  </p>
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-        <style>{`
-          .home-news-grid { grid-template-columns: repeat(3, 1fr); }
-          @media (max-width: 900px) { .home-news-grid { grid-template-columns: repeat(2, 1fr); } }
-          @media (max-width: 560px) { .home-news-grid { grid-template-columns: 1fr; } }
-          .ed-news:hover .ed-news-img { transform: scale(1.05); }
-        `}</style>
-      </section>
-      )
+          <style>{`
+            .ed-newsrow:hover .ed-newsrow-img { transform: scale(1.08); }
+            .ed-newsrow:hover .ed-newsrow-arrow { transform: translateX(5px); }
+            @media (max-width: 560px) {
+              .ed-newsrow { gap: 16px !important; }
+              .ed-newsrow-excerpt { display: none !important; }
+            }
+          `}</style>
+        </section>
+      )}
 
       {/* Get Involved */}
 <section style={{
