@@ -6,7 +6,8 @@ import SubscribeForm from "@/app/components/SubscribeForm"
 import { getDictionary } from "@/i18n/getDictionary"
 import { isLocale, type Locale } from "@/i18n/config"
 import { getQuoteOfDay } from "@/lib/getQuoteOfDay"
-import HomeHero from '@/app/components/HomeHero'
+import CinematicHero from "../components/CinematicHero"
+
 
 
 export const revalidate = 60
@@ -154,7 +155,7 @@ export default async function HomePage({
           <span className="trvm-strip-shimmer" />
         </Link>
       )}
-      <HomeHero lang={lang} />
+      <CinematicHero lang={lang} />
 
       {/* Photo Slideshow */}
        <div style={{ background: '#2A1145', paddingBottom: 40 }}>
