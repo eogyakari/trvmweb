@@ -4,7 +4,6 @@ import PublicationsClient from './PublicationsClient'
 import { getDictionary } from '@/i18n/getDictionary'
 import { isLocale, type Locale } from '@/i18n/config'
 
-// Goes at: src/app/[lang]/publications/page.tsx
 export const revalidate = 60
 
 async function getData() {
@@ -35,18 +34,18 @@ export default async function PublicationsPage({
   return (
     <>
       {/* Hero */}
-      <div style={{
-        background: 'linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 100%)',
-        padding: '72px 24px', textAlign: 'center'
+       <div style={{
+        background: 'linear-gradient(135deg, #1A0A2E 0%, #2A1145 100%)',
+        padding: 'calc(72px + clamp(48px, 8vw, 90px)) 24px clamp(48px, 8vw, 80px)', textAlign: 'center'
       }}>
         <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>
           ✝ {p.eyebrow}
         </p>
-        <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 900, color: 'white', marginBottom: 16, lineHeight: 1.2 }}>
+         <h1 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(34px, 6vw, 60px)', fontWeight: 800, color: 'white', marginBottom: 18, lineHeight: 1.1 }}>
           {dict.nav.publications}
         </h1>
         <div style={{ width: 50, height: 3, background: '#F5A623', margin: '0 auto 20px' }} />
-        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.05rem', maxWidth: 580, margin: '0 auto', fontStyle: 'italic', lineHeight: 1.8 }}>
+        <p style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(15px, 2vw, 18px)', maxWidth: 580, margin: '0 auto', fontStyle: 'italic', lineHeight: 1.6 }}>
           {p.subtitle}
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 32, flexWrap: 'wrap' }}>
