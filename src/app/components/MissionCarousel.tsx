@@ -33,15 +33,15 @@ export default function MissionCarousel({ country, count, label }: { country: st
         onScroll={update}
         className="mc-scroller"
         style={{
-          display: 'flex', gap: 16, overflowX: 'auto', scrollSnapType: 'x mandatory',
+          display: 'flex', gap: 12, overflowX: 'auto', scrollSnapType: 'x mandatory',
           paddingBottom: 12, scrollbarWidth: 'thin',
         }}
       >
         {photos.map((src, i) => (
           <div key={src} style={{
-            flex: '0 0 auto', width: 'clamp(260px, 42vw, 440px)', aspectRatio: '4/3',
-            scrollSnapAlign: 'start', borderRadius: 12, overflow: 'hidden',
-            background: 'linear-gradient(135deg, #1A0A2E, #2A1145)', boxShadow: '0 12px 30px rgba(0,0,0,0.3)',
+            flex: '0 0 auto', width: 'clamp(120px, 20vw, 170px)', aspectRatio: '1/1',
+            scrollSnapAlign: 'start', borderRadius: 10, overflow: 'hidden',
+            background: 'linear-gradient(135deg, #1A0A2E, #2A1145)', boxShadow: '0 6px 16px rgba(0,0,0,0.25)',
           }}>
             <img src={src} alt={`${country} ${i + 1}`} loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
@@ -66,10 +66,10 @@ export default function MissionCarousel({ country, count, label }: { country: st
 
 function arrow(side: 'left' | 'right', enabled: boolean): React.CSSProperties {
   return {
-    position: 'absolute', top: 'calc(50% - 12px)', transform: 'translateY(-50%)',
-    [side]: -6, zIndex: 3, width: 44, height: 44, borderRadius: '50%', border: 'none',
+    position: 'absolute', top: 'calc(50% - 6px)', transform: 'translateY(-50%)',
+    [side]: -4, zIndex: 3, width: 34, height: 34, borderRadius: '50%', border: 'none',
     cursor: enabled ? 'pointer' : 'default', opacity: enabled ? 1 : 0.25,
-    background: 'rgba(13,13,26,0.75)', color: '#F5A623', fontSize: 26, lineHeight: 1,
+    background: 'rgba(13,13,26,0.8)', color: '#F5A623', fontSize: 20, lineHeight: 1,
     display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)',
     boxShadow: '0 4px 14px rgba(0,0,0,0.4)',
   }
