@@ -37,7 +37,9 @@ export default async function MissionsPage({ params }: { params: Promise<{ lang:
       <section style={{ padding: '0 24px clamp(48px, 7vw, 80px)', background: '#0D0D1A' }}>
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 800, color: 'white', marginBottom: 22, lineHeight: 1.15 }}>{m.introTitle}</h2>
-          <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(15px, 2vw, 18px)', lineHeight: 1.9 }}>{m.intro}</p>
+          {m.intro.split('\n\n').map((para: string, i: number) => (
+            <p key={i} style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(15px, 2vw, 18px)', lineHeight: 1.9, marginBottom: i < m.intro.split('\n\n').length - 1 ? 20 : 0 }}>{para}</p>
+          ))}
         </div>
       </section>
 
@@ -51,7 +53,9 @@ export default async function MissionsPage({ params }: { params: Promise<{ lang:
               <div style={{ padding: '0 24px', marginBottom: 'clamp(32px, 4vw, 48px)', maxWidth: 780 }}>
                 <p style={{ color: '#F5A623', fontSize: 'clamp(12px, 1.6vw, 15px)', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>{c.name}</p>
                 <h2 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 800, color: 'white', lineHeight: 1.12, marginBottom: 20 }}>{c.title}</h2>
-                <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(15px, 2vw, 18px)', lineHeight: 1.9 }}>{c.body}</p>
+                {c.body.split('\n\n').map((para: string, i: number) => (
+                  <p key={i} style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(15px, 2vw, 18px)', lineHeight: 1.9, marginBottom: i < c.body.split('\n\n').length - 1 ? 16 : 0 }}>{para}</p>
+                ))}
               </div>
               <div style={{ padding: '0 24px' }}>
                 <MissionCarousel country={key} count={COUNTS[key]} label={m.photosLabel} />

@@ -1,6 +1,9 @@
 'use client'
 import { useRef, useState, useEffect } from 'react'
 
+// Goes at: src/app/components/MissionCarousel.tsx
+// Swipeable horizontal carousel with scroll-snap + arrow buttons.
+// Photos: /missions/<country>/<country>-N.jpg
 export default function MissionCarousel({ country, count, label }: { country: string; count: number; label?: string }) {
   const scroller = useRef<HTMLDivElement>(null)
   const [canLeft, setCanLeft] = useState(false)
