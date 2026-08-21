@@ -406,5 +406,36 @@
     "title": "Dhamira Inaendelea.",
     "subtitle": "Njoo pamoja nasi.",
     "cta": "Chunguza TRV Missions"
+  },
+  "missionsPage": {
+    "eyebrow": "Agizo Kuu",
+    "title": "Misheni Yetu",
+    "scriptureRef": "Marko 16:15-20",
+    "scripture": "[Badilisha na tafsiri yako ya Marko 16:15-20.] Akawaambia, \"Enendeni ulimwenguni kote, mkaihubiri Injili kwa kila kiumbe...\"",
+    "introTitle": "Kuitikia Wito kwa Mataifa",
+    "intro": "[Badilisha maandishi haya.] The Righteous Vine Missions ipo ili kupeleka Injili ng'ambo ya kila mpaka — kuhudumia watu, kubadilisha jamii, na kuwafanya mataifa yote wanafunzi. Kilichoanza kama \"ndiyo\" moja sasa ni dhamira inayofika mabara. Hii ndiyo hadithi yetu, taifa kwa taifa.",
+    "countries": {
+      "ghana": {
+        "name": "Ghana",
+        "title": "Kuitikia Wito",
+        "body": "[Badilisha maandishi haya na hadithi ya misheni ya Ghana.] Yalianza na ndiyo. Mzigo ukawa wito, na wito ukawa dhamira. Ghana, mahali safari ilipoanzia, maisha yaliguswa na Injili ikaota mizizi."
+      },
+      "liberia": {
+        "name": "Liberia",
+        "title": "Misheni Yetu ya Kwanza Ng'ambo ya Mpaka",
+        "body": "[Badilisha maandishi haya na hadithi ya misheni ya Liberia.] Kisha tukasonga mbele zaidi. Kwa sababu Injili haikukusudiwa kuishia mpakani, TRVM ilipeleka ujumbe Liberia — misheni yetu ya kwanza nje ya Ghana."
+      },
+      "indonesia": {
+        "name": "Indonesia",
+        "title": "Misheni Yetu ya Kwanza Ng'ambo ya Bara",
+        "body": "[Badilisha maandishi haya na hadithi ya misheni ya Indonesia.] Tulivuka umbali. Lugha tofauti, utamaduni tofauti, tumaini lile lile. Indonesia iliashiria misheni yetu ya kwanza kuvuka mabara."
+      },
+      "kenya": {
+        "name": "Kenya",
+        "title": "Kufikia Afrika Nzima",
+        "body": "[Badilisha maandishi haya na hadithi ya misheni ya Kenya.] Na hadithi inaendelea. Nchini Kenya, Injili ilifika shule, vijiji, na mikutano ya maelfu. Dhamira moja. Mataifa mengi. Maisha yasiyohesabika."
+      }
+    },
+    "photosLabel": "Kutoka uwandani"
   }
 }

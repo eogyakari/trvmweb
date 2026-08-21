@@ -406,5 +406,36 @@
     "title": "The Mission Continues.",
     "subtitle": "Come with us.",
     "cta": "Explore TRV Missions"
+  },
+  "missionsPage": {
+    "eyebrow": "The Great Commission",
+    "title": "Our Missions",
+    "scriptureRef": "Mark 16:15-20",
+    "scripture": "And he said to them, \"Go into all the world and proclaim the gospel to the whole creation. Whoever believes and is baptized will be saved, but whoever does not believe will be condemned. And these signs will accompany those who believe: in my name they will cast out demons; they will speak in new tongues; they will pick up serpents with their hands; and if they drink any deadly poison, it will not hurt them; they will lay their hands on the sick, and they will recover.\" So then the Lord Jesus, after he had spoken to them, was taken up into heaven and sat down at the right hand of God. And they went out and preached everywhere, while the Lord worked with them and confirmed the message by accompanying signs.",
+    "introTitle": "Answering the Call to the Nations",
+    "intro": "[Replace this text.] The Righteous Vine Missions exists to take the Gospel beyond every border — to serve people, transform communities, and make disciples of all nations. What began as a single yes has become a mission that now spans continents. Here is our story, nation by nation.",
+    "countries": {
+      "ghana": {
+        "name": "Ghana",
+        "title": "Answering the Call",
+        "body": "[Replace this text with the Ghana mission story.] It started with a yes. A burden became a calling, and a calling became a mission. In Ghana, where the journey began, lives were touched, the sick were healed, and the Gospel took root — laying the foundation for everything that would follow."
+      },
+      "liberia": {
+        "name": "Liberia",
+        "title": "Our First Cross-Border Mission",
+        "body": "[Replace this text with the Liberia mission story.] Then we went further. Because the Gospel was never meant to stop at a border, TRVM carried the message into Liberia — our first mission beyond Ghana. Churches were strengthened, souls were won, and a vision for the nations grew."
+      },
+      "indonesia": {
+        "name": "Indonesia",
+        "title": "Our First Cross-Continent Mission",
+        "body": "[Replace this text with the Indonesia mission story.] We crossed the distance. Different language, different culture, the same hope. Indonesia marked our first mission across continents — from packed halls to quiet bamboo homes, the Spirit was poured out and the harvest was great."
+      },
+      "kenya": {
+        "name": "Kenya",
+        "title": "Reaching the Rest of Africa",
+        "body": "[Replace this text with the Kenya mission story.] And the story continues. In Kenya, the Gospel reached schools, villages, and gatherings of thousands. One mission. Many nations. Countless lives — and the work is far from finished."
+      }
+    },
+    "photosLabel": "From the field"
   }
 }

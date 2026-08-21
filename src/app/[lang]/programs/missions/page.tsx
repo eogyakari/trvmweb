@@ -1,92 +1,65 @@
-import { supabase } from '@/lib/supabase'
-import Link from 'next/link'
 import { getDictionary } from '@/i18n/getDictionary'
 import { isLocale, type Locale } from '@/i18n/config'
+import MissionCarousel from '@/app/components/MissionCarousel'
 
-// Goes at: src/app/[lang]/programs/missions/page.tsx
-export const revalidate = 60
+export const revalidate = 300
 
-async function getSettings() {
-  const { data } = await supabase.from('site_settings').select('key, value')
-  const s: Record<string, string> = {}
-  for (const row of data || []) s[row.key] = row.value
-  return s
-}
+const COUNTS: Record<string, number> = { ghana: 11, liberia: 10, indonesia: 15, kenya: 14 }
+const ORDER = ['ghana', 'liberia', 'indonesia', 'kenya'] as const
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ lang: string }>
-}) {
+export default async function MissionsPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang: rawLang } = await params
   const lang: Locale = isLocale(rawLang) ? rawLang : 'en'
   const dict = await getDictionary(lang)
-  const pg = dict.programsPage
-  const names = pg.names as Record<string, string>
-
-  const s = await getSettings()
-  const sv = (key: string): string =>
-    lang === 'en' ? (s[key] || '') : (s[`${key}_${lang}`] || s[key] || '')
-
-  const key = 'missions'
-  const title = sv(`prog_${key}_title`) || names[key]
-  const subtitle = sv(`prog_${key}_subtitle`)
-  const content = sv(`prog_${key}_content`)
-  const photo = s[`prog_${key}_photo`] || ''
-
-  const others = [
-    { key: 'care', href: '/programs/care-philanthropy' },
-    { key: 'discipleship', href: '/programs/discipleship' },
-  ]
+  const m = dict.missionsPage
 
   return (
-    <>
-      {photo ? (
-        <div style={{ position: 'relative', height: 420, overflow: 'hidden' }}>
-          <img src={photo} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,13,26,0.85) 0%, rgba(13,13,26,0.2) 100%)' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 32px' }}>
-            <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <Link href={`/${lang}/programs`} style={{ color: '#F5A623', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>← {pg.allPrograms}</Link>
-              <h1 style={{ fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 900, color: 'white', marginTop: 12, lineHeight: 1.2 }}>{title}</h1>
-              {subtitle && <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '1.05rem', marginTop: 10, fontStyle: 'italic' }}>{subtitle}</p>}
+    <div style={{ background: '#0D0D1A' }}>
+      {/* Header — clears fixed nav */}
+      <header style={{ background: 'linear-gradient(135deg, #1A0A2E 0%, #2A1145 100%)', padding: 'calc(72px + clamp(56px, 9vw, 100px)) 24px clamp(56px, 8vw, 90px)', textAlign: 'center' }}>
+        <p style={{ color: '#F5A623', fontSize: 13, fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 18 }}>✝ {m.eyebrow}</p>
+        <h1 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(38px, 7vw, 72px)', fontWeight: 800, color: 'white', lineHeight: 1.05 }}>{m.title}</h1>
+      </header>
+
+      {/* Scripture */}
+      <section style={{ padding: 'clamp(64px, 10vw, 120px) 24px', background: '#0D0D1A', position: 'relative', overflow: 'hidden' }}>
+        <div aria-hidden style={{ position: 'absolute', top: 'clamp(10px,3vw,40px)', left: '50%', transform: 'translateX(-50%)', fontFamily: 'Georgia, serif', fontSize: 'clamp(120px, 20vw, 260px)', lineHeight: 1, color: 'rgba(245,166,35,0.08)', pointerEvents: 'none' }}>“</div>
+        <div style={{ maxWidth: 820, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
+          <p style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(17px, 2.4vw, 24px)', lineHeight: 1.7, color: 'rgba(255,255,255,0.9)', marginBottom: 26 }}>
+            {m.scripture}
+          </p>
+          <div style={{ width: 50, height: 2, background: '#F5A623', margin: '0 auto 18px' }} />
+          <p style={{ color: '#F5A623', fontSize: 14, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{m.scriptureRef}</p>
+        </div>
+      </section>
+
+      {/* Introduction */}
+      <section style={{ padding: '0 24px clamp(48px, 7vw, 80px)', background: '#0D0D1A' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 800, color: 'white', marginBottom: 22, lineHeight: 1.15 }}>{m.introTitle}</h2>
+          <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(15px, 2vw, 18px)', lineHeight: 1.9 }}>{m.intro}</p>
+        </div>
+      </section>
+
+      {/* Country sections */}
+      {ORDER.map((key, idx) => {
+        const c = m.countries[key]
+        const bg = idx % 2 === 0 ? '#1A0A2E' : '#0D0D1A'
+        return (
+          <section key={key} style={{ background: bg, padding: 'clamp(56px, 8vw, 100px) 0' }}>
+            <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+              <div style={{ padding: '0 24px', marginBottom: 'clamp(32px, 4vw, 48px)', maxWidth: 780 }}>
+                <p style={{ color: '#F5A623', fontSize: 'clamp(12px, 1.6vw, 15px)', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>{c.name}</p>
+                <h2 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 800, color: 'white', lineHeight: 1.12, marginBottom: 20 }}>{c.title}</h2>
+                <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(15px, 2vw, 18px)', lineHeight: 1.9 }}>{c.body}</p>
+              </div>
+              <div style={{ padding: '0 24px' }}>
+                <MissionCarousel country={key} count={COUNTS[key]} label={m.photosLabel} />
+              </div>
             </div>
-          </div>
-        </div>
-      ) : (
-        <div style={{ background: 'linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 100%)', padding: '72px 24px', textAlign: 'center' }}>
-          <Link href={`/${lang}/programs`} style={{ color: '#F5A623', fontSize: 13, fontWeight: 600, textDecoration: 'none', display: 'block', marginBottom: 16 }}>← {pg.allPrograms}</Link>
-          <h1 style={{ fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 900, color: 'white', marginBottom: 12 }}>{title}</h1>
-          <div style={{ width: 50, height: 3, background: '#F5A623', margin: '0 auto 16px' }} />
-          {subtitle && <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.05rem', fontStyle: 'italic' }}>{subtitle}</p>}
-        </div>
-      )}
-      <div style={{ background: '#f5f0e8', padding: '56px 20px' }}>
-        <article style={{ maxWidth: 800, margin: '0 auto', background: 'white', borderRadius: 12, padding: '48px 40px', boxShadow: '0 2px 16px rgba(0,0,0,0.08)' }}>
-          {photo && <Link href={`/${lang}/programs`} style={{ color: '#1a3a2a', fontSize: 13, fontWeight: 600, textDecoration: 'none', display: 'block', marginBottom: 24 }}>← {pg.allPrograms}</Link>}
-          <div style={{ width: 50, height: 3, background: '#F5A623', marginBottom: 32 }} />
-          <div style={{ fontSize: '1.05rem', lineHeight: 2, color: '#222', fontFamily: 'Georgia, serif', whiteSpace: 'pre-wrap' }}>{content}</div>
-        </article>
-      </div>
-      <section style={{ background: '#1A0A2E', padding: '56px 24px' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 24, textAlign: 'center' }}>{pg.otherPrograms}</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20 }}>
-            {others.map(o => (
-              <Link key={o.key} href={`/${lang}${o.href}`} style={{ background: 'linear-gradient(135deg, #0D0D1A, #16213E)', border: '1px solid rgba(123,47,190,0.3)', borderRadius: 12, padding: '20px 24px', textDecoration: 'none', display: 'block' }}>
-                <h3 style={{ fontWeight: 700, color: '#F5A623', fontSize: '0.95rem', marginBottom: 6 }}>{sv(`prog_${o.key}_title`) || names[o.key]}</h3>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, fontStyle: 'italic' }}>{sv(`prog_${o.key}_subtitle`)}</p>
-                <p style={{ color: '#F5A623', fontSize: 13, fontWeight: 700, marginTop: 12 }}>{pg.learnMore} →</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section style={{ background: 'linear-gradient(135deg, #7B2FBE 0%, #F5A623 100%)', padding: '64px 24px', textAlign: 'center' }}>
-        <h2 style={{ fontSize: 32, fontWeight: 800, color: 'white', marginBottom: 16 }}>{pg.supportProgram}</h2>
-        <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: 480, margin: '0 auto 28px', lineHeight: 1.8 }}>{pg.supportProgramText}</p>
-        <Link href={`/${lang}/contact`} style={{ background: 'white', color: '#7B2FBE', padding: '13px 32px', borderRadius: 30, fontSize: 14, fontWeight: 800, letterSpacing: 1, display: 'inline-block', textDecoration: 'none', textTransform: 'uppercase' }}>{pg.getInTouch}</Link>
-      </section>
-    </>
+          </section>
+        )
+      })}
+    </div>
   )
 }

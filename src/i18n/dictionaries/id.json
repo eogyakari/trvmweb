@@ -406,5 +406,36 @@
     "title": "Misi Berlanjut.",
     "subtitle": "Mari ikut bersama kami.",
     "cta": "Jelajahi TRV Missions"
+  },
+  "missionsPage": {
+    "eyebrow": "Amanat Agung",
+    "title": "Misi Kami",
+    "scriptureRef": "Markus 16:15-20",
+    "scripture": "[Ganti dengan terjemahan Markus 16:15-20 pilihan Anda.] Lalu Ia berkata kepada mereka: \"Pergilah ke seluruh dunia, beritakanlah Injil kepada segala makhluk...\"",
+    "introTitle": "Menjawab Panggilan bagi Bangsa-Bangsa",
+    "intro": "[Ganti teks ini.] The Righteous Vine Missions ada untuk membawa Injil melampaui setiap batas — melayani sesama, mengubah komunitas, dan menjadikan segala bangsa murid. Yang bermula dari satu \"ya\" kini menjadi misi yang menjangkau benua. Inilah kisah kami, bangsa demi bangsa.",
+    "countries": {
+      "ghana": {
+        "name": "Ghana",
+        "title": "Menjawab Panggilan",
+        "body": "[Ganti teks ini dengan kisah misi Ghana.] Semua bermula dari sebuah \"ya\". Beban menjadi panggilan, dan panggilan menjadi misi. Di Ghana, tempat perjalanan dimulai, banyak hidup disentuh dan Injil berakar."
+      },
+      "liberia": {
+        "name": "Liberia",
+        "title": "Misi Lintas Batas Pertama Kami",
+        "body": "[Ganti teks ini dengan kisah misi Liberia.] Lalu kami melangkah lebih jauh. Karena Injil tidak pernah dimaksudkan untuk berhenti di perbatasan, TRVM membawa pesan itu ke Liberia — misi pertama kami di luar Ghana."
+      },
+      "indonesia": {
+        "name": "Indonesia",
+        "title": "Misi Lintas Benua Pertama Kami",
+        "body": "[Ganti teks ini dengan kisah misi Indonesia.] Kami menembus jarak. Bahasa berbeda, budaya berbeda, harapan yang sama. Indonesia menandai misi pertama kami melintasi benua."
+      },
+      "kenya": {
+        "name": "Kenya",
+        "title": "Menjangkau Seluruh Afrika",
+        "body": "[Ganti teks ini dengan kisah misi Kenya.] Dan kisah ini berlanjut. Di Kenya, Injil menjangkau sekolah, desa, dan perkumpulan ribuan orang. Satu misi. Banyak bangsa. Tak terhitung jiwa."
+      }
+    },
+    "photosLabel": "Dari lapangan"
   }
 }
