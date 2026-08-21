@@ -1,7 +1,9 @@
+import Link from 'next/link'
 import { getDictionary } from '@/i18n/getDictionary'
 import { isLocale, type Locale } from '@/i18n/config'
 import MissionCarousel from '@/app/components/MissionCarousel'
 
+// Goes at: src/app/[lang]/programs/missions/page.tsx
 export const revalidate = 300
 
 const COUNTS: Record<string, number> = { ghana: 11, liberia: 10, indonesia: 15, kenya: 14 }
@@ -64,6 +66,26 @@ export default async function MissionsPage({ params }: { params: Promise<{ lang:
           </section>
         )
       })}
+
+      {/* Become a Member CTA */}
+      <section style={{
+        background: 'linear-gradient(135deg, #1A0A2E 0%, #2A1145 55%, #0D0D1A 100%)',
+        padding: 'clamp(72px, 11vw, 130px) 24px', textAlign: 'center',
+      }}>
+        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+          <h2 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 800, color: 'white', lineHeight: 1.15, marginBottom: 20 }}>{m.joinTitle}</h2>
+          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(16px, 2vw, 19px)', lineHeight: 1.8, marginBottom: 36 }}>{m.joinText}</p>
+          <Link href={`/${lang}/membership`} style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            background: 'linear-gradient(135deg, #F5A623, #E8860A)', color: '#1A0A2E',
+            padding: 'clamp(15px,2vw,18px) clamp(32px,4vw,48px)', borderRadius: 40,
+            fontSize: 15, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase',
+            textDecoration: 'none', fontFamily: 'Georgia, serif', boxShadow: '0 12px 34px rgba(245,166,35,0.35)',
+          }}>
+            {m.joinCta} <span aria-hidden>→</span>
+          </Link>
+        </div>
+      </section>
     </div>
   )
 }

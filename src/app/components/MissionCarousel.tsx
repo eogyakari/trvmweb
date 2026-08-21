@@ -34,7 +34,7 @@ export default function MissionCarousel({ country, count, label }: { country: st
         className="mc-scroller"
         style={{
           display: 'flex', gap: 12, overflowX: 'auto', scrollSnapType: 'x mandatory',
-          paddingBottom: 12, scrollbarWidth: 'thin',
+          paddingBottom: 4, scrollbarWidth: 'none', msOverflowStyle: 'none',
         }}
       >
         {photos.map((src, i) => (
@@ -56,9 +56,7 @@ export default function MissionCarousel({ country, count, label }: { country: st
         style={arrow('right', canRight)}>›</button>
 
       <style>{`
-        .mc-scroller::-webkit-scrollbar { height: 6px; }
-        .mc-scroller::-webkit-scrollbar-thumb { background: rgba(245,166,35,0.4); border-radius: 3px; }
-        .mc-scroller::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        .mc-scroller::-webkit-scrollbar { display: none; }
       `}</style>
     </div>
   )
