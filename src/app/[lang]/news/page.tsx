@@ -62,76 +62,76 @@ export default async function NewsPage({
   ]
 
   return (
-    <>
-      <div style={{ background: 'linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 100%)', padding: '72px 24px', textAlign: 'center' }}>
-        <p style={{ color: '#F5A623', fontSize: 12, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>✝ {v.eyebrow}</p>
-        <h1 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 900, color: 'white', marginBottom: 16, lineHeight: 1.2 }}>{v.title}</h1>
-        <div style={{ width: 50, height: 3, background: '#F5A623', margin: '0 auto 20px' }} />
-        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.05rem', maxWidth: 580, margin: '0 auto', fontStyle: 'italic', lineHeight: 1.8 }}>{v.subtitle}</p>
-      </div>
+    <div style={{ background: '#0D0D1A', minHeight: '100vh' }}>
+      {/* Header — editorial, clears the fixed nav */}
+      <header style={{ background: 'linear-gradient(135deg, #1A0A2E 0%, #2A1145 100%)', padding: 'calc(72px + clamp(48px, 8vw, 90px)) 24px clamp(48px, 7vw, 80px)', textAlign: 'center' }}>
+        <p style={{ color: '#F5A623', fontSize: 13, fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 18 }}>✝ {v.eyebrow}</p>
+        <h1 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(34px, 6vw, 60px)', fontWeight: 800, color: 'white', marginBottom: 20, lineHeight: 1.1 }}>{v.title}</h1>
+        <div style={{ width: 56, height: 2, background: '#F5A623', margin: '0 auto 22px' }} />
+        <p style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(15px, 2vw, 18px)', maxWidth: 580, margin: '0 auto', fontStyle: 'italic', lineHeight: 1.6 }}>{v.subtitle}</p>
+      </header>
 
-      <div style={{ background: '#0D0D1A', padding: '48px 24px 64px', minHeight: '40vh' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          {/* Filter tabs */}
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 40, flexWrap: 'wrap' }}>
-            {tabs.map(t => {
-              const active = activeType === t.key
+      <section style={{ maxWidth: 900, margin: '0 auto', padding: 'clamp(48px, 7vw, 80px) 24px' }}>
+        {/* Filter tabs */}
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 'clamp(36px, 5vw, 56px)', flexWrap: 'wrap' }}>
+          {tabs.map(t => {
+            const active = activeType === t.key
+            return (
+              <Link key={t.key} href={t.href} style={{
+                padding: '8px 22px', borderRadius: 22, fontSize: 13, fontWeight: 700,
+                textDecoration: 'none', fontFamily: 'Georgia, serif',
+                background: active ? '#F5A623' : 'transparent',
+                color: active ? '#1A0A2E' : 'rgba(255,255,255,0.7)',
+                border: active ? 'none' : '1px solid rgba(255,255,255,0.2)',
+              }}>{t.label}</Link>
+            )
+          })}
+        </div>
+
+        {rows.length === 0 ? (
+          <p style={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center', fontStyle: 'italic' }}>{v.noNews}</p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {rows.map((row, i) => {
+              const c = pick(row, trs, lang)
+              const isPress = row.category === 'press'
               return (
-                <Link key={t.key} href={t.href} style={{
-                  padding: '8px 22px', borderRadius: 22, fontSize: 13, fontWeight: 700,
-                  textDecoration: 'none', fontFamily: 'Georgia, serif',
-                  background: active ? '#F5A623' : 'rgba(255,255,255,0.06)',
-                  color: active ? '#1A0A2E' : 'rgba(255,255,255,0.7)',
-                  border: active ? 'none' : '1px solid rgba(123,47,190,0.3)',
-                }}>{t.label}</Link>
+                <Link key={row.id} href={L(`/news/${row.slug}`)} className="news-row" style={{
+                  display: 'flex', alignItems: 'center', gap: 24, padding: '24px 0',
+                  textDecoration: 'none', borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                }}>
+                  {/* Round thumbnail */}
+                  <div style={{ width: 92, height: 92, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, background: 'linear-gradient(135deg, #1A0A2E, #2A1145)', border: '2px solid rgba(245,166,35,0.4)' }}>
+                    {row.cover_image && (
+                      <img src={row.cover_image} alt={c.title} className="news-row-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s' }} />
+                    )}
+                  </div>
+                  {/* Text */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 7 }}>
+                      {isPress && <span style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', color: '#1A0A2E', background: '#F5A623', padding: '2px 7px', borderRadius: 4 }}>{v.pressBadge}</span>}
+                      <span style={{ fontSize: 11, color: '#9B59B6', letterSpacing: 2, textTransform: 'uppercase' }}>
+                        {new Date(row.published_date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </span>
+                    </div>
+                    <h2 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(18px, 2.2vw, 22px)', fontWeight: 700, color: '#fff', marginBottom: 6, lineHeight: 1.3 }}>{c.title}</h2>
+                    <p className="news-row-excerpt" style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                      {(c.excerpt || stripHtml(c.body)).substring(0, 120)}...
+                    </p>
+                  </div>
+                  <span className="news-row-arrow" style={{ color: '#F5A623', fontSize: 22, flexShrink: 0, transition: 'transform 0.2s' }}>→</span>
+                </Link>
               )
             })}
           </div>
-
-          {rows.length === 0 ? (
-            <p style={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center', fontStyle: 'italic' }}>{v.noNews}</p>
-          ) : (
-            <div className="news-grid" style={{ display: 'grid', gap: 24 }}>
-              {rows.map(row => {
-                const c = pick(row, trs, lang)
-                const isPress = row.category === 'press'
-                return (
-                  <Link key={row.id} href={L(`/news/${row.slug}`)} style={{ background: 'linear-gradient(135deg, #1A0A2E, #16213E)', border: '1px solid rgba(123,47,190,0.3)', borderRadius: 16, overflow: 'hidden', textDecoration: 'none', display: 'block' }}>
-                    {row.cover_image && (
-                      <div style={{ height: 180, overflow: 'hidden' }}>
-                        <img src={row.cover_image} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      </div>
-                    )}
-                    <div style={{ padding: 24 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                        {isPress && (
-                          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase', color: '#1A0A2E', background: '#F5A623', padding: '2px 8px', borderRadius: 4 }}>
-                            {v.pressBadge}
-                          </span>
-                        )}
-                        <span style={{ fontSize: 11, color: '#9B59B6', letterSpacing: 2, textTransform: 'uppercase' }}>
-                          {new Date(row.published_date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
-                        </span>
-                      </div>
-                      <h2 style={{ fontSize: 19, fontWeight: 700, color: '#fff', marginBottom: 12, lineHeight: 1.35 }}>{c.title}</h2>
-                      <p style={{ color: '#a0a0b0', fontSize: 13, lineHeight: 1.8 }}>
-                        {(c.excerpt || stripHtml(c.body)).substring(0, 130)}...
-                      </p>
-                      <div style={{ marginTop: 16, color: '#F5A623', fontSize: 13, fontWeight: 600 }}>{v.readMore} →</div>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-          )}
-        </div>
-      </div>
+        )}
+      </section>
 
       <style>{`
-        .news-grid { grid-template-columns: repeat(3, 1fr); }
-        @media (max-width: 900px) { .news-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 560px) { .news-grid { grid-template-columns: 1fr; } }
+        .news-row:hover .news-row-img { transform: scale(1.08); }
+        .news-row:hover .news-row-arrow { transform: translateX(5px); }
+        @media (max-width: 560px) { .news-row { gap: 16px !important; } .news-row-excerpt { display: none !important; } }
       `}</style>
-    </>
+    </div>
   )
 }

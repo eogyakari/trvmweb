@@ -57,44 +57,58 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ lan
   const { row, picked } = article
 
   return (
-    <>
+    <div style={{ background: '#0D0D1A' }}>
       {row.cover_image ? (
-        <div style={{ position: 'relative', height: 420, overflow: 'hidden' }}>
+        <div style={{ position: 'relative', height: 'clamp(360px, 52vh, 520px)', overflow: 'hidden' }}>
           <img src={row.cover_image} alt={picked.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,13,26,0.9) 0%, rgba(13,13,26,0.25) 100%)' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '40px 32px' }}>
-            <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <Link href={`/${lang}/news`} style={{ color: '#F5A623', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>{v.backToNews}</Link>
-              <h1 style={{ fontSize: 'clamp(28px, 5vw, 46px)', fontWeight: 900, color: 'white', marginTop: 12, lineHeight: 1.2 }}>{picked.title}</h1>
-              <p style={{ color: 'rgba(255,255,255,0.75)', marginTop: 10, fontSize: 14 }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #0D0D1A 2%, rgba(13,13,26,0.4) 55%, rgba(13,13,26,0.55) 100%)' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 'clamp(40px, 6vw, 72px) 24px clamp(36px, 4vw, 52px)' }}>
+            <div style={{ maxWidth: 760, margin: '0 auto' }}>
+              <Link href={`/${lang}/news`} style={{ color: '#F5A623', fontSize: 13, fontWeight: 700, textDecoration: 'none', letterSpacing: '0.05em', textTransform: 'uppercase' }}>← {v.backToNews}</Link>
+              <h1 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(30px, 5.5vw, 52px)', fontWeight: 800, color: 'white', marginTop: 14, lineHeight: 1.15 }}>{picked.title}</h1>
+              <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: 14, fontSize: 14 }}>
                 {v.by} {row.author} · {new Date(row.published_date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
               </p>
             </div>
           </div>
         </div>
       ) : (
-        <div style={{ background: 'linear-gradient(135deg, #0D0D1A 0%, #1A0A2E 100%)', padding: '64px 24px', textAlign: 'center' }}>
-          <Link href={`/${lang}/news`} style={{ color: '#F5A623', fontSize: 13, fontWeight: 600, textDecoration: 'none', display: 'block', marginBottom: 16 }}>{v.backToNews}</Link>
-          <h1 style={{ fontSize: 'clamp(28px, 5vw, 46px)', fontWeight: 900, color: 'white', marginBottom: 12, maxWidth: 800, margin: '0 auto' }}>{picked.title}</h1>
-          <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: 12, fontSize: 14 }}>
+        <header style={{ background: 'linear-gradient(135deg, #1A0A2E 0%, #2A1145 100%)', padding: 'calc(72px + clamp(40px, 7vw, 80px)) 24px clamp(40px, 5vw, 64px)', textAlign: 'center' }}>
+          <Link href={`/${lang}/news`} style={{ color: '#F5A623', fontSize: 13, fontWeight: 700, textDecoration: 'none', display: 'block', marginBottom: 16, letterSpacing: '0.05em', textTransform: 'uppercase' }}>← {v.backToNews}</Link>
+          <h1 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(30px, 5.5vw, 52px)', fontWeight: 800, color: 'white', maxWidth: 760, margin: '0 auto', lineHeight: 1.15 }}>{picked.title}</h1>
+          <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: 14, fontSize: 14 }}>
             {v.by} {row.author} · {new Date(row.published_date).toLocaleDateString(dl, { day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
-        </div>
+        </header>
       )}
 
-      <div style={{ background: '#f5f0e8', padding: '56px 20px' }}>
-        <article style={{ maxWidth: 800, margin: '0 auto', background: 'white', borderRadius: 12, padding: '48px 40px', boxShadow: '0 2px 16px rgba(0,0,0,0.08)' }}>
-          <div style={{ width: 50, height: 3, background: '#F5A623', marginBottom: 32 }} />
+      {/* Article body — dark, de-boxed, clean reading column */}
+      <div style={{ background: '#0D0D1A', padding: 'clamp(48px, 7vw, 80px) 24px clamp(64px, 9vw, 100px)' }}>
+        <article style={{ maxWidth: 720, margin: '0 auto' }}>
+          <div style={{ width: 56, height: 2, background: '#F5A623', marginBottom: 'clamp(32px, 4vw, 44px)' }} />
           <div
             className="news-body"
-            style={{ fontSize: '1.05rem', lineHeight: 2, color: '#222', fontFamily: 'Georgia, serif' }}
+            style={{ fontSize: '1.12rem', lineHeight: 1.95, color: 'rgba(255,255,255,0.82)', fontFamily: 'Georgia, serif' }}
             dangerouslySetInnerHTML={{ __html: picked.body }}
           />
-          <div style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid #e5ddd0' }}>
-            <Link href={`/${lang}/news`} style={{ color: '#1a3a2a', fontWeight: 600, fontSize: 14 }}>{v.backToNews}</Link>
+          <div style={{ marginTop: 48, paddingTop: 28, borderTop: '1px solid rgba(255,255,255,0.12)' }}>
+            <Link href={`/${lang}/news`} style={{ color: '#F5A623', fontWeight: 700, fontSize: 14, letterSpacing: '0.05em', textTransform: 'uppercase' }}>← {v.backToNews}</Link>
           </div>
         </article>
       </div>
-    </>
+
+      {/* Dark-theme styling for the article's HTML content */}
+      <style>{`
+        .news-body h1, .news-body h2, .news-body h3 { color: #fff; font-family: var(--font-playfair), Georgia, serif; line-height: 1.25; margin: 1.6em 0 0.5em; }
+        .news-body h2 { font-size: 1.6rem; } .news-body h3 { font-size: 1.3rem; }
+        .news-body p { margin: 0 0 1.3em; }
+        .news-body a { color: #F5A623; text-decoration: underline; }
+        .news-body blockquote { border-left: 3px solid #F5A623; margin: 1.6em 0; padding: 4px 0 4px 22px; color: rgba(255,255,255,0.7); font-style: italic; }
+        .news-body img { max-width: 100%; height: auto; border-radius: 10px; margin: 1.6em 0; }
+        .news-body ul, .news-body ol { padding-left: 1.4em; margin: 0 0 1.3em; }
+        .news-body li { margin: 0.4em 0; }
+        .news-body strong { color: #fff; }
+      `}</style>
+    </div>
   )
 }
