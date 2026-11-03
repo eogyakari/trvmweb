@@ -91,7 +91,8 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
           display:flex; flex-direction:column; position:sticky; top:0; height:100vh; z-index:200;
         }
         .ad-brand { display:flex; align-items:center; gap:11px; padding:20px 20px 18px; border-bottom:1px solid #f1f5f9; }
-        .ad-logo { width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,#c9a84c,#b8933a); display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; font-weight:900; box-shadow:0 2px 6px rgba(201,168,76,.35); }
+        .ad-logo { width:36px; height:36px; border-radius:9px; background:#fff; border:1px solid #f1f5f9; display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0; }
+        .ad-logo img { width:100%; height:100%; object-fit:contain; }
         .ad-brand-txt b { font-size:14px; font-weight:800; letter-spacing:.3px; color:#0f172a; display:block; line-height:1.1; }
         .ad-brand-txt span { font-size:11px; color:#94a3b8; letter-spacing:.4px; }
         .ad-nav { flex:1; overflow-y:auto; padding:14px 12px 20px; }
@@ -135,7 +136,7 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
         {/* Sidebar */}
         <aside className={`ad-side ${navOpen ? 'open' : ''}`}>
           <div className="ad-brand">
-            <div className="ad-logo">✝</div>
+            <div className="ad-logo"><img src="/logo.png" alt="TRVM" /></div>
             <div className="ad-brand-txt"><b>TRVM</b><span>Admin Panel</span></div>
           </div>
 
