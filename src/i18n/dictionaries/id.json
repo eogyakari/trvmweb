@@ -15,7 +15,8 @@
     "discipleship": "Pemuridan",
     "missions": "Misi",
     "media": "Media",
-    "give": "Beri"
+    "give": "Beri",
+    "conferences": "Konferensi"
   },
   "programs": {
     "missions": "Misi",
@@ -440,5 +441,35 @@
     "joinTitle": "Bergabunglah dalam Misi",
     "joinText": "Kisah ini terus berlanjut, dan ada tempat bagi Anda di dalamnya. Jadilah bagian dari keluarga The Righteous Vine Missions.",
     "joinCta": "Menjadi Anggota"
+  },
+  "conferencesPage": {
+    "eyebrow": "Berkumpul. Menyembah. Bertumbuh.",
+    "title": "Konferensi & Pertemuan",
+    "subtitle": "Bergabunglah bersama kami secara langsung, tatap muka maupun daring — untuk konferensi, ibadah, dan waktu pengajaran di berbagai bangsa.",
+    "upcoming": "Akan Datang",
+    "live": "Sedang Berlangsung",
+    "past": "Acara Sebelumnya",
+    "filterAll": "Semua",
+    "filterConferences": "Konferensi",
+    "filterMeetings": "Pertemuan",
+    "none": "Belum ada acara untuk ditampilkan. Nantikan segera.",
+    "liveNow": "SEDANG LANGSUNG",
+    "conference": "Konferensi",
+    "meeting": "Pertemuan",
+    "online": "Daring",
+    "viewDetails": "Lihat Detail",
+    "register": "Daftar",
+    "join": "Gabung Pertemuan",
+    "watchLive": "Tonton Langsung",
+    "watchRecording": "Tonton Rekaman",
+    "free": "Gratis",
+    "about": "Tentang Acara Ini",
+    "speakers": "Pembicara",
+    "resources": "Sumber Daya",
+    "when": "Kapan",
+    "where": "Di Mana",
+    "back": "← Semua Konferensi",
+    "registerCta": "Daftar untuk Acara Ini",
+    "registered": "Anda sudah terdaftar. Sampai jumpa!"
   }
 }

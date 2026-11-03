@@ -15,7 +15,8 @@
     "discipleship": "Ufuasi",
     "missions": "Misheni",
     "media": "Media",
-    "give": "Toa"
+    "give": "Toa",
+    "conferences": "Makongamano"
   },
   "programs": {
     "missions": "Misheni",
@@ -440,5 +441,35 @@
     "joinTitle": "Jiunge na Misheni",
     "joinText": "Hadithi inaendelea, na kuna nafasi kwa ajili yako ndani yake. Kuwa sehemu ya familia ya The Righteous Vine Missions.",
     "joinCta": "Kuwa Mwanachama"
+  },
+  "conferencesPage": {
+    "eyebrow": "Kusanyika. Abudu. Kua.",
+    "title": "Makongamano na Mikutano",
+    "subtitle": "Jiunge nasi moja kwa moja, ana kwa ana na mtandaoni — kwa makongamano, ibada, na nyakati za mafundisho katika mataifa.",
+    "upcoming": "Yajayo",
+    "live": "Yanaendelea Sasa",
+    "past": "Matukio Yaliyopita",
+    "filterAll": "Yote",
+    "filterConferences": "Makongamano",
+    "filterMeetings": "Mikutano",
+    "none": "Hakuna matukio ya kuonyesha bado. Rudi hivi karibuni.",
+    "liveNow": "HAI SASA",
+    "conference": "Kongamano",
+    "meeting": "Mkutano",
+    "online": "Mtandaoni",
+    "viewDetails": "Angalia Maelezo",
+    "register": "Jisajili",
+    "join": "Jiunge na Mkutano",
+    "watchLive": "Tazama Moja kwa Moja",
+    "watchRecording": "Tazama Rekodi",
+    "free": "Bure",
+    "about": "Kuhusu Tukio Hili",
+    "speakers": "Wazungumzaji",
+    "resources": "Rasilimali",
+    "when": "Lini",
+    "where": "Wapi",
+    "back": "← Makongamano Yote",
+    "registerCta": "Jisajili kwa Tukio Hili",
+    "registered": "Umesajiliwa. Tutaonana!"
   }
 }

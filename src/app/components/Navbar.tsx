@@ -71,6 +71,7 @@ export default function Navbar() {
             { label: d.nav.missions || "Missions", href: "/programs/missions" },
             { label: d.nav.devotions, href: "/devotions" },
             { label: d.nav.news || "News", href: "/news" },
+            { label: d.nav.conferences, href: "/conferences" },
           ].map(link => (
             <Link key={link.href} href={L(link.href)} style={linkStyle}
               onMouseEnter={e => (e.currentTarget.style.color = "#F5A623")}
@@ -146,6 +147,7 @@ export default function Navbar() {
             { label: d.nav.missions || "Missions", href: "/programs/missions", sub: false },
             { label: d.nav.devotions, href: "/devotions", sub: false },
             { label: d.nav.news || "News", href: "/news", sub: false },
+            { label: d.nav.conferences, href: "/conferences", sub: false },
             { label: d.nav.media || "Media", href: "/gallery", sub: false },
             { label: "→ " + d.nav.gallery, href: "/gallery", sub: true },
             { label: "→ " + d.nav.videos, href: "/videos", sub: true },

@@ -15,7 +15,8 @@
     "discipleship": "Discipleship",
     "missions": "Missions",
     "media": "Media",
-    "give": "Give"
+    "give": "Give",
+    "conferences": "Conferences"
   },
   "programs": {
     "missions": "Missions",
@@ -440,5 +441,35 @@
     "joinTitle": "Join the Mission",
     "joinText": "The story continues, and there is a place for you in it. Become part of The Righteous Vine Missions family.",
     "joinCta": "Become a Member"
+  },
+  "conferencesPage": {
+    "eyebrow": "Gather. Worship. Grow.",
+    "title": "Conferences & Meetings",
+    "subtitle": "Join us live, in person and online — for conferences, worship, and times of teaching across the nations.",
+    "upcoming": "Upcoming",
+    "live": "Live Now",
+    "past": "Past Events",
+    "filterAll": "All",
+    "filterConferences": "Conferences",
+    "filterMeetings": "Meetings",
+    "none": "No events to show yet. Check back soon.",
+    "liveNow": "LIVE NOW",
+    "conference": "Conference",
+    "meeting": "Meeting",
+    "online": "Online",
+    "viewDetails": "View Details",
+    "register": "Register",
+    "join": "Join the Meeting",
+    "watchLive": "Watch Live",
+    "watchRecording": "Watch Recording",
+    "free": "Free",
+    "about": "About This Event",
+    "speakers": "Speakers",
+    "resources": "Resources",
+    "when": "When",
+    "where": "Where",
+    "back": "← All Conferences",
+    "registerCta": "Register for This Event",
+    "registered": "You're registered. See you there!"
   }
 }
