@@ -156,6 +156,7 @@ export default function AdminPage() {
     { href: '/admin/memberships', label: 'Memberships', icon: '👥' },
     { href: '/admin/discipleship', label: 'Discipleship', icon: '📖' },
     { href: '/admin/events', label: 'Conferences', icon: '📅' },
+    { href: '/admin/editors', label: 'Manage Editors', icon: '👤' },
   ]
 
   return (
