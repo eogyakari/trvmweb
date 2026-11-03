@@ -1,9 +1,10 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { Devotion } from '@/lib/types'
 import Link from 'next/link'
 import RichTextEditor from '../components/RichTextEditor'
+import { useAdminAuth } from '../AdminGuard'
 
 function slugify(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
@@ -34,9 +35,23 @@ const labelStyle: React.CSSProperties = {
   fontSize: 13, fontWeight: 600, color: '#444', display: 'block'
 }
 
+const monthKeyOf = (d: string) => (d || '').slice(0, 7)
+const currentMonthKey = () => {
+  const n = new Date()
+  return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}`
+}
+const monthLabel = (key: string) =>
+  new Date(`${key}-01T00:00:00`).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+
 export default function AdminDevotionsPage() {
+  const auth = useAdminAuth()
+  const isOwner = auth?.role === 'owner'
+
   const [devotions, setDevotions] = useState<Devotion[]>([])
+  const [months, setMonths] = useState<string[]>([])
+  const [month, setMonth] = useState<string>(currentMonthKey())
   const [loading, setLoading] = useState(true)
+  const [purging, setPurging] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<Devotion | null>(null)
   const [form, setForm] = useState({ title: '', slug: '', content: '', author: '', date: '', cover_image: '' })
@@ -44,13 +59,52 @@ export default function AdminDevotionsPage() {
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
 
-  useEffect(() => { load() }, [])
+  // Light query: just the dates, to build the month picker.
+  const loadMonths = useCallback(async () => {
+    const { data } = await supabase.from('devotions').select('date').order('date', { ascending: false })
+    const seen = new Set<string>()
+    const list: string[] = []
+    for (const r of (data || []) as { date: string | null }[]) {
+      if (!r.date) continue
+      const k = r.date.slice(0, 7)
+      if (!seen.has(k)) { seen.add(k); list.push(k) }
+    }
+    // Always offer the current month so you can add to it even when empty.
+    const cur = currentMonthKey()
+    if (!seen.has(cur)) list.unshift(cur)
+    list.sort((a, b) => (a < b ? 1 : -1))
+    setMonths(list)
+    return list
+  }, [])
 
-  async function load() {
+  // Heavy query scoped to one month.
+  const loadMonth = useCallback(async (key: string) => {
     setLoading(true)
-    const { data } = await supabase.from('devotions').select('*').order('date', { ascending: false })
+    const [y, m] = key.split('-').map(Number)
+    const start = `${y}-${String(m).padStart(2, '0')}-01`
+    const nextY = m === 12 ? y + 1 : y
+    const nextM = m === 12 ? 1 : m + 1
+    const end = `${nextY}-${String(nextM).padStart(2, '0')}-01`
+    const { data } = await supabase
+      .from('devotions').select('*')
+      .gte('date', start).lt('date', end)
+      .order('date', { ascending: false })
     setDevotions(data || [])
     setLoading(false)
+  }, [])
+
+  useEffect(() => {
+    (async () => {
+      const list = await loadMonths()
+      const initial = list.includes(currentMonthKey()) ? currentMonthKey() : (list[0] || currentMonthKey())
+      setMonth(initial)
+      await loadMonth(initial)
+    })()
+  }, [loadMonths, loadMonth])
+
+  function changeMonth(key: string) {
+    setMonth(key)
+    loadMonth(key)
   }
 
   function openNew() {
@@ -153,23 +207,51 @@ export default function AdminDevotionsPage() {
 
     setSaving(false)
     setShowForm(false)
-    load()
+    // Jump to the month of the devotion we just saved so it's visible.
+    const savedMonth = monthKeyOf(form.date)
+    await loadMonths()
+    setMonth(savedMonth)
+    await loadMonth(savedMonth)
   }
 
   async function handleDelete(id: string) {
     if (!confirm('Delete this devotion? This cannot be undone.')) return
+    await supabase.from('devotion_translations').delete().eq('devotion_id', id)
     await supabase.from('devotions').delete().eq('id', id)
-    load()
+    await loadMonths()
+    loadMonth(month)
+  }
+
+  // Owner-only backup for the yearly auto-purge.
+  async function clearPreviousYears() {
+    const year = new Date().getFullYear()
+    const cutoff = `${year}-01-01`
+    if (!confirm(`Permanently delete ALL devotions dated before 1 Jan ${year}? This cannot be undone.`)) return
+    setPurging(true)
+    const { data: old } = await supabase.from('devotions').select('id').lt('date', cutoff)
+    const ids = (old || []).map((r: { id: string }) => r.id)
+    if (ids.length === 0) { setPurging(false); alert('No devotions from previous years to clear.'); return }
+    await supabase.from('devotion_translations').delete().in('devotion_id', ids)
+    const { error } = await supabase.from('devotions').delete().lt('date', cutoff)
+    setPurging(false)
+    if (error) { alert('Error clearing: ' + error.message); return }
+    alert(`Cleared ${ids.length} devotion${ids.length !== 1 ? 's' : ''} from previous years.`)
+    const list = await loadMonths()
+    const initial = list.includes(currentMonthKey()) ? currentMonthKey() : (list[0] || currentMonthKey())
+    setMonth(initial)
+    loadMonth(initial)
   }
 
   return (
     <div style={{ maxWidth: 960, margin: '0 auto', padding: '48px 24px', fontFamily: 'Georgia, serif' }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
         <div>
           <Link href="/admin" style={{ color: '#1a3a2a', fontSize: 13, fontWeight: 600 }}>← Dashboard</Link>
           <h1 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#0f2419', marginTop: 4 }}>Devotions</h1>
-          <p style={{ color: '#888', fontSize: 13, marginTop: 2 }}>{devotions.length} devotion{devotions.length !== 1 ? 's' : ''}</p>
+          <p style={{ color: '#888', fontSize: 13, marginTop: 2 }}>
+            {loading ? 'Loading…' : `${devotions.length} devotion${devotions.length !== 1 ? 's' : ''} in ${monthLabel(month)}`}
+          </p>
         </div>
         <button onClick={openNew} style={{
           background: '#c9a84c', color: '#0f2419', padding: '10px 24px',
@@ -178,6 +260,31 @@ export default function AdminDevotionsPage() {
         }}>
           + New Devotion
         </button>
+      </div>
+
+      {/* Month toolbar */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginBottom: 24, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <label style={{ fontSize: 13, fontWeight: 600, color: '#444' }}>Month</label>
+          <select
+            value={month}
+            onChange={e => changeMonth(e.target.value)}
+            style={{ ...inputStyle, width: 'auto', marginTop: 0, minWidth: 190, cursor: 'pointer' }}
+          >
+            {months.map(k => (
+              <option key={k} value={k}>{monthLabel(k)}</option>
+            ))}
+          </select>
+        </div>
+        {isOwner && (
+          <button onClick={clearPreviousYears} disabled={purging} style={{
+            background: 'transparent', color: '#b91c1c', padding: '8px 16px',
+            border: '1px solid #e2b4b4', borderRadius: 6, fontWeight: 600, fontSize: 12.5,
+            cursor: purging ? 'not-allowed' : 'pointer', fontFamily: 'Georgia, serif', opacity: purging ? 0.6 : 1
+          }}>
+            {purging ? 'Clearing…' : '🗑 Clear previous years'}
+          </button>
+        )}
       </div>
 
       {/* FORM MODAL */}
@@ -275,7 +382,7 @@ export default function AdminDevotionsPage() {
       ) : devotions.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '60px 0', color: '#aaa' }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>📖</div>
-          <p>No devotions yet. Click <strong>+ New Devotion</strong> to add the first one.</p>
+          <p>No devotions in {monthLabel(month)}. Click <strong>+ New Devotion</strong> to add one.</p>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

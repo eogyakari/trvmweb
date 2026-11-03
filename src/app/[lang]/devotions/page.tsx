@@ -9,10 +9,34 @@ export const revalidate = 60
 type TrRow = { locale: string; title: string | null; body: string | null }
 type DevotionRow = Devotion & { devotion_translations?: TrRow[] | null }
 
-async function getDevotions(): Promise<DevotionRow[]> {
+// Lightweight: only the `date` column, used to build the month archive list.
+async function getAvailableMonths(): Promise<string[]> {
+  const { data } = await supabase
+    .from('devotions')
+    .select('date')
+    .order('date', { ascending: false })
+  const seen = new Set<string>()
+  const months: string[] = []
+  for (const r of (data || []) as { date: string | null }[]) {
+    if (!r.date) continue
+    const key = r.date.slice(0, 7) // 'YYYY-MM'
+    if (!seen.has(key)) { seen.add(key); months.push(key) }
+  }
+  return months
+}
+
+// Heavy query scoped to a single month (~31 rows max).
+async function getDevotionsForMonth(monthKey: string): Promise<DevotionRow[]> {
+  const [y, m] = monthKey.split('-').map(Number)
+  const start = `${y}-${String(m).padStart(2, '0')}-01`
+  const nextY = m === 12 ? y + 1 : y
+  const nextM = m === 12 ? 1 : m + 1
+  const end = `${nextY}-${String(nextM).padStart(2, '0')}-01`
   const { data } = await supabase
     .from('devotions')
     .select('*, devotion_translations(locale, title, body)')
+    .gte('date', start)
+    .lt('date', end)
     .order('date', { ascending: false })
   return (data || []) as unknown as DevotionRow[]
 }
@@ -34,14 +58,30 @@ function stripHtml(html: string): string {
 }
 
 const dateLocales: Record<Locale, string> = { en: 'en-GB', id: 'id-ID', sw: 'sw-TZ' }
+const browseLabel: Record<Locale, string> = { en: 'Browse by month', id: 'Jelajahi per bulan', sw: 'Vinjari kwa mwezi' }
 
-export default async function DevotionsPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function DevotionsPage({
+  params, searchParams,
+}: {
+  params: Promise<{ lang: string }>
+  searchParams: Promise<{ m?: string }>
+}) {
   const { lang: rawLang } = await params
+  const { m: mParam } = await searchParams
   const lang: Locale = isLocale(rawLang) ? rawLang : 'en'
   const dict = await getDictionary(lang)
   const t = dict.devotionsPage
   const dl = dateLocales[lang]
-  const devotions = await getDevotions()
+
+  const months = await getAvailableMonths()
+  const now = new Date()
+  const currentKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  // Selected month: from the URL if valid, else the latest month with content, else current.
+  const selected = mParam && months.includes(mParam) ? mParam : (months[0] || currentKey)
+  const devotions = await getDevotionsForMonth(selected)
+
+  const monthLabel = (key: string) =>
+    new Date(`${key}-01T00:00:00`).toLocaleDateString(dl, { month: 'long', year: 'numeric' })
 
   return (
     <div style={{ background: '#0D0D1A', minHeight: '100vh' }}>
@@ -64,6 +104,27 @@ export default async function DevotionsPage({ params }: { params: Promise<{ lang
       </header>
 
       <section style={{ maxWidth: 1080, margin: '0 auto', padding: 'clamp(56px, 8vw, 90px) 24px' }}>
+        {/* Month archive picker */}
+        {months.length > 1 && (
+          <div style={{ marginBottom: 'clamp(44px, 6vw, 68px)' }}>
+            <p style={{ fontSize: 12, color: '#F5A623', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: 16, textAlign: 'center' }}>
+              {browseLabel[lang]}
+            </p>
+            <div className="dev-months">
+              {months.map((key) => (
+                <Link
+                  key={key}
+                  href={`/${lang}/devotions?m=${key}`}
+                  scroll={false}
+                  className={`dev-month-pill${key === selected ? ' active' : ''}`}
+                >
+                  {monthLabel(key)}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {devotions.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0', color: 'rgba(255,255,255,0.5)' }}>
             <div style={{ fontSize: 56, marginBottom: 20 }}>📖</div>
@@ -71,9 +132,9 @@ export default async function DevotionsPage({ params }: { params: Promise<{ lang
           </div>
         ) : (
           <>
-            {/* Featured — latest devotion, image-forward editorial */}
+            {/* Featured — latest devotion of the selected month */}
             <p style={{ fontSize: 12, color: '#F5A623', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: 24 }}>
-              {t.latest}
+              {selected === currentKey ? t.latest : monthLabel(selected)}
             </p>
             {(() => {
               const first = devotions[0]
@@ -104,7 +165,7 @@ export default async function DevotionsPage({ params }: { params: Promise<{ lang
               )
             })()}
 
-            {/* Previous — de-boxed grid with gold top-rules */}
+            {/* Rest of the month — de-boxed rows with round thumbnails */}
             {devotions.length > 1 && (
               <>
                 <p style={{ fontSize: 12, color: '#F5A623', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: 28 }}>
@@ -148,6 +209,10 @@ export default async function DevotionsPage({ params }: { params: Promise<{ lang
       </section>
 
       <style>{`
+        .dev-months { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .dev-month-pill { border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.75); padding: 7px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all 0.15s; }
+        .dev-month-pill:hover { border-color: #F5A623; color: #fff; }
+        .dev-month-pill.active { background: #F5A623; color: #0D0D1A; border-color: #F5A623; }
         .dev-featured { grid-template-columns: 1.1fr 1fr; }
         @media (max-width: 820px) { .dev-featured { grid-template-columns: 1fr; } }
         .dev-featured:hover .dev-feat-img { transform: scale(1.04); }
