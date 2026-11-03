@@ -5,12 +5,13 @@ import Link from 'next/link'
 import { ADMIN_SECTION_LIST, canAccess } from '@/lib/adminSections'
 import { useAdminAuth } from './AdminGuard'
 
-// Tiles are filtered by the signed-in user's permissions (owners see all).
 const COUNT_TABLES: Record<string, string> = {
   devotions: 'devotions', books: 'books', magazines: 'magazines', newsletters: 'newsletters',
   videos: 'videos', gallery: 'gallery', slideshow: 'slideshow', messages: 'contact_messages',
   subscribers: 'subscribers', quotes: 'quotes', events: 'events',
 }
+// Order of preference for the big headline tiles at the top.
+const HEADLINE_ORDER = ['subscribers', 'devotions', 'events', 'messages', 'gallery', 'videos']
 
 export default function AdminPage() {
   const auth = useAdminAuth()
@@ -31,51 +32,91 @@ export default function AdminPage() {
 
   const role = auth?.role || 'editor'
   const permissions = auth?.permissions || []
+  const firstName = (auth?.email || '').split('@')[0].split(/[.\-_]/)[0]
+  const greetName = firstName ? firstName.charAt(0).toUpperCase() + firstName.slice(1) : 'there'
 
-  // Visible content tiles = those this user can access.
+  // Accessible sections (used for quick-access cards).
   const visible = ADMIN_SECTION_LIST.filter(s => canAccess(role, permissions, s.key))
 
-  async function logout() { await supabase.auth.signOut(); window.location.href = '/admin/login' }
+  // Headline tiles: accessible, counted sections in preference order (up to 4).
+  const headline = HEADLINE_ORDER
+    .filter(k => canAccess(role, permissions, k) && k in COUNT_TABLES)
+    .map(k => ADMIN_SECTION_LIST.find(s => s.key === k)!)
+    .filter(Boolean)
+    .slice(0, 4)
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', padding: '48px 24px', fontFamily: 'Georgia, serif' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 40, flexWrap: 'wrap', gap: 16 }}>
-        <div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 700, color: '#0f2419' }}>Admin Dashboard</h1>
-          <p style={{ color: '#888', fontSize: 13, marginTop: 4 }}>Signed in as {auth?.email}{role === 'owner' ? ' · Owner' : ' · Editor'}</p>
-        </div>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <Link href="/" style={{ fontSize: 13, color: '#1a3a2a', fontWeight: 600 }}>← View Site</Link>
-          <button onClick={logout} style={{ background: 'transparent', color: '#c9a84c', padding: '8px 18px', border: '2px solid #c9a84c', borderRadius: 4, fontWeight: 700, fontSize: 12, cursor: 'pointer', fontFamily: 'Georgia, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Sign Out</button>
-        </div>
-      </div>
+    <>
+      <style>{`
+        .dash { max-width:1120px; margin:0 auto; padding:clamp(28px,4vw,44px) clamp(16px,3.5vw,34px); font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+        .dash-hi h1 { font-size:clamp(1.5rem,3vw,1.9rem); font-weight:800; color:#0f172a; letter-spacing:-.3px; }
+        .dash-hi p { color:#64748b; font-size:13.5px; margin-top:4px; }
+        .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin:30px 0 40px; }
+        .stat { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:20px 22px; position:relative; overflow:hidden; transition:box-shadow .15s, transform .15s; text-decoration:none; display:block; }
+        .stat:hover { box-shadow:0 8px 24px rgba(15,23,42,.08); transform:translateY(-2px); }
+        .stat::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:#c9a84c; opacity:.0; transition:opacity .15s; }
+        .stat:hover::before { opacity:1; }
+        .stat .lbl { font-size:11px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:#94a3b8; display:flex; align-items:center; gap:7px; }
+        .stat .num { font-size:2rem; font-weight:800; color:#0f172a; margin-top:8px; line-height:1; }
+        .stat .sub { font-size:12px; color:#64748b; margin-top:5px; font-weight:600; }
+        .sec-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#94a3b8; margin-bottom:14px; }
+        .qa-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px; }
+        .qa { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; display:flex; align-items:center; gap:14px; text-decoration:none; transition:border-color .15s, box-shadow .15s, transform .15s; }
+        .qa:hover { border-color:#cbd5e1; box-shadow:0 6px 18px rgba(15,23,42,.07); transform:translateY(-2px); }
+        .qa-ico { width:42px; height:42px; border-radius:11px; background:#f8fafc; border:1px solid #f1f5f9; display:flex; align-items:center; justify-content:center; font-size:19px; flex-shrink:0; }
+        .qa:hover .qa-ico { background:#fbf7ec; border-color:#ecdcae; }
+        .qa b { font-size:13.5px; font-weight:700; color:#0f172a; display:block; }
+        .qa span { font-size:12px; color:#94a3b8; }
+        .qa.owner .qa-ico { background:#fbf7ec; border-color:#ecdcae; }
+      `}</style>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20 }}>
-        {visible.map(s => {
-          const count = s.key in counts ? counts[s.key] : null
-          return (
-            <Link key={s.key} href={s.href} style={{ background: 'white', borderRadius: 12, padding: 28, boxShadow: '0 2px 12px rgba(0,0,0,0.07)', display: 'block', textAlign: 'center', textDecoration: 'none', border: '1px solid #f0ebe0' }}>
-              <div style={{ fontSize: 38, marginBottom: 12 }}>{s.icon}</div>
-              <h3 style={{ fontWeight: 700, color: '#0f2419', fontSize: '1rem', marginBottom: 10 }}>{s.label}</h3>
-              {count !== null && (
-                <div style={{ background: '#c9a84c', color: '#0f2419', borderRadius: 20, padding: '3px 14px', fontSize: 13, fontWeight: 700, display: 'inline-block' }}>
-                  {count} {count === 1 ? 'item' : 'items'}
-                </div>
-              )}
-              <p style={{ marginTop: 12, color: '#c9a84c', fontSize: 13, fontWeight: 700 }}>Manage →</p>
-            </Link>
-          )
-        })}
+      <div className="dash">
+        <div className="dash-hi">
+          <h1>Welcome back, {greetName}</h1>
+          <p>Here&apos;s what&apos;s happening across The Righteous Vine Missions.</p>
+        </div>
 
-        {/* Owner-only: Manage Editors */}
-        {role === 'owner' && (
-          <Link href="/admin/editors" style={{ background: 'white', borderRadius: 12, padding: 28, boxShadow: '0 2px 12px rgba(0,0,0,0.07)', display: 'block', textAlign: 'center', textDecoration: 'none', border: '1px solid #f0ebe0' }}>
-            <div style={{ fontSize: 38, marginBottom: 12 }}>👤</div>
-            <h3 style={{ fontWeight: 700, color: '#0f2419', fontSize: '1rem', marginBottom: 10 }}>Manage Editors</h3>
-            <p style={{ marginTop: 12, color: '#c9a84c', fontSize: 13, fontWeight: 700 }}>Manage →</p>
-          </Link>
+        {headline.length > 0 && (
+          <div className="stat-grid">
+            {headline.map(s => {
+              const n = s.key in counts ? counts[s.key] : null
+              return (
+                <Link key={s.key} href={s.href} className="stat">
+                  <div className="lbl"><span>{s.icon}</span> {s.label}</div>
+                  <div className="num">{n === null ? '—' : n.toLocaleString()}</div>
+                  <div className="sub">{n === null ? 'Loading…' : `${n === 1 ? 'entry' : 'entries'} total`}</div>
+                </Link>
+              )
+            })}
+          </div>
         )}
+
+        <div className="sec-label">Quick access</div>
+        <div className="qa-grid">
+          {visible.map(s => {
+            const n = s.key in counts ? counts[s.key] : null
+            return (
+              <Link key={s.key} href={s.href} className="qa">
+                <div className="qa-ico">{s.icon}</div>
+                <div>
+                  <b>{s.label}</b>
+                  <span>{n === null ? 'Manage →' : `${n} ${n === 1 ? 'item' : 'items'}`}</span>
+                </div>
+              </Link>
+            )
+          })}
+
+          {role === 'owner' && (
+            <Link href="/admin/editors" className="qa owner">
+              <div className="qa-ico">🔑</div>
+              <div>
+                <b>Manage Editors</b>
+                <span>Accounts &amp; roles</span>
+              </div>
+            </Link>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
